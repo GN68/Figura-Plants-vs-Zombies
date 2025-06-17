@@ -279,10 +279,7 @@ end
 ---@param bottom number?
 ---@return Nineslice
 function Nineslice:setBorderThickness(left,top,right,bottom)
-  self.borderThickness.x = left  or 0
-  self.borderThickness.y = top   or 0
-  self.borderThickness.z = right  or 0
-  self.borderThickness.w = bottom or 0
+  self.borderThickness = utils.vec4(left,top,right,bottom)
   self.BORDER_THICKNESS_CHANGED:invoke(self,self.borderThickness)
   return self
 end
