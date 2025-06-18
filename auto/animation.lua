@@ -1,4 +1,8 @@
-
+--[[______   __
+  / ____/ | / /  by: GNanimates / https://gnon.top / Discord: @gn68s
+ / / __/  |/ / name: Animation Name
+/ /_/ / /|  /  desc: overhauls the animation system in Figura
+\____/_/ |_/ source: link ]]
 --[────────────────────────────────────────-< AvatarNBT Documentation >-────────────────────────────────────────]--
 
 ---@class AvatarNBT.Vector3 : Vector3
@@ -9,12 +13,13 @@
 ---@class AvatarNBT.Model
 ---@field chld AvatarNBT.Model[]
 ---@field name string
----@field anim AvatarNBT.AnimationData?
+---@field anim Animation.Track?
 ---@field piv AvatarNBT.Vector3
 
 ---@class AvatarNBT.AnimationData
----@field data {scl:AvatarNBT.AnimationTrack, rot:AvatarNBT.AnimationTrack, pos:AvatarNBT.AnimationTrack}
----@field id integer
+---@field scl AvatarNBT.AnimationTrack
+---@field rot AvatarNBT.AnimationTrack
+---@field pos AvatarNBT.AnimationTrack
 
 ---@class AvatarNBT.AnimationTrack
 ---@field [number] AvatarNBT.Keyframe
@@ -22,7 +27,8 @@
 ---@class AvatarNBT.Keyframe
 ---@field pre AvatarNBT.Vector3
 ---@field time number
----@field int "linear"|
+---@field int "linear"|"step"
+---@field i integer
 
 ---@class AvatarNBT.AnimationIdentity
 ---@field name string
@@ -31,13 +37,21 @@
 ---@field loop "loop"|"hold"|nil # Loop type, nil if none
 
 --[────────────────────────-< Library Documentation >-────────────────────────]--
----@class AvatarNBT.AnimationIdentity.Parsed : AvatarNBT.AnimationIdentity
+
+---@class Animation.Track
+---@field id integer
+---@field data AvatarNBT.AnimationData
+---@field len number
+---@field loop "loop"|"hold"|nil
 
 
 ---@class ModelPart
 ---@field isPlaying boolean
 ---@field isHolding boolean # if teh animation is paused at the end of the animation
-
+---@field animation Animation.Track
+---@field speed number
+---@field weight number
+---@field time number
 
 --[────────────────────────────────────────-< NBT Animation Parsing >-────────────────────────────────────────]--
 
@@ -47,17 +61,19 @@ local nbt = avatar:getNBT()
 
 
 
+local animationIdentities = {} ---@type table<integer,AvatarNBT.AnimationIdentity>
+local animationIdentityLookup = {} ---@type table<string,integer>
+local animiationTimelines = {} ---@type table<ModelPart,AvatarNBT.AnimationData>
 
----@type table<string,AvatarNBT.AnimationIdentity.Parsed>
-local animationIdentities = {}
-local animationIdentityLookup = {}
-local animationStates = {}
+
+
+local animationStates = {} ---@type table<ModelPart,ModelPart> # I promise this makes sense
 
 
 for id, animation in ipairs(nbt.animations) do
 	local name = animation.mdl .. "." .. animation.name
-	---@cast animation AvatarNBT.AnimationIdentity.Parsed
-	animationIdentities[name] = animation
+	---@cast animation AvatarNBT.AnimationIdentity
+	animationIdentities[id] = animation
 	animationIdentityLookup[name] = id
 	animation.tracks = {}
 end
@@ -65,9 +81,11 @@ end
 
 ---@param track AvatarNBT.AnimationTrack
 local function parseAnimationTrack(track)
-	for index, keyframe in ipairs(track) do
+	table.sort(track, function(a,b) return a.time < b.time end)
+	for i, keyframe in ipairs(track) do
 	---@diagnostic disable-next-line: assign-type-mismatch
 		keyframe.pre = vec(table.unpack(keyframe.pre))
+		keyframe.i = i
 	end
 	return track
 end
@@ -76,19 +94,28 @@ end
 ---@param entry AvatarNBT.Model
 ---@param model ModelPart
 local function parseNBTModelData(entry,model)
+	animationStates[model] = animationStates[model] or {
+		isPlaying = false,
+		isHolding = false,
+		speed = 1,
+		weight = 1,
+		time = 0,
+	}
 	if entry.anim then
 		---@param index integer
-		---@param timeline AvatarNBT.AnimationData
 		for index, timeline in ipairs(entry.anim) do
 			local id = timeline.id+1
+			local identity = animationIdentities[id]
 			if timeline.data then
 				timeline.data.scl = timeline.data.scl and parseAnimationTrack(timeline.data.scl)
 				timeline.data.rot = timeline.data.rot and parseAnimationTrack(timeline.data.rot)
 				timeline.data.pos = timeline.data.pos and parseAnimationTrack(timeline.data.pos)
 			end
-			
-			animationIdentities[id] = animationIdentities[id] or {}
-			animationIdentities[id][model] = timeline
+			timeline.len = identity.len
+			timeline.loop = identity.loop
+			--timeline.identity = animationIdentities[id]
+			animiationTimelines[id] = animiationTimelines[id] or {}
+			animiationTimelines[id][model] = timeline
 		end
 	end
 	
@@ -100,10 +127,134 @@ local function parseNBTModelData(entry,model)
 	end
 end
 
+
 parseNBTModelData(nbt.models,models)
 
 
---[────────────────────────────────────────-< Extra APIs >-────────────────────────────────────────]--
+--[────────────────────────────────────────-< Animation Player >-────────────────────────────────────────]--
+
+local animationCache = {} ---@type table<ModelPart,table> # cache data
+local activeAnimations = {} ---@type table<ModelPart,Animation.Track>
+local AnimationProcessor = models:newPart("AnimationProcessor","WORLD")
+
+local POS_MUL = vec(-1, 1, 1)
+local ROT_MUL = vec(-1, -1, 1)
+
+local TRACKS = {"pos","rot","scl"}
+
+
+---@param trackData AvatarNBT.AnimationTrack
+---@param time number
+---@param cache table
+---@param apply fun(ckey:AvatarNBT.Keyframe,cnext:AvatarNBT.Keyframe)
+local function applyTrack(trackData, time, cache, apply,recursive)
+	if not trackData then return end
+	recursive = recursive and (recursive + 1) or 0
+	if recursive > 15 then
+		error("Stack Overflow")
+	end
+	---@type AvatarNBT.Keyframe
+	local ckey = cache.currentKeyframe
+	
+	
+	-- fallback keyframe to start
+	if not ckey then
+		ckey = trackData[1]
+		cache.currentKeyframe = ckey
+	end
+	---@type AvatarNBT.Keyframe
+	local cnext = trackData[ckey.i+1]
+	--print(time,ckey.time,ckey.i,cnext.time,cnext.i)
+	if (not cnext and ckey.time <= time) or (ckey.time < time and cnext.time > time) then
+		apply(ckey,cnext or ckey)
+		cache.currentKeyframe = ckey
+	else
+		if ckey.time > time then -- backtrack
+		local cprev = trackData[ckey.i-1]
+			cache.currentKeyframe = cprev
+			if not cprev then
+				cache.currentKeyframe = ckey
+				apply(ckey,ckey)
+			else
+				cache.currentKeyframe = cprev
+				applyTrack(trackData, time, cache, apply, recursive)
+			end
+		elseif cnext.time < time then -- advance
+			cache.currentKeyframe = cnext
+			applyTrack(trackData, time, cache, apply, recursive)
+		end
+	end
+end
+
+
+
+local function lerp(k1,k2,time)
+	if k1.int == "step" then
+		return k1.pre
+	else
+		local len = math.max(k2.time - k1.time,0.0001)
+		return math.lerp(k1.pre, k2.pre, (time - k1.time) / len)
+	end -- TODO: cat maul roam
+end
+
+
+local lastTime = client:getSystemTime()
+AnimationProcessor.postRender	= function ()
+	local time = client:getSystemTime()
+	local delta = (time - lastTime) / 1000
+	lastTime = time
+	
+	for model, track in pairs(activeAnimations) do 
+		local state = animationStates[model]
+		local cache = animationCache[model]
+		local time = state.time
+		applyTrack(track.data.pos, time, cache.pos, function(k1,k2)
+			model:setPos(lerp(k1,k2,time) * POS_MUL)
+		end)
+		
+		applyTrack(track.data.rot, time, cache.rot, function(k1,k2)
+			model:setRot(lerp(k1,k2,time) * ROT_MUL)
+		end)
+		
+		applyTrack(track.data.scl, time, cache.scl, function(k1,k2)
+			model:setScale(lerp(k1,k2,time))
+		end)
+		
+		--for s, spat in ipairs(TRACKS) do
+		--	for i, k1 in ipairs(track.data[spat]) do
+		--		local k2 = track.data[spat][i+1]
+		--		if k1.time <= state.time and k2 then
+		--			local len = k2.time - k1.time
+		--			local data = math.lerp(k1.pre, k2.pre, (state.time - k1.time) / len)
+		--			if s == 1 then
+		--				
+		--			elseif s == 2 then
+		--				model:setRot(data * ROT_MUL)
+		--			else
+		--				model:setScale(data)
+		--			end
+		--		else
+		--			break
+		--		end
+		--	end
+		--end
+		
+		state.time = state.time + delta
+		if state.time >= track.len then
+			if track.loop == "loop" then
+				state.time = 0
+			elseif track.loop == "hold" then
+				state.isPlaying = false
+				state.isHolding = true
+			else
+				state.isPlaying = false
+				state.time = 0
+			end
+		end
+	end
+end
+
+--[────────────────────────────────────────-< Extra ModelPart APIs >-────────────────────────────────────────]--
 
 
 ---@class ModelPart
@@ -111,20 +262,32 @@ local ModelPart = {}
 ModelPart.__index = ModelPart
 
 
-local function playAnimation(self,id)
-	local timeline = animationIdentities[id][self]
-	if timeline then
-		print(timeline.data)
-	end
+---@param self ModelPart
+---@param callback fun(self:ModelPart,...:any)
+local function applyNested(self,callback,...)
+	callback(self,...)
 	for _, child in ipairs(self:getChildren()) do
-		playAnimation(child,id)
+		applyNested(child,callback,...)
 	end
 end
 
 
-function ModelPart:play(animation)
-	local id = animationIdentityLookup[animation]
-	playAnimation(self,id)
+
+---@param animationName string
+function ModelPart:play(animationName)
+	local id = animationIdentityLookup[animationName]
+	if not id then return end
+	
+	applyNested(self,function (self, id)
+		local timeline = animiationTimelines[id][self]
+		if timeline then -- given modelPart 
+			animationCache[self] = {pos = {}, rot = {}, scl = {}}
+			activeAnimations[self] = timeline
+			local state = animationStates[self]
+			state.isPlaying = true
+			state.animation = timeline
+		end
+	end,id)
 end
 
 
@@ -137,6 +300,14 @@ end
 --[────────────────────────────────────────-< Playground >-────────────────────────────────────────]--
 
 
-models.testion:play("testion.spin")
+models.testion:setParentType("SKULL")
+
+
+models.player.base.LeftLeg:play("player.Kazotskykick")
+models.player.base.RightLeg:play("player.Kazotskykick")
+
+--animations.player.Kazotskykick:play()
+
+models.testion:play("testion.animationName")
 
 
