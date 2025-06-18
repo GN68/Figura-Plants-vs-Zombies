@@ -5,6 +5,7 @@
 \____/_/ |_/ source: link ]]
 --[────────────────────────────────────────-< AvatarNBT Documentation >-────────────────────────────────────────]--
 
+
 ---@class AvatarNBT.Vector3 : Vector3
 ---@field [0] number
 ---@field [1] number
@@ -65,7 +66,7 @@ local animationIdentities = {} ---@type table<integer,AvatarNBT.AnimationIdentit
 local animationIdentityLookup = {} ---@type table<string,integer>
 local animiationTimelines = {} ---@type table<ModelPart,AvatarNBT.AnimationData>
 
-
+local modelOriginals = {} ---@type table<ModelPart,ModelPart>
 
 local animationStates = {} ---@type table<ModelPart,ModelPart> # I promise this makes sense
 
@@ -90,10 +91,7 @@ local function parseAnimationTrack(track)
 	return track
 end
 
---- Convert the model tree to a nested map for efficiency
----@param entry AvatarNBT.Model
----@param model ModelPart
-local function parseNBTModelData(entry,model)
+local function makeDefaults(model)
 	animationStates[model] = animationStates[model] or {
 		isPlaying = false,
 		isHolding = false,
@@ -101,6 +99,13 @@ local function parseNBTModelData(entry,model)
 		weight = 1,
 		time = 0,
 	}
+end
+
+--- Convert the model tree to a nested map for efficiency
+---@param entry AvatarNBT.Model
+---@param model ModelPart
+local function parseNBTModelData(entry,model)
+	makeDefaults(model)
 	if entry.anim then
 		---@param index integer
 		for index, timeline in ipairs(entry.anim) do
@@ -111,7 +116,7 @@ local function parseNBTModelData(entry,model)
 				timeline.data.rot = timeline.data.rot and parseAnimationTrack(timeline.data.rot)
 				timeline.data.pos = timeline.data.pos and parseAnimationTrack(timeline.data.pos)
 			end
-			timeline.len = identity.len
+			timeline.len = identity.len or 0
 			timeline.loop = identity.loop
 			--timeline.identity = animationIdentities[id]
 			animiationTimelines[id] = animiationTimelines[id] or {}
@@ -150,8 +155,8 @@ local TRACKS = {"pos","rot","scl"}
 local function applyTrack(trackData, time, cache, apply,recursive)
 	if not trackData then return end
 	recursive = recursive and (recursive + 1) or 0
-	if recursive > 15 then
-		error("Stack Overflow")
+	if recursive > 50 then
+		error("Unable to find keyframe!")
 	end
 	---@type AvatarNBT.Keyframe
 	local ckey = cache.currentKeyframe
@@ -165,23 +170,25 @@ local function applyTrack(trackData, time, cache, apply,recursive)
 	---@type AvatarNBT.Keyframe
 	local cnext = trackData[ckey.i+1]
 	--print(time,ckey.time,ckey.i,cnext.time,cnext.i)
-	if (not cnext and ckey.time <= time) or (ckey.time < time and cnext.time > time) then
-		apply(ckey,cnext or ckey)
-		cache.currentKeyframe = ckey
-	else
-		if ckey.time > time then -- backtrack
-		local cprev = trackData[ckey.i-1]
-			cache.currentKeyframe = cprev
-			if not cprev then
-				cache.currentKeyframe = ckey
-				apply(ckey,ckey)
-			else
+	if ckey then
+		if (not (cnext) and ckey.time <= time) or (ckey.time <= time and cnext.time >= time) then
+			apply(ckey,cnext or ckey)
+			cache.currentKeyframe = ckey
+		else
+			if ckey.time > time then -- backtrack
+			local cprev = trackData[ckey.i-1]
 				cache.currentKeyframe = cprev
+				if not cprev then
+					cache.currentKeyframe = ckey
+					apply(ckey,ckey)
+				else
+					cache.currentKeyframe = cprev
+					applyTrack(trackData, time, cache, apply, recursive)
+				end
+			elseif cnext.time < time then -- advance
+				cache.currentKeyframe = cnext
 				applyTrack(trackData, time, cache, apply, recursive)
 			end
-		elseif cnext.time < time then -- advance
-			cache.currentKeyframe = cnext
-			applyTrack(trackData, time, cache, apply, recursive)
 		end
 	end
 end
@@ -204,42 +211,28 @@ AnimationProcessor.postRender	= function ()
 	local delta = (time - lastTime) / 1000
 	lastTime = time
 	
-	for model, track in pairs(activeAnimations) do 
+	
+	for model, track in pairs(activeAnimations) do
+		local modelID = modelOriginals[model] or model
 		local state = animationStates[model]
 		local cache = animationCache[model]
 		local time = state.time
-		applyTrack(track.data.pos, time, cache.pos, function(k1,k2)
-			model:setPos(lerp(k1,k2,time) * POS_MUL)
+		-- Figura needs an offsetPos, like how setScale and setOffsetScale exist
+		
+		applyTrack(track.data.scl, time, cache.scl, function(k1,k2)
+			model:setScale(lerp(k1,k2,time))
 		end)
 		
 		applyTrack(track.data.rot, time, cache.rot, function(k1,k2)
 			model:setRot(lerp(k1,k2,time) * ROT_MUL)
 		end)
 		
-		applyTrack(track.data.scl, time, cache.scl, function(k1,k2)
-			model:setScale(lerp(k1,k2,time))
+		applyTrack(track.data.pos, time, cache.pos, function(k1,k2)
+			model:setPos(lerp(k1,k2,time) * POS_MUL)
 		end)
 		
-		--for s, spat in ipairs(TRACKS) do
-		--	for i, k1 in ipairs(track.data[spat]) do
-		--		local k2 = track.data[spat][i+1]
-		--		if k1.time <= state.time and k2 then
-		--			local len = k2.time - k1.time
-		--			local data = math.lerp(k1.pre, k2.pre, (state.time - k1.time) / len)
-		--			if s == 1 then
-		--				
-		--			elseif s == 2 then
-		--				model:setRot(data * ROT_MUL)
-		--			else
-		--				model:setScale(data)
-		--			end
-		--		else
-		--			break
-		--		end
-		--	end
-		--end
+		state.time = state.time + delta * state.speed
 		
-		state.time = state.time + delta
 		if state.time >= track.len then
 			if track.loop == "loop" then
 				state.time = 0
@@ -255,7 +248,7 @@ AnimationProcessor.postRender	= function ()
 end
 
 --[────────────────────────────────────────-< Extra ModelPart APIs >-────────────────────────────────────────]--
-
+local ogCopy = models.copy
 
 ---@class ModelPart
 local ModelPart = {}
@@ -279,35 +272,110 @@ function ModelPart:play(animationName)
 	if not id then return end
 	
 	applyNested(self,function (self, id)
-		local timeline = animiationTimelines[id][self]
-		if timeline then -- given modelPart 
+		local sourceModel = modelOriginals[self] or self
+		local timeline = animiationTimelines[id][sourceModel]
+		
+		if timeline then
 			animationCache[self] = {pos = {}, rot = {}, scl = {}}
 			activeAnimations[self] = timeline
 			local state = animationStates[self]
 			state.isPlaying = true
 			state.animation = timeline
+			state.time = 0
 		end
 	end,id)
 end
 
 
+
+function ModelPart:stop()
+	applyNested(self,function (self)
+		activeAnimations[self] = nil
+		local state = animationStates[self]
+		self:setRot():setScale():setPos()
+		state.isPlaying = false
+		state.animation = nil
+	end)
+end
+
+---@param speed number
+function ModelPart:setSpeed(speed)
+	applyNested(self,function (self)
+		local state = animationStates[self]
+		state.speed = speed
+	end)
+end
+
+
+
+---@param name string
+---@return ModelPart
+function ModelPart:copy(name)
+	local clone = ogCopy(self,name)
+	makeDefaults(clone)
+	-- make sure all the clones point to the original reference
+	if modelOriginals[self] then
+		modelOriginals[clone] = modelOriginals[self]
+	else
+		modelOriginals[clone] = self
+	end
+	return clone
+end
+
+
 local ogIndex = figuraMetatables.ModelPart.__index
 figuraMetatables.ModelPart.__index = function (self, key)
-	return ogIndex(self,key) or ModelPart[key]
+	return ModelPart[key] or ogIndex(self,key)
 end
 
 
 --[────────────────────────────────────────-< Playground >-────────────────────────────────────────]--
-
+local deepCopy = require("lib.deepCopy")
 
 models.testion:setParentType("SKULL")
 
 
-models.player.base.LeftLeg:play("player.Kazotskykick")
-models.player.base.RightLeg:play("player.Kazotskykick")
+models.player:setPos(-24,0,0)
+
+
+
+--models.player:play("player.Kazotskykick2")
+
+local cloneMap = {}
+
+local i = 0
+local j = 0
+for key, value in pairs(animations.player) do
+	i = i + 1
+	if i > 5 then
+		i = 0
+		j = j + 1
+	end
+	local clone = deepCopy(models.player)
+	
+	local animName = "player."..key
+	
+	cloneMap[animName] = clone
+	models:addChild(clone)
+	clone:setPos(24*i,0,24*j)
+	clone.base:play(animName)
+end
+
+keybinds:fromVanilla("key.sneak"):onPress(function (modifiers, self)
+	for key, value in pairs(cloneMap) do
+		value.base:stop()
+	end
+end):onRelease(function (modifiers, self)
+	for key, value in pairs(cloneMap) do
+		value.base:play(key)
+	end
+end)
+
+--models.player.base.LeftLeg:play("player.Kazotskykick")
+--models.player.base.RightLeg:play("player.Kazotskykick")
 
 --animations.player.Kazotskykick:play()
 
-models.testion:play("testion.animationName")
+--models.testion:play("testion.animationName")
 
 

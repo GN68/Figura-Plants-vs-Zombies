@@ -1,11 +1,10 @@
 ---@param model ModelPart
----@param process fun(model:ModelPart)?
 ---@return ModelPart
-local function deepCopyModel(model,process)
+local function deepCopyModel(model)
 	local copy = model:copy(model:getName())
-	if process then process(copy) end
-	for key, child in pairs(copy:getChildren()) do
-		copy:removeChild(child):addChild(deepCopyModel(child,process))
+	for _, child in ipairs(model:getChildren()) do
+		copy:removeChild(child)
+		deepCopyModel(child):moveTo(copy)
 	end
 	return copy
 end
