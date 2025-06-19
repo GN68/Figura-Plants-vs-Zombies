@@ -290,7 +290,8 @@
       "inject-field",
             "lowercase-global",
             "redefined-local",
-            "assign-type-mismatch"
+            "assign-type-mismatch",
+            "param-type-mismatch"
     ],
 
     // Group severity is not used by the docs.

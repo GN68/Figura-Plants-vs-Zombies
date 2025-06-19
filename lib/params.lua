@@ -12,9 +12,9 @@ function params.vec2(x,y)
 		return vec(x,y)
 	elseif (tx == "Vector2" and ty == "nil") then
 		---@cast tx Vector2
-		return tx
+		return x
 	else
-		error(("Invalid Vecto2 parameter, expected (number, number), instead got (%s, %s)"):format(tx,ty),2)
+		error(("Invalid Vecto2 parameter, expected (number, number), (Vector2), instead got (%s, %s)"):format(tx,ty),2)
 	end
 end
 
@@ -31,9 +31,9 @@ function params.vec3(x,y,z)
 		return vec(x,y,z)
 	elseif (tx == "Vector3" and ty == "nil" and tz == "nil") then
 		---@cast tx Vector3
-		return tx
+		return x
 	else
-		error(("Invalid Vecto3 parameter, expected (number, number, number), instead got (%s, %s, %s)"):format(tx,ty,tz),2)
+		error(("Invalid Vecto3 parameter, expected (number, number, number), (Vector3), instead got (%s, %s, %s)"):format(tx,ty,tz),2)
 	end
 end
 
@@ -51,9 +51,9 @@ function params.vec4(x,y,z,w)
 		return vec(x,y,z,w)
 	elseif (tx == "Vector4" and ty == "nil" and tz == "nil" and tw == "nil") then
 		---@cast tx Vector4
-		return tx
+		return x
 	else
-		error(("Invalid Vecto4 parameter, expected (number, number, number, number), instead got (%s, %s, %s, %s)"):format(tx,ty,tz,tw),2)
+		error(("Invalid Vecto4 parameter, expected (number, number, number, number), (Vector4), instead got (%s, %s, %s, %s)"):format(tx,ty,tz,tw),2)
 	end
 end
 
