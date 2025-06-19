@@ -1,5 +1,3 @@
-local asyncPairs = require("lib.asyncPairs")
-
 
 
 --[[ <- separate to enable
