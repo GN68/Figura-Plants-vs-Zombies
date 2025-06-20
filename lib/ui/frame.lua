@@ -4,7 +4,8 @@ local params = require("lib.params")
 ---@field UV Vector4
 ---@field UVn Vector4 # Normalized
 ---@field texture Texture
----@field textureDimensions Vector2
+---@field dim Vector2
+---@field texDim Vector2
 ---@field offset Vector2
 local Frame = {}
 Frame.__index = Frame
@@ -29,7 +30,8 @@ function Frame.new(texture,U1,V1,U2,V2,Ox,Oy)
 	end
 	new.UV = vec(U1,V1,U2,V2)
 	new.texture = texture
-	new.textureDimensions = dim
+	new.dim = new.UV.zw-new.UV.xy
+	new.texDim = texture:getDimensions()
 	new.UVn = new.UV / dim.xyxy
 	new.offset = vec(Ox or 0,Oy or 0)
 	return new

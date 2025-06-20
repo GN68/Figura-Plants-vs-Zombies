@@ -29,6 +29,11 @@ function Sprite.new(screen,frames)
 	new.color = vec(1,1,1)
 	new.task = screen.model:newSprite("sprite"..nextID):renderType("TRANSLUCENT_CULL")
 	
+	
+	screen.CAMERA_MOVED:register(function ()
+		new:updateBounds()
+	end)
+	
 	new:updateTexture()
 	new:setPos(0,0)
 	nextID = nextID + 1
@@ -51,20 +56,19 @@ function Sprite:copy()
 end
 
 
----@overload fun(xy: Vector2): Vector2
+---@overload fun(xy: Vector2): Sprite
 ---@param x number
 ---@param y number
 ---@return Sprite
 function Sprite:setPos(x,y)
 	local vec2 = params.vec2(x,y)
 	self.pos = vec2
-	self.task:pos(vec2.x,vec2.y,vec2.y*0.005-0.015)
 	self:updateBounds()
 	return self
 end
 
 
----@overload fun(rgb: Vector3): Vector3
+---@overload fun(rgb: Vector3): Sprite
 ---@param r number
 ---@param g number
 ---@param b number
@@ -77,15 +81,42 @@ function Sprite:setColor(r,g,b)
 end
 
 
+---@overload fun(xy: Vector2): boolean
+---@param x number
+---@param y number
+---@return boolean
+function Sprite:isPointInside(x,y)
+	local vec2 = params.vec2(x,y)
+	local gpos = self.pos + self.screen.camPos
+	return vec2.x >= gpos.x 
+	and vec2.y >= gpos.y 
+	and vec2.x < gpos.x + self.size.x
+	and vec2.y < gpos.y + self.size.y
+end
+
+
+---@param Sprite Sprite
+function Sprite:isTouching(Sprite)
+	local pos = Sprite.pos
+	local size2 = Sprite.size
+	
+	-- expand the box by the size of the other box, so the other box can be computed as a point.
+	local from = self.pos - size2
+	local to = self.pos + self.size
+
+	return pos.x > from.x
+	and pos.y > from.y
+	and pos.x < to.x
+	and pos.y < to.y
+end
+
+
 ---@return Sprite
 function Sprite:updateTexture()
 	local frame = self.Frame[self.currentFrame]
 	if frame then
 		local tex = frame.texture
-		local dim = tex:getDimensions()
-		local sRes = self.screen.resolution
-		local sSize = self.screen.size
-		local size = vec(dim.x/sRes.x*sSize.x,dim.y/sRes.y*sSize.y)
+		local size = frame.dim
 		self.task
 		:texture(tex,size.x,size.y)
 		self:updateBounds()
@@ -98,9 +129,10 @@ end
 function Sprite:updateBounds()
 	local frame = self.Frame[self.currentFrame]
 	if frame  then
+		local gpos = self.pos + self.screen.camPos
 		local size = self.size
-		local sSize = self.screen.size
-		local spriteBounds = self.pos.xyxy - self.size.__xy -- I love swizzling lmao
+		local sSize = self.screen.resolution
+		local spriteBounds = gpos.xyxy - self.size.__xy -- I love swizzling lmao
 		local uv = frame.UVn
 		
 		local extents = vec(
@@ -110,9 +142,11 @@ function Sprite:updateBounds()
 			math.min(0,spriteBounds.w+sSize.y)
 		)
 		
-		local UVExtents = extents / size.xyxy
+		local UVExtents = extents / frame.texDim.xyxy
 		
-		local dir = (self.screen.dir.__y-vec(0,self.screen.dir.xz:length(),0))
+		local sDir = self.screen.dir
+		local dir = vec(0,-sDir.xz:length(),sDir.y)
+		self.task:pos(gpos.x,gpos.y,gpos.y*0.005-0.015)
 		
 		local verts = self.task:getVertices()
 		-- flipped Z layout

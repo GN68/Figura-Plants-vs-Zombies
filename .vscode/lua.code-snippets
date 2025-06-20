@@ -9,7 +9,7 @@
 	"annotate Vec2": {
 		"prefix": "@Vec2",
 		"body": [
-			"---@overload fun(${1:x}${2:y}: Vector2): Vector2",
+			"---@overload fun(${1:x}${2:y}: Vector2)",
 			"---@param ${1:x} number",
 			"---@param ${2:y} number",
 		]
@@ -17,7 +17,7 @@
 	"annotate Vec3": {
 		"prefix": "@Vec3",
 		"body": [
-			"---@overload fun(${1:x}${2:y}${3:z}: Vector3): Vector3",
+			"---@overload fun(${1:x}${2:y}${3:z}: Vector3)",
 			"---@param ${1:x} number",
 			"---@param ${2:y} number",
 			"---@param ${3:z} number",
@@ -26,7 +26,7 @@
 	"annotate Vec4": {
 		"prefix": "@Vec4",
 		"body": [
-			"---@overload fun(${1:x}${2:y}${3:z}${4:w}: Vector4): Vector4",
+			"---@overload fun(${1:x}${2:y}${3:z}${4:w}: Vector4)",
 			"---@param ${1:x} number",
 			"---@param ${2:y} number",
 			"---@param ${3:z} number",

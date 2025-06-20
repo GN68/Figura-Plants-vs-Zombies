@@ -30,7 +30,7 @@ local nextID = 0
 ---@return Screen
 function Screen.new(parent)
 	local new = setmetatable({},Screen)
-	new.model = parent:newPart("Screen"..nextID)
+	new.model = parent:newPart("Screen"..nextID):scale((SIZE/RESOLUTION).xyy)
 	new.resolution = RESOLUTION
 	new.size = SIZE
 	new.sprites = {}
@@ -38,6 +38,7 @@ function Screen.new(parent)
 	new.camPos = vec(0,0)
 	new.CAMERA_MOVED = Event.new()
 	new.ON_FREE = Event.new()
+	
 	nextID = nextID + 1
 	return new
 end
@@ -55,10 +56,11 @@ end
 ---@overload fun(xy: Vector2): Vector2
 ---@param x number
 ---@param y number
----@return Vector2
+---@return Screen
 function Screen:setCamPos(x,y)
 	local vec2 = params.vec2(x,y)
 	self.camPos = vec2
+	self.CAMERA_MOVED:invoke()
 	return self
 end
 
