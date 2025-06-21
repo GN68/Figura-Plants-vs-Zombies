@@ -47,11 +47,30 @@ end
 local fBackground = Frame.new(textures["textures.yard"])
 local sBackground = Sprite.new(screen,fBackground)
 local size = fBackground.texture:getDimensions()
+
 sBackground:setPos(-size.x,-size.y):setLayer(-1)
+
+
+local sGrass = Sprite.new(screen):setLayer(-1)
+local function setGrass(type)
+	local fGrass
+	if type == 1 then
+		fGrass = Frame.new(textures["textures.grass"],0,170,240,206)
+		sGrass:setPos(-fGrass.dim.x-79,-123)
+	elseif type == 2 then
+		fGrass = Frame.new(textures["textures.grass"],0,208,243,311)
+		sGrass:setPos(-fGrass.dim.x-77,-size.y+34)
+	elseif type == 3 then
+		fGrass = Frame.new(textures["textures.grass"],0,0,245,168)
+		sGrass:setPos(-fGrass.dim.x-75,-size.y+8)
+	end
+	sGrass:setFrame(fGrass)
+end
+
 
 for i = 1, 100, 1 do
 	local zambie = Object.new("zombie",screen)
-	zambie:setPos(math.random(-256,-64),math.random(-256,-64))
+	zambie:setPos(math.random(-256,-64),math.random(-180,-160))
 	zambie.isWalking = math.random() > 0.5
 end
 
@@ -59,12 +78,13 @@ end
 local game = Macros.new(function (events, ...)
 	
 	events.WORLD_TICK:register(function ()
+		setGrass(math.random(1,3))
 		Object.tick(screen)
 	end)
 	
 	-- SCREEN BOUNDARIES
 	events.WORLD_RENDER:register(function (delta)
-		screen:setCamPos(0,0)
+		screen:setCamPos(70	,0)
 		--screen:setCamPos(mpos.x*512-256,mpos.y*512-256)
 		
 		screen:setDir(client:getCameraDir())

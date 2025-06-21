@@ -1,3 +1,9 @@
+--[[ NOTES
+first spawn = sunflower cooldown * 3
+-- Health: 270
+-- Cost: 50
+]]
+
 local Debug = require("lib.ui.debug")
 
 local Sprite = require("lib.ui.sprite")
@@ -28,7 +34,7 @@ Identity.new(fIcon, "zombie",{
 	TICK = function (self, screen)
 		self.i = self.i + 1
 		if self.isWalking then
-			self:setPos(self.pos.x + 0.1,self.pos.y)
+			self:setPos(self.pos.x + 0.2,self.pos.y)
 			self.sprite:setFrame(scrollFrame(fZombieWalk,self.i*0.1))
 		else
 			self.sprite:setFrame(scrollFrame(fZombie,self.i*0.15))

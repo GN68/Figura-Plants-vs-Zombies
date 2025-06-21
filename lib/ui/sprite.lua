@@ -183,7 +183,7 @@ function Sprite:updateBounds()
 		
 		local sDir = self.screen.dir
 		local dir = vec(0,-sDir.xz:length(),sDir.y)
-		self.task:pos(gpos.x,gpos.y,(gpos.y/sSize.y)*0.01 + (gpos.x/sSize.x)*0.01 - 0.01*self.layer - 0.015)
+		self.task:pos(gpos.x,gpos.y,(gpos.y/sSize.y)*0.01 + (gpos.x/sSize.x)*0.01 - 0.02*self.layer - 0.015)
 		
 		local verts = self.task:getVertices()
 		-- flipped Z layout
