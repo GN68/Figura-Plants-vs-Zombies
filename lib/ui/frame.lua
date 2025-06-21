@@ -37,4 +37,25 @@ function Frame.new(texture,U1,V1,U2,V2,Ox,Oy)
 	return new
 end
 
+---@param texture Texture
+---@param U1 number?
+---@param V1 number?
+---@param U2 number?
+---@param V2 number?
+---@param oX number?
+---@param oY number?
+---@param count number?
+---@return Frame[]
+function Frame.newArray(texture,U1,V1,U2,V2,oX,oY,count)
+	local array = {}
+	local shift = vec(U2-U1 + 2, 0)
+	
+	local pos = vec(0,0)
+	for i = 1, count, 1 do
+		array[i] = Frame.new(texture,U1+pos.x,V1+pos.y,U2+pos.x,V2+pos.y,oX,oY)
+		pos = pos + shift
+	end
+	return array
+end
+
 return Frame

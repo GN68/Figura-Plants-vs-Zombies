@@ -30,7 +30,7 @@ local nextID = 0
 ---@return Screen
 function Screen.new(parent)
 	local new = setmetatable({},Screen)
-	new.model = parent:newPart("Screen"..nextID):scale((SIZE/RESOLUTION).xyy)
+	new.model = parent:newPart("Screen"..nextID):setPivot(parent:getPivot()):scale((SIZE/RESOLUTION).xyy)
 	new.resolution = RESOLUTION
 	new.size = SIZE
 	new.sprites = {}

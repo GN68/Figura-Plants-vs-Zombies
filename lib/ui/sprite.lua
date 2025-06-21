@@ -1,40 +1,45 @@
 local params = require("lib.params")
 
+
+local MARGIN = 0.00001
+
 ---@class Sprite
 ---@field id integer
 ---@field pos Vector2
 ---@field size Vector2
----@field Frame Frame[]
+---@field frame Frame
 ---@field screen Screen
----@field currentFrame integer
+---@field layer integer
 ---@field color Vector3
 ---@field task SpriteTask
+---@field isVisible boolean
 local Sprite = {}
 Sprite.__index = Sprite
 
 
 local nextID = 0
 ---@param screen Screen
----@param frames Frame[]
+---@param frame Frame?
 ---@return Sprite
-function Sprite.new(screen,frames)
+function Sprite.new(screen,frame)
 	local new = setmetatable({},Sprite)
 	new.id = nextID
 	new.pos = vec(0,0)
-	new.Frame = frames
 	new.size = vec(1,1)
+	new.frame = frame
 	new.screen = screen
-	new.currentFrame = 1
+	new.layer = 0
+	new.isVisible = true
 	screen.sprites[nextID] = new
 	new.color = vec(1,1,1)
-	new.task = screen.model:newSprite("sprite"..nextID):renderType("TRANSLUCENT_CULL")
+	new.task = screen.model:newSprite("sprite"..nextID):renderType("TRANSLUCENT_CULL"):light(15,15)
 	
 	
 	screen.CAMERA_MOVED:register(function ()
 		new:updateBounds()
 	end)
 	
-	new:updateTexture()
+	new:setFrame(frame)
 	new:setPos(0,0)
 	nextID = nextID + 1
 	return new
@@ -47,11 +52,37 @@ function Sprite:free()
 end
 
 
+function Sprite:setFrame(frame)
+	self.frame = frame
+	self:updateTexture()
+end
+
+
+function Sprite:setLayer(layer)
+	self.layer = layer
+	self:updateBounds()
+	return self
+end
+
+
+---@param visible boolean
+---@return Sprite
+function Sprite:setVisible(visible)
+	if self.isVisible ~= visible then
+		self.task:setVisible(visible)
+		self.isVisible = visible
+		if visible then
+			self:updateTexture()
+		end
+	end
+	return self
+end
+
+
 ---@return Sprite
 function Sprite:copy()
-	local new = Sprite.new(self.screen,self.Frame)
+	local new = Sprite.new(self.screen,self.frame)
 	new.color = self.color
-	new.currentFrame = self.currentFrame
 	return new
 end
 
@@ -113,7 +144,10 @@ end
 
 ---@return Sprite
 function Sprite:updateTexture()
-	local frame = self.Frame[self.currentFrame]
+	if not self.isVisible and not self.frame then 
+		return self
+	end
+	local frame = self.frame
 	if frame then
 		local tex = frame.texture
 		local size = frame.dim
@@ -127,12 +161,15 @@ end
 
 ---@return Sprite
 function Sprite:updateBounds()
-	local frame = self.Frame[self.currentFrame]
+	if not self.isVisible and not self.frame then 
+		return self
+	end
+	local frame = self.frame
 	if frame  then
-		local gpos = self.pos + self.screen.camPos
 		local size = self.size
+		local gpos = (self.pos + self.screen.camPos + size):floor()
 		local sSize = self.screen.resolution
-		local spriteBounds = gpos.xyxy - self.size.__xy -- I love swizzling lmao
+		local spriteBounds = gpos.xyxy - size.__xy -- I love swizzling lmao
 		local uv = frame.UVn
 		
 		local extents = vec(
@@ -146,29 +183,29 @@ function Sprite:updateBounds()
 		
 		local sDir = self.screen.dir
 		local dir = vec(0,-sDir.xz:length(),sDir.y)
-		self.task:pos(gpos.x,gpos.y,gpos.y*0.005-0.015)
+		self.task:pos(gpos.x,gpos.y,(gpos.y/sSize.y)*0.01 + (gpos.x/sSize.x)*0.01 - 0.01*self.layer - 0.015)
 		
 		local verts = self.task:getVertices()
 		-- flipped Z layout
 		-- Bottom Left
 		verts[1]
 		:pos(-extents.x,size.y+extents.w,0)
-		:uv(uv.x-UVExtents.x,uv.w+UVExtents.w)
+		:uv(uv.x-UVExtents.x+MARGIN,uv.w+UVExtents.w-MARGIN)
 		:normal(dir)
 		-- Bottom Right
 		verts[2]
 		:pos(size.x+extents.z,size.y+extents.w,0)
-		:uv(uv.z+UVExtents.z,uv.w+UVExtents.w)
+		:uv(uv.z+UVExtents.z-MARGIN,uv.w+UVExtents.w-MARGIN)
 		:normal(dir)
 		-- Top Left
 		verts[3]
 		:pos(size.x+extents.z,-extents.y,0)
-		:uv(uv.z+UVExtents.z,uv.y-UVExtents.y)
+		:uv(uv.z+UVExtents.z-MARGIN,uv.y-UVExtents.y+MARGIN)
 		:normal(dir)
 		-- Top Right
 		verts[4]
 		:pos(-extents.x,-extents.y,0)
-		:uv(uv.x-UVExtents.x,uv.y-UVExtents.y)
+		:uv(uv.x-UVExtents.x+MARGIN,uv.y-UVExtents.y+MARGIN)
 		:normal(dir)
 	end
 	return self

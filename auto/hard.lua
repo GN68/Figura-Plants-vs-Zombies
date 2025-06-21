@@ -1,8 +1,12 @@
 local Screen = require("lib.ui.screen")
 local Frame = require("lib.ui.frame")
 local Sprite = require("lib.ui.sprite")
-local DebugDisplay = require("lib.ui.debug")
+local Debug = require("lib.ui.debug")
 local Macros = require("lib.macros")
+
+local Identity = require("game.identity")
+local Object = require("game.object")
+local Hitbox = require("game.hitbox")
 
 if avatar:getPermissionLevel() ~= "MAX" then
 	error("Plants VS Zombies requires MAX permission level to work")
@@ -24,41 +28,48 @@ local modelScreen = models.hardware.base.screen
 
 
 local screen = Screen.new(modelScreen)
-local debug = DebugDisplay.new(screen.model)
 
+Debug:setParent(screen.model)
 --client.getViewer():getNbt().SelectedSlot
-
-
 
 
 
 
 --[────────────────────────────────────────-< GAME LOGIC >-────────────────────────────────────────]--
 
-
+-- load identities
+for index, value in ipairs(listFiles("game.identities")) do
+	require(value)
+end
 
 
 
 local fBackground = Frame.new(textures["textures.yard"])
-local sBackground = Sprite.new(screen,{fBackground})
+local sBackground = Sprite.new(screen,fBackground)
+local size = fBackground.texture:getDimensions()
+sBackground:setPos(-size.x,-size.y):setLayer(-1)
 
-
-local fZombie = Frame.new(textures["textures.zombie"],0,0,34,50)
-local sZombie = Sprite.new(screen,{fZombie})
+for i = 1, 100, 1 do
+	local zambie = Object.new("zombie",screen)
+	zambie:setPos(math.random(-256,-64),math.random(-256,-64))
+	zambie.isWalking = math.random() > 0.5
+end
 
 
 local game = Macros.new(function (events, ...)
 	
+	events.WORLD_TICK:register(function ()
+		Object.tick(screen)
+	end)
+	
 	-- SCREEN BOUNDARIES
 	events.WORLD_RENDER:register(function (delta)
-		screen:setCamPos(mpos.x*64,mpos.y*64)
+		screen:setCamPos(0,0)
+		--screen:setCamPos(mpos.x*512-256,mpos.y*512-256)
 		
 		screen:setDir(client:getCameraDir())
 		local t = client:getSystemTime() / 1000
-		--spriteBackground:setPos(math.sin(t)*14,math.cos(t)*6)
-		debug:clear()
-		debug:drawBox(0,0,-screen.size.x,-screen.size.y)
-		debug:drawBox(sBackground.pos.xyxy - sBackground.size.__xy)
+		Debug:clear()
 	end)
 end)
 
@@ -95,12 +106,15 @@ events.SKULL_RENDER:register(function (delta, block, item, entity, ctx)
 			mpos = mpos + diff.yx * SENSITIVITY
 		end
 		
+		host:setActionbar(tostring(mpos))
+		
 		---@cast mpos Vector2
 		mpos.x = math.clamp(mpos.x,0,1)
 		mpos.y = math.clamp(mpos.y,0,1)
 		
 		
-		modelHardware:setPos(9 * (rightHanded and -1 or 1) + math.lerp(-8,8,mpos.x),4.4+math.lerp(0,12,mpos.y),0):rot(0,0,0)
+		--modelHardware:setPos(9 * (rightHanded and -1 or 1) + math.lerp(-8,8,mpos.x),4.4+math.lerp(0,12,mpos.y),0):rot(0,0,0)
+		modelHardware:setPos(9 * (rightHanded and -1 or 1),10.5,0):rot(0,0,0)
 	else
 		modelHardware:setPos(0,0,-6):scale():rot(90,0,0)
 	end

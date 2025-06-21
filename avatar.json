@@ -1,5 +1,6 @@
 {
 	"author":"GNamimates",
 	"color":"#4dd966",
-	"autoScripts": ["main"]
+	"autoScripts": ["main"],
+	"resources": ["*.nbs"]
 }

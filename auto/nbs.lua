@@ -259,9 +259,9 @@ function Nbs.loadTrack(path)
 	return new
 end
 
---[[ <- playground, separate [[ to run
+--[ [ <- playground, separate [[ to run
 	
-local track = Nbs.loadTrack("plant")
+local track = Nbs.loadTrack("sunny")
 local player = MusicPlayer.new(track)
 
 player:setPos(client:getCameraPos() + client:getCameraDir())

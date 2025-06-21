@@ -1,7 +1,7 @@
 local texs = textures:getTextures()
 local i = 1
 
-local CHUNK_SIZE = 32
+local CHUNK_SIZE = 64
 
 local x = 0
 local y = 0
