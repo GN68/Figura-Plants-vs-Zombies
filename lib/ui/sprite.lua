@@ -1,6 +1,6 @@
 local params = require("lib.params")
 
-
+local CLIP = true
 local MARGIN = 0.00001
 
 ---@class Sprite
@@ -11,6 +11,7 @@ local MARGIN = 0.00001
 ---@field screen Screen
 ---@field layer integer
 ---@field color Vector3
+---@field alpha number
 ---@field task SpriteTask
 ---@field isVisible boolean
 local Sprite = {}
@@ -32,8 +33,8 @@ function Sprite.new(screen,frame)
 	new.isVisible = true
 	screen.sprites[nextID] = new
 	new.color = vec(1,1,1)
-	new.task = screen.model:newSprite("sprite"..nextID):renderType("TRANSLUCENT_CULL"):light(15,15)
-	
+	new.alpha = 1
+	new.task = screen.model:newSprite("sprite"..nextID):renderType("CUTOUT_CULL"):light(15,15)
 	
 	screen.CAMERA_MOVED:register(function ()
 		new:updateBounds()
@@ -107,7 +108,17 @@ end
 function Sprite:setColor(r,g,b)
 	local clr = params.vec3(r,g,b)
 	self.color = clr
-	self.task:setColor(clr)
+	self.task:setColor(clr.x,clr.y,clr.z,self.alpha)
+	return self
+end
+
+---@param a number
+---@return Sprite
+function Sprite:setAlpha(a)
+	self.task:setRenderType("EMISSIVE")
+	self.alpha = a
+	local clr = self.color
+	self.task:setColor(clr.x,clr.y,clr.z,a)
 	return self
 end
 
@@ -144,7 +155,7 @@ end
 
 ---@return Sprite
 function Sprite:updateTexture()
-	if not self.isVisible and not self.frame then 
+	if not self.isVisible then 
 		return self
 	end
 	local frame = self.frame
@@ -153,8 +164,8 @@ function Sprite:updateTexture()
 		local size = frame.dim
 		self.task
 		:texture(tex,size.x,size.y)
-		self:updateBounds()
 		self.size = size
+		self:updateBounds()
 	end
 	return self
 end
@@ -167,7 +178,7 @@ function Sprite:updateBounds()
 	local frame = self.frame
 	if frame  then
 		local size = self.size
-		local gpos = (self.pos + self.screen.camPos + size):floor()
+		local gpos = (self.pos + self.screen.camPos + size + frame.offset):floor()
 		local sSize = self.screen.resolution
 		local spriteBounds = gpos.xyxy - size.__xy -- I love swizzling lmao
 		local uv = frame.UVn
@@ -183,8 +194,12 @@ function Sprite:updateBounds()
 		
 		local sDir = self.screen.dir
 		local dir = vec(0,-sDir.xz:length(),sDir.y)
-		self.task:pos(gpos.x,gpos.y,(gpos.y/sSize.y)*0.01 + (gpos.x/sSize.x)*0.01 - 0.02*self.layer - 0.015)
+		self.task:pos(gpos.x,gpos.y,(gpos.y/sSize.y)*0.02 + (gpos.x/sSize.x)*0.01 - 0.04*self.layer - 0.015)
 		
+		if not CLIP then
+			extents = vec(0,0,0,0)
+			UVExtents = vec(0,0,0,0)
+		end
 		local verts = self.task:getVertices()
 		-- flipped Z layout
 		-- Bottom Left

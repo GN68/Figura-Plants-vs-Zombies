@@ -38,6 +38,12 @@ function Object.new(identityName,screen)
 end
 
 
+function Object:free()
+	self.identity.processor.EXIT(self,self.screen)
+	self.sprite:free()
+	self.hitbox:free()
+	objects[self] = nil
+end
 
 
 ---@overload fun(xy: Vector2)
@@ -46,6 +52,19 @@ end
 ---@return Object
 function Object:setPos(x,y)
 	local pos = params.vec2(x,y)
+	self.pos = pos
+	self.sprite:setPos(pos)
+	self.hitbox:setPos(pos)
+	self.MOVED:invoke()
+	return self
+end
+
+---@overload fun(xy: Vector2)
+---@param x number
+---@param y number
+---@return Object
+function Object:move(x,y)
+	local pos = params.vec2(x,y) + self.pos
 	self.pos = pos
 	self.sprite:setPos(pos)
 	self.hitbox:setPos(pos)

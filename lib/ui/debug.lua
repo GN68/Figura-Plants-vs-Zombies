@@ -8,7 +8,7 @@ local COLOR = vec(1,1,1)
 local WIDTH = 1
 local WIDTH_HALF = WIDTH / 2
 
-local TEX_WHITE = textures:newTexture("1x3OUTLINE",1,3):setPixel(0,0,OUTLINE_COLOR):setPixel(0,1,vec(1,1,1)):setPixel(0,2,OUTLINE_COLOR)
+local TEX_WHITE = textures:newTexture("1x3outline",1,3):setPixel(0,0,OUTLINE_COLOR):setPixel(0,1,vec(1,1,1)):setPixel(0,2,OUTLINE_COLOR)
 
 
 ---@class DebugDraw

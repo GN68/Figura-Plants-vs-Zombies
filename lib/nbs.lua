@@ -15,6 +15,8 @@ local params = require("lib.params")
 ---@field loop boolean
 ---@field notes NBS.Noteblock[]
 
+local Nbs = {}
+
 ---@class NBS.Noteblock
 ---@field tick integer
 ---@field instrument integer
@@ -24,17 +26,17 @@ local params = require("lib.params")
 
 
 ---@type table<integer,Minecraft.soundID>
-local notes = {
-	[0]="minecraft:block.note_block.harp",
-	[1]="minecraft:block.note_block.bass",
-	[2]="minecraft:block.note_block.basedrum",
-	[3]="minecraft:block.note_block.snare",
-	[4]="minecraft:block.note_block.hat",
-	[5]="minecraft:block.note_block.guitar",
-	[6]="minecraft:block.note_block.flute",
-	[7]="minecraft:block.note_block.bell",
-	[8]="minecraft:block.note_block.chime",
-	[9]="minecraft:block.note_block.bell",
+local instruments = {
+	[0] ="minecraft:block.note_block.harp",
+	[1] ="minecraft:block.note_block.bass",
+	[2] ="minecraft:block.note_block.basedrum",
+	[3] ="minecraft:block.note_block.snare",
+	[4] ="minecraft:block.note_block.hat",
+	[5] ="minecraft:block.note_block.guitar",
+	[6] ="minecraft:block.note_block.flute",
+	[7] ="minecraft:block.note_block.bell",
+	[8] ="minecraft:block.note_block.chime",
+	[9] ="minecraft:block.note_block.bell",
 	[10]="minecraft:block.note_block.iron_xylophone",
 	[11]="minecraft:block.note_block.cow_bell",
 	[12]="minecraft:block.note_block.didgeridoo",
@@ -65,7 +67,7 @@ processor.preRender = function ()
 				if mp.tick >= currentNote.tick then
 					mp.currentNote = mp.currentNote + math.sign(mp.tick-currentNote.tick)
 					local pitch = 2^(((currentNote.key-9)/12)-3)
-					sounds[notes[currentNote.instrument]]:pos(mp.pos):pitch(pitch):volume(currentNote.volume):play()
+					sounds[instruments[currentNote.instrument]]:pos(mp.pos):pitch(pitch):volume(currentNote.volume):play()
 				else
 					break
 				end
@@ -93,7 +95,7 @@ MusicPlayer.__index = MusicPlayer
 
 ---@param track NBS.Track?
 ---@return NBS.MusicPlayer
-function MusicPlayer.new(track)
+function Nbs.newMusicPlayer(track)
 	local new = {
 		track = track,
 		tick = 0,
@@ -112,6 +114,7 @@ function MusicPlayer:play(reset)
 	activeMusicPlayers[self] = self
 	self.isPlaying = true
 	if reset then
+		self.currentNote = 1
 		self.tick = 0
 	end
 	return self
@@ -150,7 +153,7 @@ function MusicPlayer:setTrack(track,reset)
 end
 
 
-local Nbs = {}
+
 
 
 ---@param buffer Buffer
@@ -261,7 +264,7 @@ end
 
 --[[ <- playground, separate [[ to run
 	
-local track = Nbs.loadTrack("sunny")
+local track = Nbs.loadTrack("plant")
 local player = MusicPlayer.new(track)
 
 player:setPos(client:getCameraPos() + client:getCameraDir())

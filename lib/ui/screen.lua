@@ -73,5 +73,14 @@ function Screen:setDir(x,y,z)
 	self.dir = vec3
 end
 
+---@param id Minecraft.soundID
+---@param pitch number?
+---@param volume number?
+---@return Screen
+function Screen:sound(id,pitch,volume)
+	sounds:playSound(id,client:getCameraDir()+client:getCameraPos(),volume or 1,pitch or 1)
+	return self
+end
+
 
 return Screen

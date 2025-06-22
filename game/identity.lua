@@ -1,14 +1,18 @@
 ---@class Object.Processor
----@field ENTER fun(self: Object,screen: Screen)
----@field TICK fun(self: Object,screen: Screen)
----@field CLICK fun(self: Object,screen: Screen)
----@field EXIT fun(self: Object,screen: Screen)
+---@field ENTER fun(self: Object,screen: Screen)?
+---@field TICK fun(self: Object,screen: Screen)?
+---@field CLICK fun(self: Object,screen: Screen)?
+---@field EXIT fun(self: Object,screen: Screen)?
 
 
 ---@class Object.Identity
 ---@field icon Sprite
+---@field cost integer
 ---@field name string
 ---@field processor Object.Processor
+
+
+local placeholder = function ()end
 
 
 local Identity = {}
@@ -25,6 +29,10 @@ function Identity.new(icon,name,processor)
 		name = name,
 		processor = processor
 	}
+	processor.ENTER = processor.ENTER or placeholder
+	processor.TICK = processor.TICK or placeholder
+	processor.CLICK = processor.CLICK or placeholder
+	processor.EXIT = processor.EXIT or placeholder
 	
 	local proxy = setmetatable({},{
 		__index = identity,

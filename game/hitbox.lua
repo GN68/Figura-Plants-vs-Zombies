@@ -1,7 +1,7 @@
 local Debug = require("lib.ui.debug")
 local params = require("lib.params")
 
-local SHOW_HITBOXES = false
+local SHOW_HITBOXES = true
 
 local layers = {}
 
@@ -30,15 +30,26 @@ function Hitbox.new(x,y,z,w,layer)
 		enabled = true
 	}
 	if SHOW_HITBOXES then
-		Debug:setColor(1,0,1)
 		Debug.ON_CLEAR:register(function ()
 			local box = new.pos.xyxy + new.dim
+			if new.enabled then
+				Debug:setColor(1,0,1)
+			else
+				Debug:setColor(0.5,0,0.5)
+			end
 			Debug:drawBox(box)
-		end)
+		end,new)
 	end
 	setmetatable(new,Hitbox)
 	new:setLayer(layer or "default")
 	return new
+end
+
+function Hitbox:free()
+	if layers[self.layer] then
+		layers[self.layer][self] = nil
+		Debug.ON_CLEAR:remove(self)
+	end
 end
 
 ---@overload fun(xy: Vector2)
@@ -61,6 +72,8 @@ function Hitbox:setDim(x,y,z,w)
 	return self
 end
 
+---@param layer string
+---@return Hitbox
 function Hitbox:setLayer(layer)
 	if layers[self.layer] then
 		layers[self.layer][self] = nil
@@ -85,10 +98,10 @@ function Hitbox:isCollidingWithBox(hitbox)
 	local dim1 = self.pos.xyxy + self.dim
 	local dim2 = hitbox.pos.xyxy + hitbox.dim
 	return (
-   	dim1[3] < dim2[1] or
-   	dim1[1] > dim2[3] or
-   	dim1[4] < dim2[2] or
-   	dim1[2] > dim2[4]
+   	dim1.z < dim2.x and
+   	dim1.x > dim2.z and
+   	dim1.w < dim2.y and
+   	dim1.y > dim2.w
 	)
 end
 
