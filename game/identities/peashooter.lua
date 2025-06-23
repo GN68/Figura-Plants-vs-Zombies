@@ -10,6 +10,7 @@ Toughness: 300
 ---@class Peashooter : Object
 ---@field isShooting boolean
 ---@field shootCooldown integer
+---@field sight Hitbox
 
 local Debug = require("lib.ui.debug")
 
@@ -33,13 +34,16 @@ Frame.applyOffsetToArray(fShoot,{vec(0,0),vec(-2,0),vec(-4,0)})
 local fIcon = Frame.new(tex,321,2,344,23)
 
 
-Identity.new(fIcon, "peashooter",{
+Identity.new(fIcon, "peashooter", 300,{
 	---@param self Peashooter
 	ENTER = function (self, screen)
-		self.hitbox:setDim(27,45,0,0)
+		self.hitbox:setDim(27,16,0,0):setLayer("plants")
 		self:setPos(-128,-128)
 		self.isShooting = true
 		self.shootCooldown = SHOOT_COOLDOWN
+		
+		self.sight = Hitbox.new(self,-220,0,16,16,"sight")
+		
 		self.i = math.random(1,256)
 	end,
 	
@@ -48,7 +52,8 @@ Identity.new(fIcon, "peashooter",{
 		self.i = self.i + 1
 		self.shootCooldown = self.shootCooldown - 1
 		self.sprite:setFrame(Frame.scroll(fIdle,self.i*0.25))
-		if self.isShooting then
+		local zamb = self.sight:getCollidingBox("zombies")
+		if zamb then
 			if  self.shootCooldown <= 0 then
 				self.shootCooldown = SHOOT_COOLDOWN
 				Object.new("peashooter.proj",screen):setPos(self.pos)
@@ -58,11 +63,18 @@ Identity.new(fIcon, "peashooter",{
 		end
 	end,
 	
+	
+	DEATH = function (self, screen)
+		self:free()
+	end,
+	
 	---@param self Peashooter
 	CLICK = function (self, screen)
 	end,
 	
 	---@param self Peashooter
 	EXIT = function (self, screen)
+		self.sight:free()
 	end
+	
 })

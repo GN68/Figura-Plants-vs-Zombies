@@ -10,6 +10,7 @@ local WIDTH_HALF = WIDTH / 2
 
 local TEX_WHITE = textures:newTexture("1x3outline",1,3):setPixel(0,0,OUTLINE_COLOR):setPixel(0,1,vec(1,1,1)):setPixel(0,2,OUTLINE_COLOR)
 
+local OFFSET = vec(0,0)
 
 ---@class DebugDraw
 ---@field model ModelPart
@@ -57,6 +58,16 @@ end
 function Debug:setColor(r,g,b)
 	local clr = params.vec3(r,g,b)
 	COLOR = clr
+	return self
+end
+
+
+---@overload fun(xy: Vector2)
+---@param x number
+---@param y number
+---@return DebugDraw
+function Debug:setOffset(x,y)
+	OFFSET = params.vec2(x,y)
 	return self
 end
 
@@ -123,7 +134,7 @@ end
 ---@param y2 number
 ---@return DebugDraw
 function Debug:drawLine(x1,y1,x2,y2)
-	local vec4 = params.vec4(x1,y1,x2,y2)
+	local vec4 = params.vec4(x1,y1,x2,y2)+OFFSET.xyxy
 	
 	---@type Vector2
 	local dir = vec4.xy - vec4.zw
@@ -134,7 +145,7 @@ function Debug:drawLine(x1,y1,x2,y2)
 	PART:newSprite("sprite"..self.nextID)
 	:texture(TEX_WHITE,1,1)
 	:setRenderType("CUTOUT_EMISSIVE_SOLID")
-	:pos(-math.sin(angle)*WIDTH_HALF+x1,math.cos(angle)*WIDTH_HALF+y1,0)
+	:pos(-math.sin(angle)*WIDTH_HALF+vec4.x,math.cos(angle)*WIDTH_HALF+vec4.y,0)
 	:rot(0,0,math.deg(angle))
 	:scale(length,WIDTH,0)
 	:setColor(COLOR)

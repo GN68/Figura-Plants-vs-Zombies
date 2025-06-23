@@ -115,7 +115,7 @@ function MusicPlayer:play(reset)
 	self.isPlaying = true
 	if reset then
 		self.currentNote = 1
-		self.tick = 0
+		self.tick = -2
 	end
 	return self
 end

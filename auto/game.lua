@@ -126,8 +126,8 @@ local fGrass = {
 local fGrassPos = {
 	vec(0,0),
 	vec(-fGrass[2].dim.x-79,-123),
-	vec(-fGrass[3].dim.x-77,-size.y+34),
-	vec(-fGrass[4].dim.x-75,-size.y+8),
+	vec(-fGrass[3].dim.x-76,-size.y+32),
+	vec(-fGrass[4].dim.x-75,-size.y+6),
 }
 
 
@@ -141,6 +141,11 @@ end
 local function rollGrass(i)
 	local sRollGrass1 = Sprite.new(screen,fRollGrass):setLayer(0)
 	local sRollGrass2 = Sprite.new(screen,fRollGrass):setLayer(0)
+	
+	if i == 4 then
+		applyGrass(sGrass2,i)
+		return
+	end
 	
 	applyGrass(sGrass1,i)
 	applyGrass(sGrass2,i+1)
@@ -157,13 +162,13 @@ local function rollGrass(i)
 			local o = math.floor(math.lerp(1,240,t))
 			if i == 1 then
 				sGrass2:setFrame(Frame.new(texGrass,0,170,o,206))
-				sGrass2:setPos(vec(-79-o,-123))
+				sGrass2:setPos(vec(-79-o,-121))
 			elseif i == 2 then
 				sGrass2:setFrame(Frame.new(texGrass,0,208,o,311))
-				sGrass2:setPos(vec(-77-o,-size.y+34))
+				sGrass2:setPos(vec(-77-o,-size.y+32))
 			elseif i == 3 then
 				sGrass2:setFrame(Frame.new(texGrass,0,0,o,168))
-				sGrass2:setPos(vec(-75-o,-size.y+8))
+				sGrass2:setPos(vec(-75-o,-size.y+6))
 			end
 		end,
 		onFinish = function ()
@@ -221,20 +226,27 @@ function loadLevel(level)
 	aStart:add(9*20,function ()musicPlayer:setTrack(mSunny):play(true) end)
 	
 	aStart:add(10*20,function ()
-		local peashooter = Object.new("peashooter",screen)
-		peashooter:setPos(-100,-108)
-				
-		for i = 1, 1, 1 do
-			local zambie = Object.new("zombie",screen)
-			zambie:setPos(-200,-108)
-			zambie.isWalking = math.random() > 0.5
-		end
+		
 	end)
 	
 	aStart:start()
 end
 
-loadLevel()
+
+--loadLevel()
+local peashooter = Object.new("peashooter",screen)
+peashooter:setPos(-100,-108)
+		
+for i = 1, 1, 1 do
+	local zambie = Object.new("zombie",screen)
+	zambie:setPos(-200,-108)
+	zambie.isWalking = math.random() > 0.5
+end
+
+rollGrass(4)
+setCamTarget(70)
+musicPlayer:setTrack(mSunny)
+--musicPlayer:play()
 
 --[────────────────────────-<  >-────────────────────────]--
 
@@ -248,6 +260,7 @@ local game = Macros.new(function (events, ...)
 		Object.tick(screen)
 		Sequence.tick()
 		musicPlayer:setPos(client:getCameraPos() + client:getCameraDir())
+		Debug:setOffset(screen.camPos)
 	end)
 	
 	-- SCREEN BOUNDARIES

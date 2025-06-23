@@ -15,20 +15,37 @@ local Hitbox = {}
 Hitbox.__index = Hitbox
 
 
+local function minmax(vec4)
+	return vec(
+	math.max(vec4.x,vec4.z),
+	math.max(vec4.y,vec4.w),
+	math.min(vec4.x,vec4.z),
+	math.min(vec4.y,vec4.w))
+end
+
+
 ---@overload fun(xyzw: Vector4?)
+---@param object Object
 ---@param x number
 ---@param y number
 ---@param z number
 ---@param w number
 ---@param layer string?
 ---@return Hitbox
-function Hitbox.new(x,y,z,w,layer)
-	local box = (x and y and z and w) and params.vec4(x,y,z,w) or vec(0,0,0,0)
+function Hitbox.new(object,x,y,z,w,layer)
+	local box = (x and y and z and w) and minmax(params.vec4(x,y,z,w)) or vec(0,0,0,0)
 	local new = {
+		object = object,
 		pos = box.xy,
 		dim = box,
 		enabled = true
 	}
+	
+	local function align()
+		new:setPos(object.pos)
+	end
+	
+	object.MOVED:register(align)
 	if SHOW_HITBOXES then
 		Debug.ON_CLEAR:register(function ()
 			local box = new.pos.xyxy + new.dim
@@ -42,6 +59,7 @@ function Hitbox.new(x,y,z,w,layer)
 	end
 	setmetatable(new,Hitbox)
 	new:setLayer(layer or "default")
+	align()
 	return new
 end
 
@@ -67,7 +85,7 @@ end
 ---@param z number
 ---@param w number
 function Hitbox:setDim(x,y,z,w)
-	local dim = params.vec4(x,y,z,w)
+	local dim = minmax(params.vec4(x,y,z,w))
 	self.dim = dim
 	return self
 end
@@ -111,16 +129,32 @@ end
 function Hitbox:getCollidingBoxes(layer)
 	assert(layers[layer], 'Layer "'..layer..'" does not exist')
 	local collisions = {}
-	---@param boxes Hitbox
+	---@param box Hitbox
 	---@param enabled boolean
-	for boxes, enabled in pairs(layers[layer]) do
-		if enabled and boxes ~= self then
-			if boxes:isCollidingWithBox(self) then
-				collisions[#collisions+1] = boxes
+	for box, enabled in pairs(layers[layer]) do
+		if enabled and box ~= self then
+			if box:isCollidingWithBox(self) then
+				collisions[#collisions+1] = box
 			end
 		end
 	end
 	return collisions
+end
+
+---@param layer string
+---@return Hitbox?
+function Hitbox:getCollidingBox(layer)
+	if layers[layer] then
+		---@param box Hitbox
+		---@param enabled boolean
+		for box, enabled in pairs(layers[layer]) do
+			if enabled and box ~= self then
+				if box:isCollidingWithBox(self) then
+					return box
+				end
+			end
+		end
+	end
 end
 
 return Hitbox

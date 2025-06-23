@@ -13,6 +13,7 @@ local objects = {} ---@type table<Object,true>
 ---@class Object
 ---@field identity Object.Identity
 ---@field sprite Sprite
+---@field health integer
 ---@field pos Vector3
 ---@field hitbox Hitbox
 ---@field screen Screen
@@ -26,11 +27,12 @@ function Object.new(identityName,screen)
 	local new = {
 		identity = identity,
 		pos = vec(0,0),
+		health = identity.maxHealth,
 		sprite = Sprite.new(screen),
-		hitbox = Hitbox.new(),
 		screen = screen,
 		MOVED = Event.new(),
 	}
+	new.hitbox = Hitbox.new(new)
 	new = setmetatable(new,Object)
 	identity.processor.ENTER(new,screen)
 	objects[new] = true
@@ -46,6 +48,17 @@ function Object:free()
 end
 
 
+function Object:damage(amount)
+	self.health = self.health - amount
+	if self.health <= 0 then
+		self.identity.processor.DEATH(self,self.screen)
+	else
+		self.identity.processor.DAMAGED(self,self.screen)
+	end
+	return self
+end
+
+
 ---@overload fun(xy: Vector2)
 ---@param x number
 ---@param y number
@@ -54,7 +67,6 @@ function Object:setPos(x,y)
 	local pos = params.vec2(x,y)
 	self.pos = pos
 	self.sprite:setPos(pos)
-	self.hitbox:setPos(pos)
 	self.MOVED:invoke()
 	return self
 end
