@@ -401,7 +401,7 @@ function WorldAPI.getTime(delta) end
 ---This value matches the total amount of day time that has passed in the world. If time is frozen, this value is too.
 ---
 ---Despite the name of this function, it does not get the time of the current day. If you want that value, use
----`world.getTimeOfDay() % 24000`.  
+---`world.getTimeOfDay()%24000`.  
 ---You can also use this number to get the amount of days passed with `math.floor(world.getTimeOfDay() / 24000)`.
 ---@return integer
 ---@nodiscard
@@ -411,7 +411,7 @@ function WorldAPI.getTimeOfDay() end
 ---This value matches the total amount of day time that has passed in the world. If time is frozen, this value is too.
 ---
 ---Despite the name of this function, it does not get the time of the current day. If you want that value, use
----`world.getTimeOfDay() % 24000`.  
+---`world.getTimeOfDay()%24000`.  
 ---You can also use this number to get the amount of days passed with `math.floor(world.getTimeOfDay() / 24000)`.
 ---@param delta number
 ---@return number

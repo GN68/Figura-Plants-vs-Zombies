@@ -1,37 +1,38 @@
-local Screen = require("lib.ui.screen")
-local Frame = require("lib.ui.frame")
-local Sprite = require("lib.ui.sprite")
-local Debug = require("lib.ui.debug")
-local Macros = require("lib.macros")
+local Screen=require("lib.ui.screen")
+local Frame=require("lib.ui.frame")
+local Sprite=require("lib.ui.sprite")
+local Debug=require("lib.ui.debug")
+local Macros=require("lib.macros")
+local Event =require("lib.event")
 
-local Identity = require("game.identity")
-local Object = require("game.object")
-local Hitbox = require("game.hitbox")
+local Identity=require("game.identity")
+local Object=require("game.object")
+local Hitbox=require("game.hitbox")
 
-local Tween = require("lib.tween")
-local Sequence = require("lib.sequence")
-local NBS = require("lib.nbs")
+local Tween=require("lib.tween")
+local Seq=require("lib.sequence")
+local NBS=require("lib.nbs")
 
 if avatar:getPermissionLevel() ~= "MAX" then
 	error("Plants VS Zombies requires MAX permission level to work! do you wanna randomy crash and lose all your progress?!?")
 end
 
-local modelHardware = models.hardware
+local modelHardware=models.hardware
 modelHardware:setParentType("SKULL")
 
-local ASPECT_RATIO = 256/192
-local SENSITIVITY = 0.007
+local ASPECT_RATIO=256/192
+local SENSITIVITY=0.007
 
-SENSITIVITY = vec(SENSITIVITY,SENSITIVITY*ASPECT_RATIO)
+SENSITIVITY=vec(SENSITIVITY,SENSITIVITY*ASPECT_RATIO)
 ---@cast SENSITIVITY Vector2
 
-local mpos = vec(0,0)
-local lrot = vec(0,0)
+local mpos=vec(0,0)
+local lrot=vec(0,0)
 
-local modelScreen = models.hardware.base.screen
+local modelScreen=models.hardware.base.screen
 
 
-local screen = Screen.new(modelScreen)
+local screen=Screen.new(modelScreen)
 
 Debug:setParent(screen.model)
 --client.getViewer():getNbt().SelectedSlot
@@ -40,31 +41,31 @@ Debug:setParent(screen.model)
 
 
 --[────────────────────────────────────────-< GAME LOGIC >-────────────────────────────────────────]--
-local overlay = models.hardware.base.screen.over
-local modelTitle = models.hardware.base.screen.title
-local modelMEssageOverlay = models.hardware.base.screen.messageOver:setVisible(false)
+local overlay=models.hardware.base.screen.over
+local modelTitle=models.hardware.base.screen.title
+local modelMEssageOverlay=models.hardware.base.screen.messageOver:setVisible(false)
 
 --[────────────────────────-< HUD >-────────────────────────]--
 
-local titleTask = modelTitle:newText("Title"):setAlignment("CENTER"):setOutline(true)
-local messageTask = modelTitle:newText("Message"):scale(0.05,0.05,1):pos(0,-3.3,0):setAlignment("CENTER"):setOutline(true)
+local titleTask=modelTitle:newText("Title"):setAlignment("CENTER"):setOutline(true)
+local messageTask=modelTitle:newText("Message"):scale(0.05,0.05,1):pos(0,-3.3,0):setAlignment("CENTER"):setOutline(true)
 
 
 
 local function title(text,scale,duration)
-	scale = scale or 1
-	local i = 1/scale
-	local pos = client:getCameraPos() + client:getCameraDir()
+	scale=scale or 1
+	local i=1/scale
+	local pos=client:getCameraPos()+client:getCameraDir()
 	--sounds:playSound("minecraft:block.anvil.place",pos, 0.1, 0.3)
 	sounds:playSound("minecraft:block.sand.place",pos, 1, 0.5*i)
 	sounds:playSound("minecraft:block.sand.break",pos, 1, 0.25*i)
 	sounds:playSound("minecraft:block.note_block.snare",pos, 1, 0.25*i)
 	sounds:playSound("minecraft:block.note_block.hat",pos, 1, 0.5*i)
-	local scale = scale * 0.2
+	local scale=scale * 0.2
 	titleTask:scale(scale,scale,scale)
 	titleTask:setText(toJson({text=text,color="#ff0000"}))
-	duration = (duration or 0.5) * 20
-	Sequence.new()
+	duration=(duration or 0.5) * 20
+	Seq.new()
 	:add(duration,function ()
 		titleTask:setText("")
 	end)
@@ -72,27 +73,25 @@ local function title(text,scale,duration)
 end
 
 local function message(text)
-	local lineCount = 0
-	text:gsub("\n",function () lineCount = lineCount + 1 end)
-	messageTask
-	:setText(toJson({text=text,color="#ede1a5"}))
-	:pos(0,-3.3+lineCount*0.25,0)
-	modelMEssageOverlay:setVisible(true):setOpacity(0.5)
+	if text then
+		local lineCount=0
+		text:gsub("\n",function () lineCount=lineCount+1 end)
+		messageTask
+		:setText(toJson({text=text,color="#ede1a5"}))
+		:pos(0,-3.3+lineCount*0.25,0)
+	else
+		messageTask:setText("")
+	end
+	modelMEssageOverlay:setVisible(text and true):setOpacity(0.5)
 end
 
-message("Test Message!\nLine2 test message")
---message("Click on the seed packet to pick it up!")
---message("Click on the grass to plant your seed!")
---message("Nicely done!")
---message("Click on the falling sun to collect it!")
---message("Keep collecting sun!\n You'll need it to grow more plants!")
---message("Excellent! You've collected\nenough for your next plant!")
---message("Don't let the zombies reach your house!")
+--message("Test Message!\nLine2 test message")
 
-local mPlant = NBS.loadTrack("plant")
-local mSunny = NBS.loadTrack("sunny")
 
-local musicPlayer = NBS.newMusicPlayer()
+local mPlant=NBS.loadTrack("plant")
+local mSunny=NBS.loadTrack("sunny")
+
+local musicPlayer=NBS.newMusicPlayer()
 
 
 
@@ -103,27 +102,27 @@ end
 
 --[────────────────────────-< Background >-────────────────────────]--
 
-local texYard = textures["textures.yard"]
-local texGrass = textures["textures.grass"]
+local texYard=textures["textures.yard"]
+local texGrass=textures["textures.grass"]
 
 overlay:setOpacity(0)
 
-local fBackground = Frame.new(texYard)
-local sBackground = Sprite.new(screen,fBackground)
-local size = fBackground.texture:getDimensions()
+local fBackground=Frame.new(texYard)
+local sBackground=Sprite.new(screen,fBackground)
+local size=fBackground.texture:getDimensions()
 
-local fRollGrass = Frame.new(texGrass,245,227,259,268)
+local fRollGrass=Frame.new(texGrass,245,227,259,268)
 
 sBackground:setPos(-size.x,-size.y):setLayer(-1)
 
-local fGrass = {
+local fGrass={
 	Frame.new(texGrass,0,0,1,1),
 	Frame.new(texGrass,0,170,240,206),
 	Frame.new(texGrass,0,208,243,311),
 	Frame.new(texGrass,0,0,245,168)
 }
 
-local fGrassPos = {
+local fGrassPos={
 	vec(0,0),
 	vec(-fGrass[2].dim.x-79,-123),
 	vec(-fGrass[3].dim.x-76,-size.y+32),
@@ -131,16 +130,16 @@ local fGrassPos = {
 }
 
 
-local sGrass1 = Sprite.new(screen):setLayer(-1)
-local sGrass2 = Sprite.new(screen):setLayer(-0.8)
+local sGrass1=Sprite.new(screen):setLayer(-1)
+local sGrass2=Sprite.new(screen):setLayer(-0.8)
 local function applyGrass(sGrass, i, trim)
 	sGrass:setFrame(fGrass[i])
 	sGrass:setPos(fGrassPos[i])
 end
 
 local function rollGrass(i)
-	local sRollGrass1 = Sprite.new(screen,fRollGrass):setLayer(0)
-	local sRollGrass2 = Sprite.new(screen,fRollGrass):setLayer(0)
+	local sRollGrass1=Sprite.new(screen,fRollGrass):setLayer(0)
+	local sRollGrass2=Sprite.new(screen,fRollGrass):setLayer(0)
 	
 	if i == 4 then
 		applyGrass(sGrass2,i)
@@ -151,15 +150,15 @@ local function rollGrass(i)
 	applyGrass(sGrass2,i+1)
 	
 	Tween.new({
-		from = 0,
-		to = 243,
-		duration = 1.5,
+		from=0,
+		to=243,
+		duration=1.5,
 		easing="linear",
-		tick = function (v, t)
-			v = math.floor(v)
+		tick=function (v, t)
+			v=math.floor(v)
 			sRollGrass1:setPos(-83-5-v+5,-27-32*(i-1+3)):setVisible(true)
 			sRollGrass2:setPos(-83-5-v+5,-27-32*(1-i+3)):setVisible(true)
-			local o = math.floor(math.lerp(1,240,t))
+			local o=math.floor(math.lerp(1,240,t))
 			if i == 1 then
 				sGrass2:setFrame(Frame.new(texGrass,0,170,o,206))
 				sGrass2:setPos(vec(-79-o,-121))
@@ -171,7 +170,7 @@ local function rollGrass(i)
 				sGrass2:setPos(vec(-75-o,-size.y+6))
 			end
 		end,
-		onFinish = function ()
+		onFinish=function ()
 			sRollGrass1:setVisible(false)
 			sRollGrass2:setVisible(false)
 		end
@@ -180,11 +179,11 @@ end
 
 local function setCamTarget(x,d)
 	Tween.new({
-		from = screen.camPos.x,
-		to = x,
-		duration = d or 2,
+		from=screen.camPos.x,
+		to=x,
+		duration=d or 2,
 		easing="inOutQuad",
-		tick = function (v, t)
+		tick=function (v, t)
 			screen:setCamPos(v,0)
 		end,
 		id="camTarget"
@@ -197,15 +196,65 @@ end
 
 --[────────────────────────-< Game Startup Sequence >-────────────────────────]--
 
-local inventory = {"peashooter"}
-local levels = {}
+local inventory={"peashooter"}
+local UIinventory={}
+local levels={}
 
 for i, path in ipairs(listFiles("game.levels")) do
-	levels[i] = require(path)
+	levels[i]=require(path)
 end
 
+screen.plants={}
+screen.suns=0
+screen.sunfalls=false
+screen.SUN_CHANGED=Event.new()
+
+
+
+function screen.addSun(value)
+	screen.suns=screen.suns+value
+	screen.SUN_CHANGED:invoke()
+end
+
+--[────────-< Sun Display >-────────]--
+local uiSun=Sprite.new(screen,Frame.new(textures["textures.sun"],0,0,15,15))
+uiSun:setPos(-87,-17)
+local sunText=screen.model:newText("sun"):setText("25"):setOutline(true):setPos(-3.5,-17)
+--for i=1, 10, 1 do
+--	Object.new("sun",screen,25,true)
+--end
+
+
+screen.SUN_CHANGED:register(function ()
+	sunText:setText(screen.suns)
+end)
+
+
 function loadLevel(level)
-	local aStart = Sequence.new()
+	local lvl=levels[level]
+	sunText:setVisible(false)
+	
+	screen.suns=lvl.suns or 500
+	screen.SUN_CHANGED:invoke()
+	
+	--print(lvl)
+	screen.range=lvl.grid_range or vec(0,0,9,5)
+	--[────────-< UI >-────────]--
+	for key, value in pairs(UIinventory) do
+		value:free()
+	end
+	
+	for i, name in ipairs(inventory) do
+		local ui=Object.new("seed",screen,Identity.IDENTITIES[name])
+		ui:setPos(-109-i*24,-24)
+		ui.sprite:setVisible(false)
+		ui.hitbox:setEnabled(false)
+		uiSun:setVisible(false)
+		UIinventory[i]=ui
+	end
+	
+	--[────────-< Startup Sequence >-────────]--
+	local aStart=Seq.new()
 	
 	aStart:add(1*20,function ()
 		musicPlayer:setTrack(mPlant):play(true)
@@ -218,33 +267,91 @@ function loadLevel(level)
 	
 	aStart:add(6*20,function ()
 		rollGrass(1)
+		uiSun:setVisible(true)
+		sunText:setVisible(true)
+		for i, name in ipairs(inventory) do
+			UIinventory[i].sprite:setVisible(true)
+		end
 	end)
 	
 	aStart:add(7*20,function ()title("ready")end)
 	aStart:add(7.6*20,function ()title("set")end)
-	aStart:add(8.2*20,function ()title("PLANT!",1.2,1)end)
+	aStart:add(8.2*20,function ()
+		title("PLANT!",1.2,1)
+			for i, name in ipairs(inventory) do
+			UIinventory[i].hitbox:setEnabled(true)
+			end
+		end)
 	aStart:add(9*20,function ()musicPlayer:setTrack(mSunny):play(true) end)
 	
+	--message("Click on the seed packet to pick it up!")
+		--message("Click on the grass to plant your seed!")
+		--message("Nicely done!")
+		--message("Click on the falling sun to collect it!")
+		--message("Keep collecting sun!\n You'll need it to grow more plants!")
+		--message("Excellent! You've collected\nenough for your next plant!")
+		--message("Don't let the zombies reach your house!")
+	
 	aStart:add(10*20,function ()
-		
+		if level == 1 then -- hard code the tutorial lmao
+		local scriptedSun
+			message("Click on the seed packet to pick it up!")
+			Seq.new()
+			:add(0,function () 
+				return (not UIinventory[1].isActive) -- pickup peashooter
+			end) 
+			:add(1,function ()
+				message("Click on the grass to plant your seed!")
+				return not next(screen.plants)
+			end)
+			:add(1,function ()
+				message("Nicely done!")
+			end)
+			:add(39,function ()
+				scriptedSun=Object.new("sun",screen,25,true)
+			end)
+			:add(40,function ()
+				message("Click on the falling sun to collect it!")
+				return screen.suns < 75
+			end)
+			:add(41,function ()
+				message("Keep collecting sun!\n You'll need it to grow more plants!")
+			end)
+			:add(101,function ()
+				scriptedSun=Object.new("sun",screen,25,true)
+			end)
+			:add(120,function ()
+				return screen.suns < 100
+			end)
+			:add(121,function ()
+				message("Excellent! You've collected\nenough for your next plant!")
+				return screen.suns ~= 0
+			end)
+			:add(122,function ()
+				message("Don't let the zombies reach your house!")
+			end)
+			:add(182,function ()
+				message()
+			end)
+			:start()
+		end
 	end)
 	
 	aStart:start()
 end
 
-
---loadLevel()
-local peashooter = Object.new("peashooter",screen)
-peashooter:setPos(-100,-108)
+loadLevel(1)
+--local peashooter=Object.new("peashooter",screen)
+--peashooter:setPos(-100,-108)
 		
-for i = 1, 1, 1 do
-	local zambie = Object.new("zombie",screen)
-	zambie:setPos(-200,-108)
-	zambie.isWalking = math.random() > 0.5
-end
+--for i=1, 10, 1 do
+--	local zambie=Object.new("zombie",screen)
+--	zambie:setPos(-260,-120)
+--	zambie.isWalking=math.random() > 0.5
+--end
 
-rollGrass(4)
-setCamTarget(70)
+--rollGrass(4)
+--setCamTarget(70)
 musicPlayer:setTrack(mSunny)
 --musicPlayer:play()
 
@@ -254,22 +361,23 @@ musicPlayer:setTrack(mSunny)
 
 --[────────────────────────-< Game Clock >-────────────────────────]--
 
-local game = Macros.new(function (events, ...)
+local game=Macros.new(function (events, ...)
 	
 	events.WORLD_TICK:register(function ()
 		Object.tick(screen)
-		Sequence.tick()
-		musicPlayer:setPos(client:getCameraPos() + client:getCameraDir())
+		Seq.tick()
+		musicPlayer:setPos(client:getCameraPos()+client:getCameraDir())
+		Hitbox:tick(screen)
 		Debug:setOffset(screen.camPos)
 	end)
 	
 	-- SCREEN BOUNDARIES
 	events.WORLD_RENDER:register(function (delta)
 		
-		--screen:setCamPos(mpos.x*512-256,mpos.y*512-256)
+		screen:setCamPos(screen.camPos)
 		
 		screen:setDir(client:getCameraDir())
-		local t = client:getSystemTime() / 1000
+		local t=client:getSystemTime() / 1000
 		Debug:clear()
 	end)
 end)
@@ -285,35 +393,35 @@ end)
 
 
 
-local isActive = false
-local wasActive = false
+local isActive=false
+local wasActive=false
 events.WORLD_RENDER:register(function (delta)
 	if isActive ~= wasActive then
-		wasActive = isActive
+		wasActive=isActive
 		game:setActive(isActive)
 	end
-	isActive = false
+	isActive=false
 end)
 
 events.SKULL_RENDER:register(function (delta, block, item, entity, ctx)
-	local rightHanded = client:getViewer():getActiveHand() == "MAIN_HAND"
+	local rightHanded=client:getViewer():getActiveHand() == "MAIN_HAND"
 	if ctx:find((rightHanded and "LEFT" or "RIGHT") .."_HAND$") then
-		isActive = true
-		local rot = client:getCameraRot().xy
-		local diff = (rot - (lrot or rot) + 180) % 360 - 180
+		isActive=true
+		local rot=client:getCameraRot().xy
+		local diff=(rot-(lrot or rot)+180)%360-180
 		
-		lrot = rot
+		lrot=rot
 		if rot.x < 89 and rot.x > -89 then -- stops the cursor from freaking out
-			mpos = mpos + diff.yx * SENSITIVITY
+			mpos=mpos+diff.yx * SENSITIVITY
 		end
 		
 		---@cast mpos Vector2
-		mpos.x = math.clamp(mpos.x,0,1)
-		mpos.y = math.clamp(mpos.y,0,1)
+		mpos.x=math.clamp(mpos.x,0,1)
+		mpos.y=math.clamp(mpos.y,0,1)
+		screen:setMousePos(mpos)
 		
-		
-		--modelHardware:setPos(9 * (rightHanded and -1 or 1) + math.lerp(-8,8,mpos.x),4.4+math.lerp(0,12,mpos.y),0):rot(0,0,0)
-		modelHardware:setPos(9 * (rightHanded and -1 or 1),10.5,0):rot(0,0,0)
+		--modelHardware:setPos(9 * (rightHanded and -1 or 1),10.5,0):rot(0,0,0)
+		modelHardware:setPos(9 * (rightHanded and -1 or 1)+math.lerp(-8,8,mpos.x),4.4+math.lerp(0,12,mpos.y),0):rot(0,0,0)
 	else
 		modelHardware:setPos(0,0,-6):scale():rot(90,0,0)
 	end

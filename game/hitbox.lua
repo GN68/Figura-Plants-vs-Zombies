@@ -1,9 +1,9 @@
-local Debug = require("lib.ui.debug")
-local params = require("lib.params")
+local Debug=require("lib.ui.debug")
+local params=require("lib.params")
 
-local SHOW_HITBOXES = true
+local SHOW_HITBOXES=false
 
-local layers = {}
+local layers={}
 
 ---@class Hitbox
 ---@field layer string
@@ -11,8 +11,8 @@ local layers = {}
 ---@field pos Vector2
 ---@field dim Vector4
 ---@field object Object
-local Hitbox = {}
-Hitbox.__index = Hitbox
+local Hitbox={}
+Hitbox.__index=Hitbox
 
 
 local function minmax(vec4)
@@ -23,6 +23,7 @@ local function minmax(vec4)
 	math.min(vec4.y,vec4.w))
 end
 
+local hitboxes={} ---@type table<any,Hitbox>
 
 ---@overload fun(xyzw: Vector4?)
 ---@param object Object
@@ -33,12 +34,12 @@ end
 ---@param layer string?
 ---@return Hitbox
 function Hitbox.new(object,x,y,z,w,layer)
-	local box = (x and y and z and w) and minmax(params.vec4(x,y,z,w)) or vec(0,0,0,0)
-	local new = {
-		object = object,
-		pos = box.xy,
-		dim = box,
-		enabled = true
+	local box=(x and y and z and w) and minmax(params.vec4(x,y,z,w)) or vec(0,0,0,0)
+	local new={
+		object=object,
+		pos=box.xy,
+		dim=box,
+		enabled=true
 	}
 	
 	local function align()
@@ -48,7 +49,7 @@ function Hitbox.new(object,x,y,z,w,layer)
 	object.MOVED:register(align)
 	if SHOW_HITBOXES then
 		Debug.ON_CLEAR:register(function ()
-			local box = new.pos.xyxy + new.dim
+			local box=new.pos.xyxy+new.dim
 			if new.enabled then
 				Debug:setColor(1,0,1)
 			else
@@ -59,23 +60,42 @@ function Hitbox.new(object,x,y,z,w,layer)
 	end
 	setmetatable(new,Hitbox)
 	new:setLayer(layer or "default")
+	hitboxes[new]=true
 	align()
 	return new
 end
 
 function Hitbox:free()
 	if layers[self.layer] then
-		layers[self.layer][self] = nil
+		layers[self.layer][self]=nil
 		Debug.ON_CLEAR:remove(self)
+		hitboxes[self]=nil
 	end
 end
+
+
+---@param screen Screen
+function Hitbox:tick(screen)
+	local player=client:getViewer()
+	
+	--print(gpos)
+	if player:isLoaded() and player:getSwingTime() == 1 then
+		---@param hitbox Hitbox
+		for hitbox in pairs(hitboxes) do
+			if hitbox.enabled and hitbox:isCollidingWitPoint(screen.gmPos) then
+				hitbox.object.identity.processor.CLICK(hitbox.object,screen)
+			end
+		end
+	end
+end
+
 
 ---@overload fun(xy: Vector2)
 ---@param x number
 ---@param y number
 function Hitbox:setPos(x,y)
-	local pos = params.vec2(x,y)
-	self.pos = pos
+	local pos=params.vec2(x,y)
+	self.pos=pos
 	return self
 end
 
@@ -85,8 +105,8 @@ end
 ---@param z number
 ---@param w number
 function Hitbox:setDim(x,y,z,w)
-	local dim = minmax(params.vec4(x,y,z,w))
-	self.dim = dim
+	local dim=minmax(params.vec4(x,y,z,w))
+	self.dim=dim
 	return self
 end
 
@@ -94,11 +114,11 @@ end
 ---@return Hitbox
 function Hitbox:setLayer(layer)
 	if layers[self.layer] then
-		layers[self.layer][self] = nil
+		layers[self.layer][self]=nil
 	end
-	self.layer = layer
-	layers[self.layer] = layers[self.layer] or {}
-	layers[self.layer][self] = true
+	self.layer=layer
+	layers[self.layer]=layers[self.layer] or {}
+	layers[self.layer][self]=true
 	return self
 end
 
@@ -106,15 +126,15 @@ end
 --- Toggles if the hitbox has collision or not.
 ---@param enabled boolean
 function Hitbox:setEnabled(enabled)
-	self.enabled = enabled
-	layers[self.layer][self] = enabled
+	self.enabled=enabled
+	layers[self.layer][self]=enabled
 	return self
 end
 
 ---@param hitbox Hitbox
 function Hitbox:isCollidingWithBox(hitbox)
-	local dim1 = self.pos.xyxy + self.dim
-	local dim2 = hitbox.pos.xyxy + hitbox.dim
+	local dim1=self.pos.xyxy+self.dim
+	local dim2=hitbox.pos.xyxy+hitbox.dim
 	return (
    	dim1.z < dim2.x and
    	dim1.x > dim2.z and
@@ -124,17 +144,30 @@ function Hitbox:isCollidingWithBox(hitbox)
 end
 
 
+function Hitbox:isCollidingWitPoint(x,y)
+	local dim1=self.pos.xyxy+self.dim
+	local pos=params.vec2(x,y)
+	return (
+   	dim1.z < pos.x and
+   	dim1.x > pos.x and
+   	dim1.w < pos.y and
+   	dim1.y > pos.y
+	)
+end
+
+
+
 ---@param layer string
 ---@return Hitbox[]
 function Hitbox:getCollidingBoxes(layer)
 	assert(layers[layer], 'Layer "'..layer..'" does not exist')
-	local collisions = {}
+	local collisions={}
 	---@param box Hitbox
 	---@param enabled boolean
 	for box, enabled in pairs(layers[layer]) do
 		if enabled and box ~= self then
 			if box:isCollidingWithBox(self) then
-				collisions[#collisions+1] = box
+				collisions[#collisions+1]=box
 			end
 		end
 	end

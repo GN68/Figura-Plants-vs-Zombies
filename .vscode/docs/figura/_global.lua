@@ -137,7 +137,7 @@ events = {}
 ---> > local Counter = {value = 0}
 ---> > setmetatable(Counter, {
 ---> >   __call = function(self, n)
----> >     self.value = self.value + (n or 1)
+---> >     self.value = self.value+(n or 1)
 ---> >     return self.value
 ---> >   end
 ---> > })
@@ -321,7 +321,7 @@ events = {}
 ---> > local Range = {min = 5, max = 13}
 ---> > setmetatable(Range, {
 ---> >   __len = function(self)
----> >     return self.max - self.min + 1
+---> >     return self.max-self.min+1
 ---> >   end
 ---> > })
 ---> >
@@ -371,14 +371,14 @@ events = {}
 ---> > ```lua
 ---> > local ComplexMT = {
 ---> >   __add = function(l, r)
----> >     return setmetatable({n = l.n + r.n, i = l.i + r.i}, getmetatable(l))
+---> >     return setmetatable({n = l.n+r.n, i = l.i+r.i}, getmetatable(l))
 ---> >   end
 ---> > }
 ---> > local Complex1 = setmetatable({n = 2, i = 3}, ComplexMT)
 ---> > local Complex2 = setmetatable({n = 1, i = 5}, ComplexMT)
 ---> >
 ---> > print(Complex1)            --> (2+3i)
----> > print(Complex1 + Complex2) --> (3+8i)
+---> > print(Complex1+Complex2) --> (3+8i)
 ---> > ```
 ---***
 ---&nbsp;  
@@ -403,8 +403,8 @@ events = {}
 ---> > })
 ---> >
 ---> > print(CustomString)               --> {"hello world"}
----> > print(CustomString - "o")         --> {"hell wrld"}
----> > print(CustomString - "he" - "or") --> {"llo wld"}
+---> > print(CustomString-"o")         --> {"hell wrld"}
+---> > print(CustomString-"he"-"or") --> {"llo wld"}
 ---> > ```
 ---***
 ---&nbsp;  
@@ -488,7 +488,7 @@ events = {}
 ---> >
 ---> > Action()         --> hi!
 ---> >
----> > local RareAction = 20 % Action
+---> > local RareAction = 20%Action
 ---> > RareAction()     --> [20% chance to print "hi!", 80% chance to print nothing]
 ---> >
 ---> > local LessRareAction = 200% RareAction
@@ -1456,7 +1456,7 @@ figuraMetatables = {
     __tostring = function(self) end
   },
 
-  --[[ <sck> If you know what this is and have access to it, add a - to the start of this line to re-enable these.
+  --[[ <sck> If you know what this is and have access to it, add a-to the start of this line to re-enable these.
 
   ---The metatable for `Socket`.
   Socket = {

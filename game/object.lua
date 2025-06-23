@@ -1,14 +1,14 @@
-local params = require("lib.params")
+local params=require("lib.params")
 
-local Debug = require("lib.ui.debug")
-local Sprite = require("lib.ui.sprite")
+local Debug=require("lib.ui.debug")
+local Sprite=require("lib.ui.sprite")
 
-local Event = require("lib.event")
-local Hitbox = require("game.hitbox")
+local Event=require("lib.event")
+local Hitbox=require("game.hitbox")
 
-local Identity = require("game.identity")
+local Identity=require("game.identity")
 
-local objects = {} ---@type table<Object,true>
+local objects={} ---@type table<Object,true>
 
 ---@class Object
 ---@field identity Object.Identity
@@ -18,24 +18,24 @@ local objects = {} ---@type table<Object,true>
 ---@field hitbox Hitbox
 ---@field screen Screen
 ---@field MOVED Event
-local Object = {}
-Object.__index = Object
+local Object={}
+Object.__index=Object
 
 ---@param identityName Object.Identity
-function Object.new(identityName,screen)
-	local identity = Identity.IDENTITIES[identityName]
-	local new = {
-		identity = identity,
-		pos = vec(0,0),
-		health = identity.maxHealth,
-		sprite = Sprite.new(screen),
-		screen = screen,
-		MOVED = Event.new(),
+function Object.new(identityName,screen,...)
+	local identity=Identity.IDENTITIES[identityName]
+	local new={
+		identity=identity,
+		pos=vec(0,0),
+		health=identity.maxHealth,
+		sprite=Sprite.new(screen),
+		screen=screen,
+		MOVED=Event.new(),
 	}
-	new.hitbox = Hitbox.new(new)
-	new = setmetatable(new,Object)
-	identity.processor.ENTER(new,screen)
-	objects[new] = true
+	new.hitbox=Hitbox.new(new)
+	new=setmetatable(new,Object)
+	identity.processor.ENTER(new,screen,...)
+	objects[new]=true
 	return new
 end
 
@@ -44,12 +44,12 @@ function Object:free()
 	self.identity.processor.EXIT(self,self.screen)
 	self.sprite:free()
 	self.hitbox:free()
-	objects[self] = nil
+	objects[self]=nil
 end
 
 
 function Object:damage(amount)
-	self.health = self.health - amount
+	self.health=self.health-amount
 	if self.health <= 0 then
 		self.identity.processor.DEATH(self,self.screen)
 	else
@@ -64,8 +64,8 @@ end
 ---@param y number
 ---@return Object
 function Object:setPos(x,y)
-	local pos = params.vec2(x,y)
-	self.pos = pos
+	local pos=params.vec2(x,y)
+	self.pos=pos
 	self.sprite:setPos(pos)
 	self.MOVED:invoke()
 	return self
@@ -76,8 +76,8 @@ end
 ---@param y number
 ---@return Object
 function Object:move(x,y)
-	local pos = params.vec2(x,y) + self.pos
-	self.pos = pos
+	local pos=params.vec2(x,y)+self.pos
+	self.pos=pos
 	self.sprite:setPos(pos)
 	self.hitbox:setPos(pos)
 	self.MOVED:invoke()
@@ -92,7 +92,7 @@ end
 ---@param w number
 ---@return Object
 function Object:setDim(x,y,z,w)
-	self.hitbox = params.vec4(x,y,z,w)
+	self.hitbox=params.vec4(x,y,z,w)
 	return self
 end
 

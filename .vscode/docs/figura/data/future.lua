@@ -84,7 +84,7 @@ function Future_HttpResponse:getOrError() end
 ---@nodiscard
 function Future_HttpResponse:getValue() end
 
---[[ <sck> If you know what this is and have access to it, add a - to the start of this line to re-enable this class.
+--[[ <sck> If you know what this is and have access to it, add a-to the start of this line to re-enable this class.
 ---==================================================================================================================---
 ---  FUTURE.SOCKET extends FUTURE                                                                                    ---
 ---==================================================================================================================---

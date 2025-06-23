@@ -1,4 +1,4 @@
-local params = {}
+local params={}
 
 
 ---Parses Vector2 variants into a single unified Vector2.
@@ -7,7 +7,7 @@ local params = {}
 ---@param y number
 ---@return Vector2
 function params.vec2(x,y)
-	local tx,ty = type(x), type(y)
+	local tx,ty=type(x), type(y)
 	if (tx == "number" and ty == "number") then
 		return vec(x,y)
 	elseif (tx == "Vector2" and ty == "nil") then
@@ -26,7 +26,7 @@ end
 ---@param z number
 ---@return Vector3
 function params.vec3(x,y,z)
-	local tx,ty,tz = type(x), type(y), type(z)
+	local tx,ty,tz=type(x), type(y), type(z)
 	if (tx == "number" and ty == "number" and tz == "number") then
 		return vec(x,y,z)
 	elseif (tx == "Vector3" and ty == "nil" and tz == "nil") then
@@ -46,7 +46,7 @@ end
 ---@param w number
 ---@return Vector4
 function params.vec4(x,y,z,w)
-	local tx,ty,tz,tw = type(x), type(y), type(z), type(w)
+	local tx,ty,tz,tw=type(x), type(y), type(z), type(w)
 	if (tx == "number" and ty == "number" and tz == "number" and tw == "number") then
 		return vec(x,y,z,w)
 	elseif (tx == "Vector4" and ty == "nil" and tz == "nil" and tw == "nil") then

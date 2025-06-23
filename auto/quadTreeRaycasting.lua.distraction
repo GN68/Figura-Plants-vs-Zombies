@@ -1,14 +1,14 @@
-local screen = models:newPart("quadTreeScreen","HUD")
+local screen=models:newPart("quadTreeScreen","HUD")
 
 do
-	local size = client:getScaledWindowSize()/16
+	local size=client:getScaledWindowSize()/16
 	screen:scale(-size.x,-size.y,0)
 end
 
-local DEBUG = 1
+local DEBUG=1
 
 ---@type Minecraft.blockID[]
-local blocks = {
+local blocks={
 	"minecraft:light_blue_stained_glass",
 	"minecraft:blue_stained_glass",
 	"minecraft:lime_stained_glass",
@@ -17,20 +17,20 @@ local blocks = {
 	"minecraft:red_stained_glass"
 }
 
-local bid = 0
+local bid=0
 local function box(dim,i)
 	if DEBUG ~= 1 then return end
-	bid = bid + 1
-	local id = bid.."e"
+	bid=bid+1
+	local id=bid.."e"
 	if i > 5 then return end
-	local sx,sy = dim.z-dim.x,dim.w-dim.y
+	local sx,sy=dim.z-dim.x,dim.w-dim.y
 	screen:newBlock(id):block(blocks[i]):scale(sx,sy,0):pos(dim.x*16,dim.y*16,0)
 	return id
 end
 
 local function clear()
 	if DEBUG ~= 1 then return end
-	bid = 0
+	bid=0
 	screen:removeTask()
 end
 
@@ -43,23 +43,23 @@ end
 ---@field dim Vector4
 
 
-local MAX_STEPS = 6
-local MAX_DIST = 10             ^ 2
+local MAX_STEPS=6
+local MAX_DIST=10             ^ 2
 
-local mat = matrices.mat4()
+local mat=matrices.mat4()
 
 local function raycastScreen(x,y)
-	local cpos = client:getCameraPos()
+	local cpos=client:getCameraPos()
 	
-	local block, pos = raycast:block(cpos, cpos + mat:applyDir((0.5-x)*20,(0.5-y)*20,10))
+	local block, pos=raycast:block(cpos, cpos+mat:applyDir((0.5-x)*20,(0.5-y)*20,10))
 	
 	return block:getPos()
 end
 
 --[[
 events.TICK:register(function ()
-	local size = client:getWindowSize()
-	local pos = client:getMousePos()/size
+	local size=client:getWindowSize()
+	local pos=client:getMousePos()/size
 	raycastScreen(pos.x,pos.y)
 end)
 --]]
@@ -69,43 +69,43 @@ local function bilinear(dim,x,y)
 end
 
 local function quadTreeCast(dim, step)
-	local id = box(dim,step)
+	local id=box(dim,step)
 	if step >= MAX_STEPS then return end
-	local p1 = raycastScreen(bilinear(dim,0.33,0.33))
-	local p2 = raycastScreen(bilinear(dim,0.66,0.33))
-	local split = false
-	if p1 ~= p2 then split = true end
+	local p1=raycastScreen(bilinear(dim,0.33,0.33))
+	local p2=raycastScreen(bilinear(dim,0.66,0.33))
+	local split=false
+	if p1 ~= p2 then split=true end
 	
 	if not split then
-		local p3 = raycastScreen(bilinear(dim,0.33,0.66))
-		if p2 ~= p3 then split = true end
+		local p3=raycastScreen(bilinear(dim,0.33,0.66))
+		if p2 ~= p3 then split=true end
 		if not split then
-			local p4 = raycastScreen(bilinear(dim,0.66,0.66))
-			if p3 ~= p4 then split = true end
+			local p4=raycastScreen(bilinear(dim,0.66,0.66))
+			if p3 ~= p4 then split=true end
 		end
 	end
 	
 	if split  then
-		local from = dim.xy ---@cast from Vector2
-		local to = dim.zw ---@cast to Vector2
-		local center = math.lerp(from,to,0.5) ---@cast center Vector2
-		quadTreeCast(vec(from.x,from.y, center.x,center.y), step + 1)
-		quadTreeCast(vec(center.x,from.y, to.x,center.y), step + 1)
-		quadTreeCast(vec(from.x,center.y, center.x,to.y), step + 1)
-		quadTreeCast(vec(center.x,center.y, to.x,to.y), step + 1)
+		local from=dim.xy ---@cast from Vector2
+		local to=dim.zw ---@cast to Vector2
+		local center=math.lerp(from,to,0.5) ---@cast center Vector2
+		quadTreeCast(vec(from.x,from.y, center.x,center.y), step+1)
+		quadTreeCast(vec(center.x,from.y, to.x,center.y), step+1)
+		quadTreeCast(vec(from.x,center.y, center.x,to.y), step+1)
+		quadTreeCast(vec(center.x,center.y, to.x,to.y), step+1)
 		
 		remove(id)
 	end
 end
 
 events.TICK:register(function ()
-	local rot = client:getCameraRot()
+	local rot=client:getCameraRot()
 
-local size = client:getWindowSize()
-local aspectRatio = size.x/size.y
-local scale = math.tan(math.rad(client:getFOV()/2))
+local size=client:getWindowSize()
+local aspectRatio=size.x/size.y
+local scale=math.tan(math.rad(client:getFOV()/2))
 
-mat = matrices.mat4()
+mat=matrices.mat4()
 mat:scale(2*scale*aspectRatio,2*scale,1)
 mat:rotate(rot.x,-rot.y)
 clear()

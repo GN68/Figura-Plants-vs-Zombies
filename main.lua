@@ -1,7 +1,7 @@
 
 
 --[[ <- separate to enable
-figuraMetatables.HostAPI.__index.isHost = function () return false end
+figuraMetatables.HostAPI.__index.isHost=function () return false end
 --]]
 
 

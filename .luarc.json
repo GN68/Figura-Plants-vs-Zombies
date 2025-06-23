@@ -291,7 +291,8 @@
             "lowercase-global",
             "redefined-local",
             "assign-type-mismatch",
-            "param-type-mismatch"
+            "param-type-mismatch",
+            "undefined-field"
     ],
 
     // Group severity is not used by the docs.

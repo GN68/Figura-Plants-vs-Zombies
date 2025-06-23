@@ -1365,7 +1365,7 @@ Vector.cross = nil
 ---@type «deprecated»
 ---`.distanceTo` is deprecated. It has no direct replacement.
 ---
----The distance between two vectors can be calculated with the following: `(<VectorA> - <VectorB>):length()`.
+---The distance between two vectors can be calculated with the following: `(<VectorA>-<VectorB>):length()`.
 ---@deprecated [[Has code replacement]]
 Vector.distanceTo = nil
 

@@ -4,7 +4,7 @@
 / /_/ / /|  / Allows you to play animations with ease.
 \____/_/ |_/ https://github.com/lua-gods/GNs-Avatar-3/blob/main/lib/GNanimClassic.lua]]
 
-local tween = require("lib.tween")
+local tween=require("lib.tween")
 
 ---@class animationStateMachine
 ---@field id integer
@@ -12,23 +12,23 @@ local tween = require("lib.tween")
 ---@field last_animation Animation?
 ---@field blend_time number
 ---@field queue_next table<any,Animation>
-local animationStateMachine = {}
-animationStateMachine.__index = animationStateMachine
+local animationStateMachine={}
+animationStateMachine.__index=animationStateMachine
 
-local next_free = 0
+local next_free=0
 ---@return animationStateMachine
 function animationStateMachine.new()
-   local new = {}
-   new.blend_time = 1
-   new.queue_next = {}
-   new.id = next_free
+   local new={}
+   new.blend_time=1
+   new.queue_next={}
+   new.id=next_free
    setmetatable(new,animationStateMachine)
-   next_free = next_free + 1
+   next_free=next_free+1
    return new
 end
 
 function animationStateMachine:setBlendTime(seconds)
-   self.blend_time = seconds
+   self.blend_time=seconds
    return self
 end
 
@@ -40,9 +40,9 @@ end
 function animationStateMachine:setAnimation(animation,force)
    -- if different
    if animation ~= self.current_animation or force then
-      self.last_animation = self.current_animation
-      self.current_animation = animation
-      local a,b = self.current_animation,self.last_animation
+      self.last_animation=self.current_animation
+      self.current_animation=animation
+      local a,b=self.current_animation,self.last_animation
       if a then a:setBlend(0):stop():play() end
       tween.new{
 			from=0,
@@ -62,4 +62,4 @@ function animationStateMachine:setAnimation(animation,force)
    return self
 end
 
-return {new = animationStateMachine.new}
+return {new=animationStateMachine.new}

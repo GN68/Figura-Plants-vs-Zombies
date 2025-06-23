@@ -40,7 +40,7 @@ so all of this comment will be stripped out before being processed by Figura.
 -- Adapted from https://github.com/EmmanuelOga/easing. See LICENSE.txt for credits.
 -- Heavily modified to be normalized
 
-local pow, sin, cos, pi, sqrt, asin = math.pow, math.sin, math.cos, math.pi, math.sqrt, math.asin
+local pow, sin, cos, pi, sqrt, asin=math.pow, math.sin, math.cos, math.pi, math.sqrt, math.asin
 
 -- Linear
 local function linear(t)
@@ -53,14 +53,14 @@ local function inQuad(t)
 end
 
 local function outQuad(t)
-	return -t * (t - 2)
+	return -t * (t-2)
 end
 
 local function inOutQuad(t)
-	t = t * 2
+	t=t * 2
 	if t < 1 then return 0.5 * t^2 end
-	t = t - 1
-	return -0.5 * (t * (t - 2) - 1)
+	t=t-1
+	return -0.5 * (t * (t-2)-1)
 end
 
 ---@alias EaseTypes string
@@ -118,41 +118,41 @@ end
 
 
 ---@class Tween
-local Tween = {
-	easings = {
-  linear    = linear,
-  inQuad    = inQuad,    outQuad    = outQuad,    inOutQuad    = inOutQuad}
+local Tween={
+	easings={
+  linear   =linear,
+  inQuad   =inQuad,    outQuad   =outQuad,    inOutQuad   =inOutQuad}
 }
 
-local queries = {}
+local queries={}
 local sysTime
 
-local tweenProcessor = models:newPart("TweenProcessor","WORLD") -- set to "WORLD" so it always runs when the player is loaded
+local tweenProcessor=models:newPart("TweenProcessor","WORLD") -- set to "WORLD" so it always runs when the player is loaded
 
-local isActive = false
+local isActive=false
 local setActive ---@type function
 
 local function process()
-	sysTime = client:getSystemTime() / 1000
+	sysTime=client:getSystemTime() / 1000
 	for id, tween in pairs(queries) do
-		local duration = (sysTime - tween.start) / tween.duration
+		local duration=(sysTime-tween.start) / tween.duration
 		if duration < 1 then
-			local w = tween.easing(duration)
+			local w=tween.easing(duration)
 			tween.tick(math.lerp(tween.from,tween.to, w), duration)
 		else
 			tween.tick(tween.to, 1)
 			tween.onFinish()
 			setActive(next(queries) and true or false)
-			queries[id] = nil
+			queries[id]=nil
 		end
 	end
 end
 
 
-setActive = function (toggle)
+setActive=function (toggle)
 	if isActive ~= toggle then
-		tweenProcessor.midRender = toggle and process or nil
-		isActive = toggle
+		tweenProcessor.midRender=toggle and process or nil
+		isActive=toggle
 	end
 end
 
@@ -191,8 +191,8 @@ end
 ---
 ---@field tick fun(v : number|Vector.any,t : number)
 ---@field onFinish function?
-local TweenInstance = {}
-TweenInstance.__index = TweenInstance
+local TweenInstance={}
+TweenInstance.__index=TweenInstance
 
 local function placeholder() end
 
@@ -215,27 +215,27 @@ local function placeholder() end
 ---@param cfg TweenInstanceCreation
 ---@return TweenInstance
 function Tween.new(cfg)
-	local id = cfg.id or #queries + 1
+	local id=cfg.id or #queries+1
 	---@type TweenInstance
 	
-	local new = {
-		start = isActive and sysTime or (client:getSystemTime()/1000),
-		from = cfg.from or 0,
-		to = cfg.to or 1,
-		period = cfg.period or 1,
-		overshoot = cfg.overshoot or 5,
-		duration = cfg.duration or 1,
-		easing = Tween.easings[cfg.easing] or (type(cfg.easing) == "function" and cfg.easing) or linear,
-		tick = cfg.tick or placeholder,
-		onFinish = cfg.onFinish or placeholder,
-		id = cfg.id
+	local new={
+		start=isActive and sysTime or (client:getSystemTime()/1000),
+		from=cfg.from or 0,
+		to=cfg.to or 1,
+		period=cfg.period or 1,
+		overshoot=cfg.overshoot or 5,
+		duration=cfg.duration or 1,
+		easing=Tween.easings[cfg.easing] or (type(cfg.easing) == "function" and cfg.easing) or linear,
+		tick=cfg.tick or placeholder,
+		onFinish=cfg.onFinish or placeholder,
+		id=cfg.id
 	}
-	setmetatable(new, {__index = Tween})
+	setmetatable(new, {__index=Tween})
 	new.tick(new.from, 0)
-	queries[id] = new
+	queries[id]=new
 	
 	setActive(true)
-	return id
+	return new
 end
 
 ---Stops this TweenInstance
@@ -256,7 +256,7 @@ function Tween.stop(id, cancel)
 	if not cancel and queries[id] then
 		queries[id].onFinish()
 	end
-	queries[id] = nil
+	queries[id]=nil
 end
 
 return Tween

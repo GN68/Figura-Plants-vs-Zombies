@@ -5,20 +5,20 @@
 ---@field trackingKeyframe integer
 ---@field time integer
 ---@field isActive boolean
-local Sequence = {}
-Sequence.__index = Sequence
+local Sequence={}
+Sequence.__index=Sequence
 
-local active = {}
+local active={}
 
 ---Creates a new sequence
 ---@return Sequence
 function Sequence.new()
-	local new = {}
+	local new={}
 	setmetatable(new,Sequence)
-	new.keyframes = {}
-	new.time = 0
-	new.trackingKeyframe = 1
-	new.isActive = false
+	new.keyframes={}
+	new.time=0
+	new.trackingKeyframe=1
+	new.isActive=false
 	return new
 end
 
@@ -28,54 +28,47 @@ end
 ---@param func function
 ---@return Sequence
 function Sequence:add(time,func)
-	local found = false
-	for i = 1, #self.keyframes, 1 do
+	local found=false
+	for i=1, #self.keyframes, 1 do
 		if self.keyframes[i].time > time then
-			table.insert(self.keyframes,i,{time = time,func = func})
-			found = true
+			table.insert(self.keyframes,i,{time=time,func=func})
+			found=true
 			break
 		end
 	end
 	if not found then
-		table.insert(self.keyframes,{time = time,func = func})
+		table.insert(self.keyframes,{time=time,func=func})
 	end
 	return self
 end
 
 function Sequence:start()
-	self.time = 0
-	self.trackingKeyframe = 1
-	self.isActive = true
-	active[self] = true
-end
-
----@param func fun():boolean
----@return Sequence
-function Sequence:waitUntilTrue(func)
-	if not func() then -- push the track back a tick
-		self.time = self.time - 1
-		self.trackingKeyframe = self.trackingKeyframe - 1
-	end
-	return self
+	self.time=0
+	self.trackingKeyframe=1
+	self.isActive=true
+	active[self]=true
 end
 
 
 function Sequence:process()
 	if self.isActive then
-		local tracking = self.keyframes[self.trackingKeyframe]
+		local tracking=self.keyframes[self.trackingKeyframe]
 		if tracking.time <= self.time then
-			tracking.func()
-			self.trackingKeyframe = self.trackingKeyframe + 1
+			if tracking.func() then
+				self.time=self.time-1
+			else
+				self.trackingKeyframe=self.trackingKeyframe+1
+			end
 		end
 	
 		if self.trackingKeyframe > #self.keyframes then
-			self.time = 0
-			self.trackingKeyframe = 1
-			self.isActive = false
-			active[self] = nil
+			self.time=0
+			self.trackingKeyframe=1
+			self.isActive=false
+			active[self]=nil
 			return
 		end
-		self.time = self.time + 1
+		self.time=self.time+1
 	end
 end
 

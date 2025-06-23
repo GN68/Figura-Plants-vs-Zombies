@@ -1,9 +1,9 @@
 ### Class Name: `Macros`
 lets you contain Figura events and toggle them
 ```lua
-local Macros = require("lib.macros")
+local Macros=require("lib.macros")
 
-local macro = Macros.new(function (events, ...)
+local macro=Macros.new(function (events, ...)
 	-- triggers when the player is loaded and the macro is enabled
 	events.ENTITY_INIT:register(function ()
 		print("INIT")

@@ -278,7 +278,7 @@ function ClientAPI.getShaderPackName() end
 ---
 ---The string follows this format:
 ---```js
----Sounds: <current>/<max> + <currentStreamed>/<maxStreamed> (Mood <moodProgress>%)
+---Sounds: <current>/<max>+<currentStreamed>/<maxStreamed> (Mood <moodProgress>%)
 ---```
 ---Suggested match pattern:
 ---```lua

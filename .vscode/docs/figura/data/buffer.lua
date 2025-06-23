@@ -119,7 +119,7 @@ function Buffer:readInt() end
 function Buffer:readIntLE() end
 
 ---**Using this method is not recommended!**  
----Lua numbers can only store integers up to `2^53 - 1`.  
+---Lua numbers can only store integers up to `2^53-1`.  
 ---Instead it may be preferrable to read two integers from this buffer.
 ---> ***
 ---
@@ -133,7 +133,7 @@ function Buffer:readIntLE() end
 function Buffer:readLong() end
 
 ---**Using this method is not recommended!**  
----Lua numbers can only store integers up to `2^53 - 1`.  
+---Lua numbers can only store integers up to `2^53-1`.  
 ---Instead it may be preferrable to read two integers from this buffer.
 ---> ***
 ---
@@ -263,7 +263,7 @@ function Buffer:writeInt(value) end
 function Buffer:writeIntLE(value) end
 
 ---**Using this method is not recommended!**  
----Lua numbers can only store integers up to `2^53 - 1`.  
+---Lua numbers can only store integers up to `2^53-1`.  
 ---Instead it may be preferrable to write two integers to this buffer.
 ---> ***
 ---
@@ -275,7 +275,7 @@ function Buffer:writeIntLE(value) end
 function Buffer:writeLong(value) end
 
 ---**Using this method is not recommended!**  
----Lua numbers can only store integers up to `2^53 - 1`.  
+---Lua numbers can only store integers up to `2^53-1`.  
 ---Instead it may be preferrable to write two integers to this buffer.
 ---> ***
 ---

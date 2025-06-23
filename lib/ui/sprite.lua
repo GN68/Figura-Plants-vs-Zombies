@@ -1,7 +1,7 @@
-local params = require("lib.params")
+local params=require("lib.params")
 
-local CLIP = true
-local MARGIN = 0.00001
+local CLIP=true
+local MARGIN=0.00001
 
 ---@class Sprite
 ---@field id integer
@@ -14,27 +14,27 @@ local MARGIN = 0.00001
 ---@field alpha number
 ---@field task SpriteTask
 ---@field isVisible boolean
-local Sprite = {}
-Sprite.__index = Sprite
+local Sprite={}
+Sprite.__index=Sprite
 
 
-local nextID = 0
+local nextID=0
 ---@param screen Screen
 ---@param frame Frame?
 ---@return Sprite
 function Sprite.new(screen,frame)
-	local new = setmetatable({},Sprite)
-	new.id = nextID
-	new.pos = vec(0,0)
-	new.size = vec(1,1)
-	new.frame = frame
-	new.screen = screen
-	new.layer = 0
-	new.isVisible = true
-	screen.sprites[nextID] = new
-	new.color = vec(1,1,1)
-	new.alpha = 1
-	new.task = screen.model:newSprite("sprite"..nextID):renderType("CUTOUT_CULL"):light(15,15)
+	local new=setmetatable({},Sprite)
+	new.id=nextID
+	new.pos=vec(0,0)
+	new.size=vec(1,1)
+	new.frame=frame
+	new.screen=screen
+	new.layer=0
+	new.isVisible=true
+	screen.sprites[nextID]=new
+	new.color=vec(1,1,1)
+	new.alpha=1
+	new.task=screen.model:newSprite("sprite"..nextID):renderType("CUTOUT_CULL"):light(15,15)
 	
 	screen.CAMERA_MOVED:register(function ()
 		new:updateBounds()
@@ -42,25 +42,25 @@ function Sprite.new(screen,frame)
 	
 	new:setFrame(frame)
 	new:setPos(0,0)
-	nextID = nextID + 1
+	nextID=nextID+1
 	return new
 end
 
 
 function Sprite:free()
 	self.task:remove()
-	self.screen.sprites[self.id] = nil
+	self.screen.sprites[self.id]=nil
 end
 
 
 function Sprite:setFrame(frame)
-	self.frame = frame
+	self.frame=frame
 	self:updateTexture()
 end
 
 
 function Sprite:setLayer(layer)
-	self.layer = layer
+	self.layer=layer
 	self:updateBounds()
 	return self
 end
@@ -71,7 +71,7 @@ end
 function Sprite:setVisible(visible)
 	if self.isVisible ~= visible then
 		self.task:setVisible(visible)
-		self.isVisible = visible
+		self.isVisible=visible
 		if visible then
 			self:updateTexture()
 		end
@@ -82,8 +82,8 @@ end
 
 ---@return Sprite
 function Sprite:copy()
-	local new = Sprite.new(self.screen,self.frame)
-	new.color = self.color
+	local new=Sprite.new(self.screen,self.frame)
+	new.color=self.color
 	return new
 end
 
@@ -93,8 +93,8 @@ end
 ---@param y number
 ---@return Sprite
 function Sprite:setPos(x,y)
-	local vec2 = params.vec2(x,y)
-	self.pos = vec2
+	local vec2=params.vec2(x,y)
+	self.pos=vec2
 	self:updateBounds()
 	return self
 end
@@ -106,8 +106,8 @@ end
 ---@param b number
 ---@return Sprite
 function Sprite:setColor(r,g,b)
-	local clr = params.vec3(r,g,b)
-	self.color = clr
+	local clr=params.vec3(r,g,b)
+	self.color=clr
 	self.task:setColor(clr.x,clr.y,clr.z,self.alpha)
 	return self
 end
@@ -116,8 +116,8 @@ end
 ---@return Sprite
 function Sprite:setAlpha(a)
 	self.task:setRenderType("EMISSIVE")
-	self.alpha = a
-	local clr = self.color
+	self.alpha=a
+	local clr=self.color
 	self.task:setColor(clr.x,clr.y,clr.z,a)
 	return self
 end
@@ -128,23 +128,23 @@ end
 ---@param y number
 ---@return boolean
 function Sprite:isPointInside(x,y)
-	local vec2 = params.vec2(x,y)
-	local gpos = self.pos + self.screen.camPos
+	local vec2=params.vec2(x,y)
+	local gpos=self.pos+self.screen.camPos
 	return vec2.x >= gpos.x 
 	and vec2.y >= gpos.y 
-	and vec2.x < gpos.x + self.size.x
-	and vec2.y < gpos.y + self.size.y
+	and vec2.x < gpos.x+self.size.x
+	and vec2.y < gpos.y+self.size.y
 end
 
 
 ---@param Sprite Sprite
 function Sprite:isTouching(Sprite)
-	local pos = Sprite.pos
-	local size2 = Sprite.size
+	local pos=Sprite.pos
+	local size2=Sprite.size
 	
 	-- expand the box by the size of the other box, so the other box can be computed as a point.
-	local from = self.pos - size2
-	local to = self.pos + self.size
+	local from=self.pos-size2
+	local to=self.pos+self.size
 
 	return pos.x > from.x
 	and pos.y > from.y
@@ -158,13 +158,13 @@ function Sprite:updateTexture()
 	if not self.isVisible then 
 		return self
 	end
-	local frame = self.frame
+	local frame=self.frame
 	if frame then
-		local tex = frame.texture
-		local size = frame.dim
+		local tex=frame.texture
+		local size=frame.dim
 		self.task
 		:texture(tex,size.x,size.y)
-		self.size = size
+		self.size=size
 		self:updateBounds()
 	end
 	return self
@@ -175,32 +175,32 @@ function Sprite:updateBounds()
 	if not self.isVisible and not self.frame then 
 		return self
 	end
-	local frame = self.frame
+	local frame=self.frame
 	if frame  then
-		local size = self.size
-		local gpos = (self.pos + self.screen.camPos + size + frame.offset):floor()
-		local sSize = self.screen.resolution
-		local spriteBounds = gpos.xyxy - size.__xy -- I love swizzling lmao
-		local uv = frame.UVn
+		local size=self.size
+		local gpos=(self.pos+self.screen.camPos+size+frame.offset):floor()
+		local sSize=self.screen.resolution
+		local spriteBounds=gpos.xyxy-size.__xy -- I love swizzling lmao
+		local uv=frame.UVn
 		
-		local extents = vec(
+		local extents=vec(
 			math.min(0,-spriteBounds.x),
 			math.min(0,-spriteBounds.y),
 			math.min(0,spriteBounds.z+sSize.x),
 			math.min(0,spriteBounds.w+sSize.y)
 		)
 		
-		local UVExtents = extents / frame.texDim.xyxy
+		local UVExtents=extents / frame.texDim.xyxy
 		
-		local sDir = self.screen.dir
-		local dir = vec(0,-sDir.xz:length(),sDir.y)
-		self.task:pos(gpos.x,gpos.y,(gpos.y/sSize.y)*0.02 + (gpos.x/sSize.x)*0.01 - 0.04*self.layer - 0.015)
+		local sDir=self.screen.dir
+		local dir=vec(0,-sDir.xz:length(),sDir.y)
+		self.task:pos(gpos.x,gpos.y,(gpos.y/sSize.y)*0.02+(gpos.x/sSize.x)*0.01-0.04*self.layer-0.015)
 		
 		if not CLIP then
-			extents = vec(0,0,0,0)
-			UVExtents = vec(0,0,0,0)
+			extents=vec(0,0,0,0)
+			UVExtents=vec(0,0,0,0)
 		end
-		local verts = self.task:getVertices()
+		local verts=self.task:getVertices()
 		-- flipped Z layout
 		-- Bottom Left
 		verts[1]

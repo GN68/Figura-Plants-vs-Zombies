@@ -1,7 +1,7 @@
 
 ---A singleton class for handling colors.
 ---@class Color
-Color = {}
+Color={}
 
 ---Parses a color from different formats into a Vector4.
 ---@overload fun(hex : string): Vector4
@@ -11,8 +11,8 @@ Color = {}
 ---@param b number
 ---@param a number
 ---@return Vector4
-Color.parseColor = function (r,g,b,a)
-	local t = type(r)
+Color.parseColor=function (r,g,b,a)
+	local t=type(r)
 	if t == "string" then
 		if r:find("^#") or r:match("%x%x%x%x%x%x") then
 			return vectors.hexToRGB(r):augmented()

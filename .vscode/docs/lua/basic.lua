@@ -12,7 +12,7 @@ _G = {}
 ---
 ---~~[View documents](command:extension.lua.doc?["en-us/52/manual.html/pdf-_VERSION"])~~  
 ---This variable has been modified by Figura and does not have the same value as in normal Lua 5.2.
-_VERSION = "Lua 5.2 - Figura"
+_VERSION = "Lua 5.2-Figura"
 
 
 ---==================================================================================================================---

@@ -1,7 +1,7 @@
-local utils = {}
+local utils={}
 
 local function deepCopy(part)
-	local copy = part:copy(part:getName())
+	local copy=part:copy(part:getName())
 	for key, value in pairs(part:getTask()) do
 		copy:addTask(value)
 	end
@@ -14,7 +14,7 @@ end
 
 
 function utils.shallowCopy(part)
-	local copy = part:copy(part:getName())
+	local copy=part:copy(part:getName())
 	for key, value in pairs(part:getTask()) do
 		copy:addTask(value)
 	end

@@ -5,11 +5,11 @@
 ---@field data table
 ---@field lastData table
 ---@field [any] string
-local diffTable = {}
-diffTable.__index = function (t,k)
+local diffTable={}
+diffTable.__index=function (t,k)
 	return rawget(t,k) or t.data[k] or diffTable[k]
 end
-diffTable.__newindex = function(t,k,v)
+diffTable.__newindex=function(t,k,v)
 	diffTable.set(t,k,v)
 end
 
@@ -20,12 +20,12 @@ local function placeholder() end
 ---@param onModify (fun(key:any,value: any,...:any):any)?
 ---@return diffTable
 function diffTable.new(onAdd, onRemove, onModify)
-	local self = {
-		__ON_ADD = onAdd or placeholder,
-		__ON_REMOVE = onRemove or placeholder,
-		__ON_MODIFY = onModify or placeholder,
-		data = {},
-		lastData = {},
+	local self={
+		__ON_ADD=onAdd or placeholder,
+		__ON_REMOVE=onRemove or placeholder,
+		__ON_MODIFY=onModify or placeholder,
+		data={},
+		lastData={},
 	}
 	setmetatable(self, diffTable)
 	return self
@@ -36,21 +36,21 @@ end
 ---@param value any
 ---@param ... any
 function diffTable:set(key, value, ...)
-	local lastData = self.data[key]
-	local ret = {}
+	local lastData=self.data[key]
+	local ret={}
 	if lastData ~= value then -- if not the same
-		--self.data[key] = value
+		--self.data[key]=value
 		if type(value) ~= "nil" then -- if data exists
 			if lastData == nil then -- if slot was empty
-				pData = self.__ON_ADD(key,value,...)
+				pData=self.__ON_ADD(key,value,...)
 			else -- if the same
-				pData = self.__ON_MODIFY(key,value,...)
+				pData=self.__ON_MODIFY(key,value,...)
 			end
 		else -- if data being set doesn't exist
-			pData = self.__ON_REMOVE(key,self.data[key],...)
+			pData=self.__ON_REMOVE(key,self.data[key],...)
 		end
 	end
-	self.data[key] = pData
+	self.data[key]=pData
 	return pData
 end
 
@@ -60,8 +60,8 @@ end
 
 
 function diffTable:update()
-	self.lastData = self.data
-	self.data = {}
+	self.lastData=self.data
+	self.data={}
 end
 
 
@@ -73,7 +73,7 @@ print("============================")
 
 print("Callback Testing")
 
-local diff = diffTable.new(function (key, value, ...)
+local diff=diffTable.new(function (key, value, ...)
 	print("added", key, value, ...)
 end, function (key, value, ...)
 	print("removed", key, value, ...)

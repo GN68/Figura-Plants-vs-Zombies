@@ -1,7 +1,7 @@
 ---@meta _
 ---@diagnostic disable: duplicate-set-field
 
---[[ <sck> If you know what this is and have access to it, add a - to the start of this line to re-enable this class.
+--[[ <sck> If you know what this is and have access to it, add a-to the start of this line to re-enable this class.
 ---==================================================================================================================---
 ---  SOCKET                                                                                                          ---
 ---==================================================================================================================---
