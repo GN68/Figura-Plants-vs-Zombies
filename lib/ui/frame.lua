@@ -87,7 +87,7 @@ end
 
 ---@param frames Frame[]
 ---@param offsets Vector2[]
-function Frame.applyOffsetToArray(frames,offsets)
+function Frame.offset2Array(frames,offsets)
 	for index, value in ipairs(frames) do
 		value.offset=offsets[index]
 	end
@@ -95,12 +95,17 @@ end
 
 ---@param frames Frame[]
 ---@param offset Vector2
-function Frame.applyOffsettoAll(frames,offset)
+function Frame.shiftArray(frames,offset)
 	for index, value in ipairs(frames) do
 		value.offset=offset
 	end
 end
 
+
+function Frame.pingPong(frames,i,debug)
+	local c=#frames-1
+	return Frame.clamped(frames,math.floor(math.abs((i*0.1)%2-1)*c)+2,debug)
+end
 
 function Frame.scroll(frames,i,debug)
 	local frame=math.floor(i%#frames)+1

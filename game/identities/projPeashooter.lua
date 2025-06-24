@@ -11,7 +11,7 @@ local tex=textures["textures.peashooter"]
 local frame=Frame.new(tex,348,12,357,21,0,20)
 
 local fHit=Frame.newArray(tex,360,1,371,32,2)
-Frame.applyOffsettoAll(fHit,vec(0,10))
+Frame.shiftArray(fHit,vec(0,10))
 
 local fShadow=
 Frame.new(textures["textures.shadows"],20,1,29,5,0,0)

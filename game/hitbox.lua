@@ -1,7 +1,7 @@
 local Debug=require("lib.ui.debug")
 local params=require("lib.params")
 
-local SHOW_HITBOXES=false
+local SHOW_HITBOXES=true
 
 local layers={}
 
@@ -160,11 +160,10 @@ end
 ---@param layer string
 ---@return Hitbox[]
 function Hitbox:getCollidingBoxes(layer)
-	assert(layers[layer], 'Layer "'..layer..'" does not exist')
 	local collisions={}
 	---@param box Hitbox
 	---@param enabled boolean
-	for box, enabled in pairs(layers[layer]) do
+	for box, enabled in pairs(layers[layer]or{}) do
 		if enabled and box ~= self then
 			if box:isCollidingWithBox(self) then
 				collisions[#collisions+1]=box
@@ -180,7 +179,7 @@ function Hitbox:getCollidingBox(layer)
 	if layers[layer] then
 		---@param box Hitbox
 		---@param enabled boolean
-		for box, enabled in pairs(layers[layer]) do
+		for box, enabled in pairs(layers[layer]or{}) do
 			if enabled and box ~= self then
 				if box:isCollidingWithBox(self) then
 					return box

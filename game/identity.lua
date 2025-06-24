@@ -5,6 +5,7 @@
 ---@field DEATH fun(self: Object,screen: Screen)?
 ---@field DAMAGED fun(self: Object,screen: Screen)?
 ---@field EXIT fun(self: Object,screen: Screen)?
+---@field [any] any
 
 
 ---@class Object.Identity
@@ -44,7 +45,9 @@ function Identity.new(seed,icon,name,cost,heath,processor)
 	processor.EXIT=processor.EXIT or placeholder
 	processor.DEATH=processor.DEATH or placeholder
 	processor.DAMAGED=processor.DAMAGED or placeholder
-	IDENTITIES[name]=new
+	IDENTITIES[name]=setmetatable(new,{__index=function (t,k)
+		return rawget(t,k) or processor[k]
+	end})
 end
 
 Identity.IDENTITIES=IDENTITIES

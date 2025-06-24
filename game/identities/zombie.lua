@@ -26,11 +26,11 @@ local fZombie=Frame.newArray(texZombie,0,0,34,50,5)
 local fZombieWalk=Frame.newArray(texZombie,0,52,41,105,7)
 local fZombieEat=Frame.newArray(texZombie,0,107,36,157,7)
 local fZombieDie=Frame.newArray(texZombie,0,159,43,192,9)
-local fZombieBurn=Frame.new(texZombie,208,8405,194)
+local fBurn=Frame.new(texZombie,208,8,233,50)
 
 
 
-Identity.new(fSeed,fZombie[1], "zombie",50,270,{
+Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 	---@param self Zombie
 	ENTER=function (self, screen)
 		self.hitbox:setDim(27,20,0,0):setLayer("zombies")
@@ -81,14 +81,19 @@ Identity.new(fSeed,fZombie[1], "zombie",50,270,{
 	end,
 	DEATH=function (self, screen)
 		self.i=0
-		local function s()
-			self.sprite:setFrame(Frame.clamped(fZombieDie,self.i*0.3))
+		if self.burnt then
+			self.sprite:setFrame(fBurn)
+			Seq.new():add(40,function ()self:free()end):start()
+		else
+			local function s()
+				self.sprite:setFrame(Frame.clamped(fZombieDie,self.i*0.3))
+			end
+			local seq=Seq.new()
+			seq:start()
+			for i=0, #fZombieDie-1, 1 do seq:add(i*3,s)end
+			
+			seq:add(9,function () self.hitbox:setEnabled(false)end)
+			:add((#fZombieDie+3)*3,function ()self:free()end)
 		end
-		local seq=Seq.new()
-		seq:start()
-		for i=0, #fZombieDie-1, 1 do seq:add(i*3,s)end
-		
-		seq:add(9,function () self.hitbox:setEnabled(false)end)
-		:add((#fZombieDie+3)*3,function ()self:free()end)
-	end
+	end,
 })

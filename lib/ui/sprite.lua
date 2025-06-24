@@ -178,7 +178,8 @@ function Sprite:updateBounds()
 	local frame=self.frame
 	if frame  then
 		local size=self.size
-		local gpos=(self.pos+self.screen.camPos+size+frame.offset):floor()
+		local shake = self.screen.shake or 0
+		local gpos=(self.pos+self.screen.camPos+vec(math.random(-5,5)*shake,math.random(-5,5)*shake)+size+frame.offset):floor()
 		local sSize=self.screen.resolution
 		local spriteBounds=gpos.xyxy-size.__xy -- I love swizzling lmao
 		local uv=frame.UVn

@@ -33,7 +33,10 @@ function Object.new(identityName,screen,...)
 		MOVED=Event.new(),
 	}
 	new.hitbox=Hitbox.new(new)
-	new=setmetatable(new,Object)
+	new.class=identity or{}
+	new=setmetatable(new,{__index=function (t,k)
+		return rawget(t,k) or t.class[k] or Object[k]
+	end})
 	identity.processor.ENTER(new,screen,...)
 	objects[new]=true
 	return new

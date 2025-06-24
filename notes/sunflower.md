@@ -1,0 +1,1 @@
+- first sun is within 4-8 seconds, the rest will spawn in 24 seconds

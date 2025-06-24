@@ -67,7 +67,10 @@ Identity.new(nil,nil, "planter",0,1,{
 		local id=self.pos:toString()
 		if not screen.plants[id] then
 			screen:sound("minecraft:block.grass.place",1,1)
-			Object.new(self.seedIdentity.name,screen):setPos(self.pos)
+			local plant=Object.new(self.seedIdentity.name,screen):setPos(self.pos)
+			if self.seedIdentity.name:find("^p.") then
+				screen.plants[plant.pos:toString()]=self
+			end
 			self:free()
 			screen.addSun(-self.seedIdentity.cost)
 			screen.planter=nil

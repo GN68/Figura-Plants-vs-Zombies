@@ -38,8 +38,6 @@ Debug:setParent(screen.model)
 --client.getViewer():getNbt().SelectedSlot
 
 
-
-
 --[────────────────────────────────────────-< GAME LOGIC >-────────────────────────────────────────]--
 local overlay=models.hardware.base.screen.over
 local modelTitle=models.hardware.base.screen.title
@@ -196,19 +194,20 @@ end
 
 --[────────────────────────-< Game Startup Sequence >-────────────────────────]--
 
-local inventory={"peashooter"}
+local inventory={"p.peashooter"}
 local UIinventory={}
 local levels={}
 
 for i, path in ipairs(listFiles("game.levels")) do
-	levels[i]=require(path)
+	levels[path:match("[^.]+$")]=require(path)
 end
 
 screen.plants={}
 screen.suns=0
 screen.sunfalls=false
 screen.SUN_CHANGED=Event.new()
-
+screen.shake = 0
+local sunTimer = 0
 
 
 function screen.addSun(value)
@@ -232,6 +231,7 @@ end)
 
 function loadLevel(level)
 	local lvl=levels[level]
+	applyGrass(sGrass1,lvl.grass or 1)
 	sunText:setVisible(false)
 	
 	screen.suns=lvl.suns or 500
@@ -244,7 +244,7 @@ function loadLevel(level)
 		value:free()
 	end
 	
-	for i, name in ipairs(inventory) do
+	for i, name in ipairs(lvl.inventory or inventory) do
 		local ui=Object.new("seed",screen,Identity.IDENTITIES[name])
 		ui:setPos(-109-i*24,-24)
 		ui.sprite:setVisible(false)
@@ -266,10 +266,10 @@ function loadLevel(level)
 	end)
 	
 	aStart:add(6*20,function ()
-		rollGrass(1)
+		rollGrass(lvl.grass or 4)
 		uiSun:setVisible(true)
 		sunText:setVisible(true)
-		for i, name in ipairs(inventory) do
+		for i, name in pairs(UIinventory) do
 			UIinventory[i].sprite:setVisible(true)
 		end
 	end)
@@ -278,20 +278,13 @@ function loadLevel(level)
 	aStart:add(7.6*20,function ()title("set")end)
 	aStart:add(8.2*20,function ()
 		title("PLANT!",1.2,1)
-			for i, name in ipairs(inventory) do
+			for i, name in pairs(UIinventory) do
 			UIinventory[i].hitbox:setEnabled(true)
 			end
 		end)
 	aStart:add(9*20,function ()musicPlayer:setTrack(mSunny):play(true) end)
 	
-	--message("Click on the seed packet to pick it up!")
-		--message("Click on the grass to plant your seed!")
-		--message("Nicely done!")
-		--message("Click on the falling sun to collect it!")
-		--message("Keep collecting sun!\n You'll need it to grow more plants!")
-		--message("Excellent! You've collected\nenough for your next plant!")
-		--message("Don't let the zombies reach your house!")
-	
+	--[────────────────────────-< Tutorial Message >-────────────────────────]--
 	aStart:add(10*20,function ()
 		if level == 1 then -- hard code the tutorial lmao
 		local scriptedSun
@@ -336,11 +329,13 @@ function loadLevel(level)
 			:start()
 		end
 	end)
-	
 	aStart:start()
+	if lvl.skip then
+		aStart.time = 9999
+	end
 end
 
-loadLevel(1)
+loadLevel("sandbox")
 --local peashooter=Object.new("peashooter",screen)
 --peashooter:setPos(-100,-108)
 		
@@ -352,7 +347,6 @@ loadLevel(1)
 
 --rollGrass(4)
 --setCamTarget(70)
-musicPlayer:setTrack(mSunny)
 --musicPlayer:play()
 
 --[────────────────────────-<  >-────────────────────────]--
@@ -364,16 +358,16 @@ musicPlayer:setTrack(mSunny)
 local game=Macros.new(function (events, ...)
 	
 	events.WORLD_TICK:register(function ()
+		screen.shake = screen.shake * 0.2
 		Object.tick(screen)
 		Seq.tick()
-		musicPlayer:setPos(client:getCameraPos()+client:getCameraDir())
+		--musicPlayer:setPos(client:getCameraPos()+client:getCameraDir())
 		Hitbox:tick(screen)
 		Debug:setOffset(screen.camPos)
 	end)
 	
 	-- SCREEN BOUNDARIES
 	events.WORLD_RENDER:register(function (delta)
-		
 		screen:setCamPos(screen.camPos)
 		
 		screen:setDir(client:getCameraDir())

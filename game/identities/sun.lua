@@ -28,6 +28,16 @@ Identity.new(nil,nil, "sun",25,1,{
 					self:setPos(v)
 				end
 			}
+		else
+			self.fall=Tween.new{
+				from=0,
+				to=1,
+				easing="linear",
+				duration=0.5,
+				tick=function (v, t)
+					self:setPos(self.pos + vec(0,math.cos(v*3.14)*0.2))
+				end
+			}
 		end
 	end,
 	
