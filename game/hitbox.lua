@@ -1,7 +1,7 @@
 local Debug=require("lib.ui.debug")
 local params=require("lib.params")
 
-local SHOW_HITBOXES=true
+local SHOW_HITBOXES=false
 
 local layers={}
 
@@ -42,11 +42,6 @@ function Hitbox.new(object,x,y,z,w,layer)
 		enabled=true
 	}
 	
-	local function align()
-		new:setPos(object.pos)
-	end
-	
-	object.MOVED:register(align)
 	if SHOW_HITBOXES then
 		Debug.ON_CLEAR:register(function ()
 			local box=new.pos.xyxy+new.dim
@@ -61,7 +56,15 @@ function Hitbox.new(object,x,y,z,w,layer)
 	setmetatable(new,Hitbox)
 	new:setLayer(layer or "default")
 	hitboxes[new]=true
-	align()
+	
+	local function align()
+		new:setPos(object.pos)
+	end
+	if object then 
+		object.MOVED:register(align)
+		align()
+	end
+	
 	return new
 end
 
@@ -83,7 +86,9 @@ function Hitbox:tick(screen)
 		---@param hitbox Hitbox
 		for hitbox in pairs(hitboxes) do
 			if hitbox.enabled and hitbox:isCollidingWitPoint(screen.gmPos) then
-				hitbox.object.identity.processor.CLICK(hitbox.object,screen)
+				if hitbox.object then
+					hitbox.object.identity.processor.CLICK(hitbox.object,screen)
+				end
 			end
 		end
 	end

@@ -78,7 +78,7 @@ processor.preRender=function ()
 			end
 		end
 		
-		if mp.tick >= mp.track.songLength then
+		if mp.tick >= mp.track.songLength and mp.track.loop then
 			mp.tick=mp.tick-mp.track.songLength
 			mp.currentNote=1
 		end
@@ -214,7 +214,6 @@ function Nbs.loadTrack(path)
 	local loop=buffer:read() ~= 0 and true or false
 	local maxLoopCount=buffer:read()
 	local loopStartTick=buffer:read()
-	
 	new.loop=loop
 	
 	--[────────────────────────-< BODY >-────────────────────────]--

@@ -15,13 +15,15 @@ Identity.new(nil,nil, "seed",999,1,{
 		self.sprite:setFrame(identity.seed)
 		self.seedIdentity=identity
 		self.hitbox:setDim(0,0,24,24)
-		screen.SUN_CHANGED:register(function ()
+		local function a()
 			if identity.cost <= screen.suns then
 				self.sprite:setColor(1,1,1)
 			else
 				self.sprite:setColor(0.5,0.5,0.5)
 			end
-		end)
+		end
+		screen.SUN_CHANGED:register(a)
+		a()
 	end,
 	
 	---@param self Seed

@@ -24,7 +24,7 @@ local Hitbox=require("game.hitbox")
 local S=50
 
 
-
+-- im running out of time, I have no time to make this modular...
 local function snap(x,y,screen)
 	local range=screen.range
 	local tpos=vec(
@@ -63,22 +63,22 @@ Identity.new(nil,nil, "planter",0,1,{
 	end,
 	
 	---@param self Planter
-	CLICK=function (self, screen)
+	CLICK=function (self, s)
 		local id=self.pos:toString()
-		if not screen.plants[id] then
-			screen:sound("minecraft:block.grass.place",1,1)
-			local plant=Object.new(self.seedIdentity.name,screen):setPos(self.pos)
+		if not s.plants[id] then
+			s:sound("minecraft:block.grass.place",1,1)
+			local plant=Object.new(self.seedIdentity.name,s):setPos(self.pos)
 			if self.seedIdentity.name:find("^p.") then
-				screen.plants[plant.pos:toString()]=self
+				s.plants[plant.pos:toString()]=self
 			end
 			self:free()
-			screen.addSun(-self.seedIdentity.cost)
-			screen.planter=nil
+			s.addSun(-self.seedIdentity.cost)
+			s.planter=nil
 		else
-			screen:sound("minecraft:entity.player.attack.sweep",1.5,1)
+			s:sound("minecraft:entity.player.attack.sweep",1.5,1)
 			Seq.new()
 			:add(2,function ()
-				screen:sound("minecraft:entity.player.attack.sweep",1,1)
+				s:sound("minecraft:entity.player.attack.sweep",1,1)
 			end)
 			:start()
 		end

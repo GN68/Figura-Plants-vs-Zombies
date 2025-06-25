@@ -22,6 +22,8 @@ local Object={}
 Object.__index=Object
 
 ---@param identityName Object.Identity
+---@param screen Screen
+---@return Object
 function Object.new(identityName,screen,...)
 	local identity=Identity.IDENTITIES[identityName]
 	local new={
@@ -52,12 +54,12 @@ end
 
 
 function Object:damage(amount)
-	self.health=self.health-amount
-	if self.health <= 0 then
+	if self.health-amount <= 0 then
 		self.identity.processor.DEATH(self,self.screen)
 	else
-		self.identity.processor.DAMAGED(self,self.screen)
+		self.identity.processor.DAMAGED(self,self.screen,amount)
 	end
+	self.health=self.health-amount
 	return self
 end
 
@@ -106,6 +108,14 @@ function Object.tick(...)
 			object.identity.processor.TICK(object,...)
 		end
 	end
+end
+
+
+function Object.purgeAll()
+	for value in pairs(objects) do
+		value:free()
+	end
+	objects={}
 end
 
 

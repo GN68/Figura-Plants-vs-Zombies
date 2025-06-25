@@ -13,7 +13,7 @@ local fSun=Frame.newArray(tex,0,17,24,41,2)
 
 Identity.new(nil,nil, "sun",25,1,{
 	---@param self Seed
-	ENTER=function (self, screen, amount, fell)
+	ENTER=function (self, screen, amount, fell,immortal)
 		self.i=0
 		self.amount=amount or 25
 		self.hitbox:setDim(0,0,25,25)
@@ -44,6 +44,9 @@ Identity.new(nil,nil, "sun",25,1,{
 	TICK=function (self, screen)
 		self.i=self.i+0.5
 		self.sprite:setFrame(Frame.scroll(fSun,self.i))
+		if not self.immortal and self.i > 160 then -- 8 seconds
+			self:free()
+		end
 	end,
 	
 	CLICK=function (self, screen)

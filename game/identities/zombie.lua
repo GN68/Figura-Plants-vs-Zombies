@@ -32,7 +32,9 @@ local fBurn=Frame.new(texZombie,208,8,233,50)
 
 Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 	---@param self Zombie
-	ENTER=function (self, screen)
+	ENTER=function (self, s)
+		s.waveHealth=s.waveHealth+self.health
+		s.totalHealth=s.totalHealth+self.health
 		self.hitbox:setDim(27,20,0,0):setLayer("zombies")
 		self:setPos(-128,-128)
 		self.isWalking=false
@@ -43,13 +45,13 @@ Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 	end,
 	
 	---@param self Zombie
-	TICK=function (self, screen)
+	TICK=function (self, s)
 		self.i=self.i+1
 		if self.health > 0 then
 			self.groanCooldown=self.groanCooldown-1
 			if self.groanCooldown <= 0 then
 				self.groanCooldown=math.random(4,10)*20
-				screen:sound("minecraft:entity.zombie.ambient",1.2,0.2)
+				s:sound("minecraft:entity.zombie.ambient",1.2,0.2)
 			end
 			
 			local plant=self.hitbox:getCollidingBox("plants")
@@ -59,7 +61,7 @@ Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 				if shouldMunch ~= self.isMunch then
 					if shouldMunch then
 						plant.object:damage(20)
-						screen:sound("minecraft:entity.generic.eat",1)
+						s:sound("minecraft:entity.generic.eat",1)
 					end
 					self.isMunch=shouldMunch
 				end
@@ -73,13 +75,19 @@ Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 			end
 		end
 	end,
-	DAMAGED=function (self, screen)
+	DAMAGED=function (self, s, a)
+		if not self.useless then
+			s.waveHealth=s.waveHealth-math.min(a,self.health)
+		end
 		self.sprite:setColor(0.6,0.6,0.6)
 		Seq.new()
 		:add(5,function ()self.sprite:setColor(1,1,1)end)
 		:start()
 	end,
-	DEATH=function (self, screen)
+	DEATH=function (self, s)
+		if not self.useless then
+			s.waveHealth=s.waveHealth-math.max(self.health,0)
+		end
 		self.i=0
 		if self.burnt then
 			self.sprite:setFrame(fBurn)

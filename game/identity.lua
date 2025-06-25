@@ -3,7 +3,7 @@
 ---@field TICK fun(self: Object,screen: Screen)?
 ---@field CLICK fun(self: Object,screen: Screen)?
 ---@field DEATH fun(self: Object,screen: Screen)?
----@field DAMAGED fun(self: Object,screen: Screen)?
+---@field DAMAGED fun(self: Object,screen: Screen,amount: integer)?
 ---@field EXIT fun(self: Object,screen: Screen)?
 ---@field [any] any
 
