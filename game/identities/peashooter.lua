@@ -40,8 +40,12 @@ Identity.new(fSeed,fIdle[1], "p.peashooter",100, 300,{
 		self.hitbox:setDim(27,16,0,0):setLayer("plants")
 		self.isShooting=true
 		self.shootCooldown=SHOOT_COOLDOWN + math.random()
-		
-		self.sight=Hitbox.new(self,-220,0,16,16,"sight")
+		self.sight=Hitbox.new(nil,"sight")
+		local function a()
+			self.sight:setDim(-320,self.pos.y,self.pos.x	,self.pos.y+16)
+		end
+		self.MOVED:register(a)
+		a()
 		self.i=math.random(1,256)
 	end,
 	
