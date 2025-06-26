@@ -24,7 +24,7 @@ Identity.new(fSeed,fIdle[1], "p.chomper",150, 300,{
 	ENTER=function (self, screen)
 		self.hitbox:setDim(24,24,0,0):setLayer("plants")
 		self.i=math.random(255)
-		self.sight=Hitbox.new(self,-36,0,0,16,"sight")
+		self.sight=Hitbox.new(self,-12,0,0,16,"sight")
 		self.isEating = false
 	end,
 	
