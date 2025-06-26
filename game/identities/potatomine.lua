@@ -27,24 +27,24 @@ Identity.new(fSeed,fIdle[1], "p.potatomine",25, 300,{
 	TICK=function (self, screen)
 		self.i=self.i+1
 		if not self.bombed then
-			if self.i < 10 then -- 15 seconds
+			if self.i < 300 then -- 15 seconds
 				self.sprite:setFrame(fNew)
 			else
 				self.sprite:setFrame(Frame.scroll(fIdle,self.i*0.25))
+				local z = self.hitbox:getCollidingBoxes("zombies")
+				if #z > 0 and not self.bombed then
+					for _,z in pairs(z) do
+						z.object.burnt = true
+						z.object:damage(1800)
+					end
+					self.sprite:setFrame(mfDoom)
+					self.i = 0
+					self.bombed = true
+					screen.shake = 1
+					screen:sound("minecraft:entity.generic.explode",0.5,1)
+					screen:sound("minecraft:entity.generic.explode",0.75,1)
+				end
 			end
-		end
-		local z = self.hitbox:getCollidingBoxes("zombies")
-		if #z > 0 and not self.bombed then
-			for _,z in pairs(z) do
-				z.object.burnt = true
-				z.object:damage(1800)
-			end
-			self.sprite:setFrame(mfDoom)
-			self.i = 0
-			self.bombed = true
-			screen.shake = 1
-			screen:sound("minecraft:entity.generic.explode",0.5,1)
-			screen:sound("minecraft:entity.generic.explode",0.75,1)
 		end
 		if self.bombed and self.i > 40 then
 			self:free()

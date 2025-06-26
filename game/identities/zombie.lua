@@ -37,6 +37,8 @@ Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 			s.waveHealth=s.waveHealth+self.health
 			s.totalHealth=s.totalHealth+self.health
 		end
+		self.tint=vec(1,1,1)
+		self.speed=1
 		self.hitbox:setDim(27,5,0,0):setLayer("zombies")
 		self:setPos(-128,-128)
 		self.isWalking=true
@@ -48,6 +50,7 @@ Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 	---@param self Zombie
 	TICK=function (self, s)
 		self.i=self.i+1
+		local sp=self.speed
 		
 		if self.pos.x > -96 and s.playing then
 			s.dead(self)
@@ -68,10 +71,10 @@ Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 				end
 			else
 				if self.isWalking then
-					self:setPos(self.pos.x+0.2,self.pos.y)
-					self.sprite:setFrame(Frame.scroll(fZombieWalk,self.i*0.1))
+					self:move(0.2*self.speed,0)
+					self.sprite:setFrame(Frame.scroll(fZombieWalk,self.i*0.1*sp))
 				else
-					self.sprite:setFrame(Frame.scroll(fZombie,self.i*0.15))
+					self.sprite:setFrame(Frame.scroll(fZombie,self.i*0.15*sp))
 				end
 			end
 		end
@@ -80,13 +83,12 @@ Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 		if not self.useless then
 			s.waveHealth=s.waveHealth-math.min(a,self.health)
 		end
-		self.sprite:setColor(0.6,0.6,0.6)
+		self.sprite:setColor(self.tint*vec(0.6,0.6,0.6))
 		Seq.new()
-		:add(5,function ()self.sprite:setColor(1,1,1)end)
+		:add(5,function ()self.sprite:setColor(self.tint)end)
 		:start()
 	end,
 	DEATH=function (self, s)
-		s:sound("minecraft:entity.zombie.death",1)
 		if not self.useless then
 			s.waveHealth=s.waveHealth-math.max(self.health,0)
 		end

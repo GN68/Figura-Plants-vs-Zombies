@@ -9,7 +9,7 @@ Toughness: 300
 ]]
 ---@class Peashooter : Object
 ---@field isShooting boolean
----@field shootCooldown integer
+---@field shootC integer
 ---@field sight Hitbox
 
 local Debug=require("lib.ui.debug")
@@ -39,7 +39,7 @@ Identity.new(fSeed,fIdle[1], "p.peashooter",100, 300,{
 	ENTER=function (self, screen)
 		self.hitbox:setDim(27,16,0,0):setLayer("plants")
 		self.isShooting=true
-		self.shootCooldown=SHOOT_COOLDOWN + math.random()*3
+		self.shootC=SHOOT_COOLDOWN + math.random()*3
 		self.sight=Hitbox.new(nil,"sight")
 		local function a()
 			self.sight:setDim(-320,self.pos.y,self.pos.x	,self.pos.y+16)
@@ -52,16 +52,16 @@ Identity.new(fSeed,fIdle[1], "p.peashooter",100, 300,{
 	---@param self Peashooter
 	TICK=function (self, screen)
 		self.i=self.i+1
-		self.shootCooldown=self.shootCooldown-1
+		self.shootC=self.shootC-1
 		self.sprite:setFrame(Frame.scroll(fIdle,self.i*0.25))
 		local zamb=self.sight:getCollidingBox("zombies")
 		if zamb then
-			if  self.shootCooldown <= 0 then
-				self.shootCooldown=SHOOT_COOLDOWN
+			if  self.shootC <= 0 then
+				self.shootC=SHOOT_COOLDOWN
 				Object.new("peashooter.proj",screen):setPos(self.pos)
 				screen:sound("minecraft:ui.toast.in",3,0.2)
 			end
-			self.sprite:setFrame(Frame.clamped(fShoot,self.shootCooldown*0.25,true))
+			self.sprite:setFrame(Frame.clamped(fShoot,self.shootC*0.25,true))
 		end
 	end,
 	

@@ -64,7 +64,7 @@ function Frame.newArray(texture,U1,V1,U2,V2,count,autoOffsetDetection)
 		if autoOffsetDetection then
 			texture:applyFunc(dim.x,dim.y,dim.z-dim.x,dim.w-dim.y,function (col, x, y)
 				local pos=vec(x-dim.x,y-dim.y)
-				if col.x == 0 and col.y == 0 and col.z == 1 then -- blue pixel atcs as a tracking point
+				if col.x < 0.2 and col.y < 0.2 and col.z==1 then -- blue pixel atcs as a tracking point
 					if i == 1 then
 						t=pos -- tracking origin
 					end

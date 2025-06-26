@@ -12,7 +12,7 @@ Identity.new(nil,nil, "seedwin",999,1,{
 	---@param identity string
 	ENTER=function (self, screen, identity)
 		
-		self.sprite:setFrame(Identity.IDENTITIES[identity].seed)
+		self.sprite:setFrame(Identity.IDENTITIES[identity or "p.sunflower"].seed)
 		self.hitbox:setDim(0,0,24,24)
 		self.fall=Tween.new{
 			from=0,
