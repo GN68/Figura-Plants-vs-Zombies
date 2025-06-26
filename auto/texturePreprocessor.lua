@@ -10,8 +10,8 @@ local tex=texs[1]
 local dim=tex:getDimensions()
 
 events.WORLD_RENDER:register(function (delta)
-	local region=vec(x,y,math.min(x+CHUNK_SIZE,dim.x),math.min(y+CHUNK_SIZE,dim.y))
-	tex:applyFunc(region.x,region.y,region.z-region.x,region.w-region.y,function (col, x, y)
+	local r=vec(x,y,math.min(x+CHUNK_SIZE,dim.x),math.min(y+CHUNK_SIZE,dim.y))
+	tex:applyFunc(r.x,r.y,r.z-r.x,r.w-r.y,function (col, x, y)
 		if col.x > 0.9 and col.y == 0 and col.z == 0 then
 			return vec(0,0,0,0)
 		end
