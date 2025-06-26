@@ -29,7 +29,7 @@ Identity.new(fSeed,fIdle[1], "p.chomper",150, 300,{
 	end,
 	
 	---@param self Peashooter
-	TICK=function (self, screen)
+	TICK=function (self, s)
 		self.i=self.i+1
 		self.sprite:setFrame(Frame.scroll(fIdle,self.i*0.25))
 		
@@ -38,6 +38,7 @@ Identity.new(fSeed,fIdle[1], "p.chomper",150, 300,{
 			if i*0.25 <= 3 then
 				self.sprite:setFrame(Frame.clamped(fChomp,self.i*0.25))
 				if i*0.25 == 3 then
+					s:sound("minecraft:entity.generic.eat",0.75)
 					self.target:free()
 				end
 			else

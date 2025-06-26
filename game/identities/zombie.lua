@@ -32,16 +32,17 @@ local fBurn=Frame.new(texZombie,208,8,233,50)
 
 Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 	---@param self Zombie
-	ENTER=function (self, s)
-		s.waveHealth=s.waveHealth+self.health
-		s.totalHealth=s.totalHealth+self.health
+	ENTER=function (self, s,useless)
+		if not useless then
+			s.waveHealth=s.waveHealth+self.health
+			s.totalHealth=s.totalHealth+self.health
+		end
 		self.hitbox:setDim(27,5,0,0):setLayer("zombies")
 		self:setPos(-128,-128)
 		self.isWalking=true
 		self.isEating=true
 		self.isMunch=false
 		self.i=math.random(1,256)
-		self.groanCooldown=math.random(2,5)*20
 	end,
 	
 	---@param self Zombie
@@ -53,11 +54,6 @@ Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 		end
 		
 		if self.health > 0 then
-			self.groanCooldown=self.groanCooldown-1
-			if self.groanCooldown <= 0 then
-				self.groanCooldown=math.random(4,10)*20
-				s:sound("minecraft:entity.zombie.ambient",1.2,0.2)
-			end
 			
 			local plant=self.hitbox:getCollidingBox("plants")
 			if plant then

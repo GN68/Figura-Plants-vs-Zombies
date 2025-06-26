@@ -285,6 +285,7 @@ local function spawnWave(wave)
 	for z in pairs(s.waveZombies) do
 		z.useless=true
 	end
+	s:sound("minecraft:entity.zombie.ambient")
 	s.waveZombies = {}
 	s.spawnTimer=100
 	s.waveHealth=0
@@ -327,16 +328,18 @@ function s.loadLevel(level)
 		end,
 	}
 	s.waveHealth=0
-	s.totalHealth=1
-	s.spawnTimer=600 -- 45 seconds
 	s.wave=1
+	s.totalHealth=1
+	
+	s.spawnTimer=600 -- 45 seconds
 	sunTimer=200
 	lvl=levels[level] ---@type Level
 	lvl.name=level
-	applyGrass(sGrass1,lvl.grass or 1)
+	applyGrass(sGrass1,lvl.grass or 4)
 	sunText:setVisible(false)
 	
 	s.suns=lvl.suns or 50
+	
 	s.SUN_CHANGED:invoke()
 	
 	--print(lvl)
@@ -359,6 +362,25 @@ function s.loadLevel(level)
 	end
 	local aStart=Seq.new()
 	
+	local pZ = {}
+	
+	for i = 1, 10, 1 do
+		
+		local id={}
+		for _, w in pairs(lvl.waves) do
+			for _, zs in pairs(w.c) do
+				for _, z in pairs(zs) do
+					id[#id+1] = z
+				end
+			end
+		end
+		local z=Object.new(id[math.random(#id)],s,true)
+		:setPos(math.lerp(-360,-430,math.random()),math.lerp(-40,-170,math.random()))
+		z.isWalking = false
+		z.isSilent = true
+		pZ[i]=z
+	end
+	
 	s.canSpawnZombies=false
 	aStart:add(1*20,function ()
 		s.musicPlayer:setTrack(mPlant):play(true)
@@ -370,6 +392,9 @@ function s.loadLevel(level)
 	end)
 	
 	aStart:add(6*20,function ()
+		for i,z in ipairs(pZ) do
+			z:free()
+		end
 		rollGrass(lvl.grass or 4)
 		uiSun:setVisible(true)
 		sunText:setVisible(true)
