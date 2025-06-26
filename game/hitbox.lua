@@ -1,7 +1,7 @@
 local Debug=require("lib.ui.debug")
 local params=require("lib.params")
 
-local SHOW_HITBOXES=false
+local SHOW_HITBOXES=true
 
 local layers={}
 

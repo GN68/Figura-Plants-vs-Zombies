@@ -18,6 +18,7 @@ local Identity=require("game.identity")
 local Object=require("game.object")
 local Hitbox=require("game.hitbox")
 
+local Tween=require("lib.tween")
 
 local texZombie=textures["textures.zombie"]
 local fSeed=Frame.new(texZombie,180,30,203,50)
@@ -29,15 +30,14 @@ local fZombieDie=Frame.newArray(texZombie,0,159,43,192,9)
 local fBurn=Frame.new(texZombie,208,8,233,50)
 
 
-
 Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 	---@param self Zombie
 	ENTER=function (self, s)
 		s.waveHealth=s.waveHealth+self.health
 		s.totalHealth=s.totalHealth+self.health
-		self.hitbox:setDim(27,20,0,0):setLayer("zombies")
+		self.hitbox:setDim(27,5,0,0):setLayer("zombies")
 		self:setPos(-128,-128)
-		self.isWalking=false
+		self.isWalking=true
 		self.isEating=true
 		self.isMunch=false
 		self.i=math.random(1,256)
@@ -47,6 +47,11 @@ Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 	---@param self Zombie
 	TICK=function (self, s)
 		self.i=self.i+1
+		
+		if self.pos.x > -96 and s.playing then
+			s.dead(self)
+		end
+		
 		if self.health > 0 then
 			self.groanCooldown=self.groanCooldown-1
 			if self.groanCooldown <= 0 then
@@ -85,6 +90,7 @@ Identity.new(fSeed,fZombie[1], "z.zombie",50,270,{
 		:start()
 	end,
 	DEATH=function (self, s)
+		s:sound("minecraft:entity.zombie.death",1)
 		if not self.useless then
 			s.waveHealth=s.waveHealth-math.max(self.health,0)
 		end

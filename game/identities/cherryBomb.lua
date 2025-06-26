@@ -31,7 +31,7 @@ local R = 24
 Identity.new(fSeed,fIdle[1], "p.cherrybomb",50, 300,{
 	---@param self Peashooter
 	ENTER=function (self, screen)
-		self.range = Hitbox.new(self,-R,-R,R*2,R*2)
+		self.range = Hitbox.new(self,-R,-R*1.2,R*2,R*2.4)
 		self.hitbox:setDim(24,24,0,0):setLayer("plants")
 		self.i = 0
 	end,

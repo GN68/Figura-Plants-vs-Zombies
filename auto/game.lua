@@ -95,7 +95,7 @@ end
 
 local mPlant=NBS.loadTrack("plant")
 local mSunny=NBS.loadTrack("sunny")
-
+local mDed=NBS.loadTrack("ded")
 mPlant.loop=true
 mSunny.loop=true
 
@@ -185,7 +185,7 @@ local function rollGrass(i)
 	})
 end
 
-local function setCamTarget(x,d)
+function s.setCamTarget(x,d)
 	Tween.new({
 		from=s.camPos.x,
 		to=x,
@@ -200,6 +200,8 @@ end
 
 --setCamTarget(70)
 --setCamTarget(190)
+
+
 
 
 --[────────────────────────-< Game Startup Sequence >-────────────────────────]--
@@ -224,6 +226,40 @@ s.waveZombies={}
 local sunTimer=0
 local lvl={} ---@type Level
 
+function s.dead(z)
+	s.setCamTarget(0)
+	s.playing = false
+	
+	local m=function ()s:sound("minecraft:entity.generic.eat",1,1)end
+	
+	Tween.new{
+		from=z.pos*1,
+		to=vec(-70,-128),
+		duration=3,
+		easing="linear",
+		tick=function (v, t)
+			z:setPos(v)
+		end,
+		onFinish=function ()
+			z:free()
+			s:sound("minecraft:entity.zombie.ambient",1,1)
+			Seq.new()
+			:add(10,m)
+			:add(20,m)
+			:add(30,m)
+			:add(40,function ()
+				s:sound("minecraft:entity.goat.screaming.death",1,1)
+				m()
+			end)
+			:add(50,m)
+			:add(60,function ()
+				s.loadLevel(lvl.name)
+			end)
+			:start()
+		end,
+	}
+	s.musicPlayer:setTrack(mDed):play(true)
+end
 
 function s.addSun(value)
 	s.suns=s.suns+value
@@ -296,6 +332,7 @@ function s.loadLevel(level)
 	s.wave=1
 	sunTimer=200
 	lvl=levels[level] ---@type Level
+	lvl.name=level
 	applyGrass(sGrass1,lvl.grass or 1)
 	sunText:setVisible(false)
 	
@@ -325,11 +362,11 @@ function s.loadLevel(level)
 	s.canSpawnZombies=false
 	aStart:add(1*20,function ()
 		s.musicPlayer:setTrack(mPlant):play(true)
-		setCamTarget(190)
+		s.setCamTarget(190)
 	end)
 	
 	aStart:add(4*20,function ()
-		setCamTarget(70,2)
+		s.setCamTarget(70,2)
 	end)
 	
 	aStart:add(6*20,function ()
@@ -345,6 +382,7 @@ function s.loadLevel(level)
 	aStart:add(7.6*20,function ()title("set")end)
 	aStart:add(8.2*20,function ()
 		title("PLANT!",1.2,1)
+		s.playing = true
 		s.canSpawnZombies=true
 		for i, name in pairs(UIinventory) do
 			UIinventory[i].hitbox:setEnabled(true)
@@ -410,7 +448,7 @@ function s.loadLevel(level)
 	end
 end
 
-s.loadLevel("quick")
+s.loadLevel("sandbox")
 --local peashooter=Object.new("peashooter",screen)
 --peashooter:setPos(-100,-108)
 		

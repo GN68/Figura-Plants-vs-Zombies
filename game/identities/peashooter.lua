@@ -15,7 +15,7 @@ Toughness: 300
 local Debug=require("lib.ui.debug")
 
 
-local SHOOT_COOLDOWN=0--28.5
+local SHOOT_COOLDOWN=28.5
 
 local P = require("./plantUtils") ---@module "game.identities.plantUtils"
 local Sprite=require("lib.ui.sprite")
