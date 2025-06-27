@@ -24,7 +24,7 @@ Identity.new(fSeed,fIdle[1], "p.chomper",150, 300,{
 	ENTER=function (self, screen)
 		self.hitbox:setDim(24,24,0,0):setLayer("plants")
 		self.i=math.random(255)
-		self.sight=Hitbox.new(self,-12,0,0,16,"sight")
+		self.sight=Hitbox.new(self,-26,0,0,16,"sight")
 		self.isEating = false
 	end,
 	
@@ -39,6 +39,7 @@ Identity.new(fSeed,fIdle[1], "p.chomper",150, 300,{
 				self.sprite:setFrame(Frame.clamped(fChomp,self.i*0.25))
 				if i*0.25 == 3 then
 					s:sound("minecraft:entity.generic.eat",0.75)
+					self.target:damage(69420) -- has to be this or it will break fr fr
 					self.target:free()
 				end
 			else
