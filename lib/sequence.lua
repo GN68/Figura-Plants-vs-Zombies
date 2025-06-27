@@ -50,6 +50,11 @@ function Sequence:start()
 end
 
 
+function Sequence:stop()
+	active[self]=nil
+end
+
+
 function Sequence:process()
 	if self.isActive then
 		local tracking=self.keyframes[self.trackingKeyframe]

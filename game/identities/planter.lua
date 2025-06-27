@@ -24,7 +24,6 @@ local Hitbox=require("game.hitbox")
 local S=50
 
 
--- im running out of time, I have no time to make this modular...
 local function snap(x,y,screen)
 	local range=screen.range
 	local tpos=vec(
@@ -69,7 +68,7 @@ Identity.new(nil,nil, "planter",0,1,{
 			s:sound("minecraft:block.grass.place",1,1)
 			local plant=Object.new(self.seedIdentity.name,s):setPos(self.pos)
 			if self.seedIdentity.name:find("^p.") then
-				s.plants[plant.pos:toString()]=self
+				s.plants[plant.pos:toString()]=plant
 			end
 			self:free()
 			s.addSun(-self.seedIdentity.cost)

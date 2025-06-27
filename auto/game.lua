@@ -311,6 +311,7 @@ local function spawnWave(wave)
 	end
 end
 
+local aStart
 
 function s.loadLevel(level)
 	Tween.new{
@@ -322,6 +323,12 @@ function s.loadLevel(level)
 			s.setOverlay(1,1,1,v)
 		end,
 	}
+	if aStart then
+		aStart:stop()
+		aStart=nil
+	end
+	message()
+	title("",1,0)
 	s.waveHealth=0
 	s.wave=1
 	s.totalHealth=1
@@ -330,6 +337,8 @@ function s.loadLevel(level)
 	sunTimer=200
 	s.lvl=levels[level] ---@type Level
 	s.lvl.name=level
+	applyGrass(sGrass2,s.lvl.grass or 4)
+	s:setCamPos(0,0)
 	applyGrass(sGrass1,s.lvl.grass or 4)
 	sunText:setVisible(false)
 	
@@ -355,7 +364,7 @@ function s.loadLevel(level)
 	for key, value in pairs(s.plants) do
 		value:free()
 	end
-	local aStart=Seq.new()
+	aStart=Seq.new()
 	
 	local pZ = {}
 	
@@ -400,6 +409,10 @@ function s.loadLevel(level)
 		sunText:setVisible(true)
 		for i, name in pairs(uiInv) do
 			uiInv[i].sprite:setVisible(true)
+		end
+		
+		if not s.lvl.noShovel then
+			Object.new("shovel",s)
 		end
 	end)
 	
@@ -489,8 +502,21 @@ s.loadLevel("sandbox")
 
 --[────────────────────────-<  >-────────────────────────]--
 
+local lastHeldName=""
+local heldName=""
 
-
+events.SKULL_RENDER:register(function (delta, block, item, entity, ctx)
+	
+	if ctx:find(client:getViewer():getActiveHand() == "MAIN_HAND" and "LEFT" or "RIGHT".."_HAND") then
+		heldName = item:getName()
+		if heldName ~= lastHeldName then
+			lastHeldName = heldName
+			if levels[heldName] then
+				s.loadLevel(heldName)
+			end
+		end
+	end
+end)
 --[────────────────────────-< Game Clock >-────────────────────────]--
 
 local game=Macros.new(function (events, ...)

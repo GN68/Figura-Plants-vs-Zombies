@@ -43,7 +43,7 @@ Identity.new(nil,nil, "seed",999,1,{
 					screen:sound("minecraft:entity.player.attack.sweep",1,1)
 				end)
 				:start()
-				end
+			end
 		end
 	end
 })

@@ -36,7 +36,7 @@ Identity.new(nil,fStill[1], "lawnmower",100, 300,{
 	---@param self Peashooter
 	TICK=function (self, screen)
 		local zs = self.hitbox:getCollidingBoxes("zombies")
-		if #zs > 0 and not self.isActive then
+		if screen.playing and #zs > 0 and not self.isActive then
 			self.isActive = true
 			screen:sound("minecraft:block.note_block.hat",0.5,1)
 		end
