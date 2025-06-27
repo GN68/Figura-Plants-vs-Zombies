@@ -1,21 +1,13 @@
--- https://plantsvszombies.wiki.gg/wiki/Sunflower_(PvZ)
----@class Sunflower : Object
----@field sunCooldown integer
 
-local Debug=require("lib.ui.debug")
-
-
-local SUN_COOLDOWN=480
+--[────────────────────────-< DEPENDENCIES >-────────────────────────]--
 
 local P = require("./plantUtils") ---@module "game.identities.plantUtils"
-local Sprite=require("lib.ui.sprite")
 local Frame=require("lib.ui.frame")
 
 local Identity=require("game.identity")
-local Object=require("game.object")
 local Hitbox=require("game.hitbox")
 
-
+--[────────────────────────-< ASSETS >-────────────────────────]--
 local tex=textures["textures.cherry_bomb"]
 local fIdle={
 	Frame.new(tex,0,28,33,65),
@@ -26,6 +18,7 @@ local fBoom=Frame.newArray(tex,83,0,177,67,8)
 Frame.shiftArray(fBoom,vec(-35,-20))
 local fSeed=Frame.new(tex,0,0,25,25,-1,0)
 
+--[────────────────────────-< STATISTICS >-────────────────────────]--
 local R = 24
 
 Identity.new(fSeed,fIdle[1], "p.cherrybomb",50, 300,{
@@ -44,7 +37,7 @@ Identity.new(fSeed,fIdle[1], "p.cherrybomb",50, 300,{
 			self.sprite:setFrame(fIdle[math.floor(i/10)+1])
 			self.sprite:setPos(self.pos+vec(math.random(-1,1),math.random(-1,1)))
 		else
-			if i == 20 then
+			if i == 20 then --[────────-< EXPLODE >-────────]--
 				screen.shake = 1
 				screen:sound("minecraft:entity.generic.explode",0.5,1)
 				screen:sound("minecraft:entity.generic.explode",0.75,1)

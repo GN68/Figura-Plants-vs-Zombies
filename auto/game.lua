@@ -207,7 +207,7 @@ end
 --[────────────────────────-< Game Startup Sequence >-────────────────────────]--
 
 local inventory={"p.peashooter"}
-local UIinventory={}
+local uiInv={}
 local levels={}
 
 for i, path in ipairs(listFiles("game.levels")) do
@@ -270,9 +270,6 @@ end
 local uiSun=Sprite.new(s,Frame.new(textures["textures.sun"],0,0,15,15))
 uiSun:setPos(-87,-17)
 local sunText=s.model:newText("sun"):setText("25"):setOutline(true):setPos(-3.5,-17)
---for i=1, 10, 1 do
---	Object.new("sun",screen,25,true)
---end
 
 
 s.SUN_CHANGED:register(function ()
@@ -353,7 +350,7 @@ function s.loadLevel(level)
 		ui.sprite:setVisible(false)
 		ui.hitbox:setEnabled(false)
 		uiSun:setVisible(false)
-		UIinventory[i]=ui
+		uiInv[i]=ui
 	end
 	
 	--[────────-< Startup Sequence >-────────]--
@@ -398,8 +395,8 @@ function s.loadLevel(level)
 		rollGrass(lvl.grass or 4)
 		uiSun:setVisible(true)
 		sunText:setVisible(true)
-		for i, name in pairs(UIinventory) do
-			UIinventory[i].sprite:setVisible(true)
+		for i, name in pairs(uiInv) do
+			uiInv[i].sprite:setVisible(true)
 		end
 	end)
 	
@@ -409,8 +406,8 @@ function s.loadLevel(level)
 		title("PLANT!",1.2,1)
 		s.playing = true
 		s.canSpawnZombies=true
-		for i, name in pairs(UIinventory) do
-			UIinventory[i].hitbox:setEnabled(true)
+		for i, name in pairs(uiInv) do
+			uiInv[i].hitbox:setEnabled(true)
 		end
 	end)
 	aStart:add(9*20,function ()s.musicPlayer:setTrack(mSunny):play(true) end)
@@ -423,7 +420,7 @@ function s.loadLevel(level)
 			Seq.new()
 			:add(0,function ()
 				s.stopSunFall=true
-				return (not UIinventory[1].isActive) -- pickup peashooter
+				return (not uiInv[1].isActive) -- pickup peashooter
 			end) 
 			:add(1,function ()
 				message("Click on the grass to plant your seed!")
@@ -498,6 +495,7 @@ local game=Macros.new(function (events, ...)
 		s.shake=s.shake * 0.2
 		Object.tick(s)
 		Seq.tick()
+		NBS.tick()
 		s.musicPlayer:setPos(client:getCameraPos()+client:getCameraDir())
 		Hitbox:tick(s)
 		Debug:setOffset(s.camPos)

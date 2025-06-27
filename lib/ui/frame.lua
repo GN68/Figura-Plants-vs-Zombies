@@ -88,17 +88,19 @@ end
 ---@param frames Frame[]
 ---@param offsets Vector2[]
 function Frame.offset2Array(frames,offsets)
-	for index, value in ipairs(frames) do
-		value.offset=offsets[index]
+	for i, value in ipairs(frames) do
+		value.offset=offsets[i]
 	end
 end
 
 ---@param frames Frame[]
 ---@param offset Vector2
+---@return Frame[]
 function Frame.shiftArray(frames,offset)
-	for index, value in ipairs(frames) do
-		value.offset=offset
+	for i,v in ipairs(frames) do
+		v.offset=offset
 	end
+	return frames
 end
 
 

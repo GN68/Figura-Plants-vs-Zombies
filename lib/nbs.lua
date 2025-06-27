@@ -50,25 +50,24 @@ for i, v in pairs(instruments) do
 end
 
 
-local activeMusicPlayers={}
+local musicPlayers={}
 
 local lastTime=client:getSystemTime()
-local processor=models:newPart("NBSProcessor","WORLD")
-processor.preRender=function ()
+function Nbs.tick()
 	local time=client:getSystemTime()
-	local delta=(time-lastTime) / 1000
+	local delta=math.min((time-lastTime) / 1000,0.2)
 	lastTime=time
 	
 	
 	---@param mp NBS.MusicPlayer
-	for _, mp in pairs(activeMusicPlayers) do
+	for _, mp in pairs(musicPlayers) do
 		
-		mp.tick=mp.tick+delta * mp.track.songTempo
+		mp.tick=mp.tick+delta*mp.track.songTempo
 		
-		for i=1, 10, 1 do
+		for i=1,10,1 do
 			local currentNote=mp.track.notes[mp.currentNote]
 			if currentNote then
-				if mp.tick >= currentNote.tick then
+				if mp.tick>=currentNote.tick then
 					mp.currentNote=mp.currentNote+math.sign(mp.tick-currentNote.tick)
 					local pitch=2^(((currentNote.key-9)/12)-3)
 					sounds[instruments[currentNote.instrument]]:pos(mp.pos):pitch(pitch):volume(currentNote.volume):play()
@@ -115,7 +114,7 @@ end
 ---@param reset boolean?
 ---@return NBS.MusicPlayer
 function MusicPlayer:play(reset)
-	activeMusicPlayers[self]=self
+	musicPlayers[self]=self
 	self.isPlaying=true
 	if reset then
 		self.currentNote=1
@@ -127,7 +126,7 @@ end
 
 ---@return NBS.MusicPlayer
 function MusicPlayer:stop()
-	activeMusicPlayers[self]=nil
+	musicPlayers[self]=nil
 	self.isPlaying=false
 	return self
 end
