@@ -52,8 +52,8 @@ end
 
 --[────────────────────────-< HUD >-────────────────────────]--
 
-local titleTask=modelTitle:newText("Title"):setAlignment("CENTER"):setOutline(true)
-local messageTask=modelTitle:newText("Message"):scale(0.05,0.05,1):pos(0,-3.3,0):setAlignment("CENTER"):setOutline(true)
+local titleTask=modelTitle:newText("Title"):setAlignment("CENTER"):setOutline(true):light(15,15)
+local messageTask=modelTitle:newText("Message"):scale(0.05,0.05,1):pos(0,-3.3,0):setAlignment("CENTER"):setOutline(true):light(15,15)
 
 
 
@@ -95,9 +95,11 @@ end
 
 local mPlant=NBS.loadTrack("plant")
 local mSunny=NBS.loadTrack("sunny")
+local mBowl=NBS.loadTrack("bowling")
 local mDed=NBS.loadTrack("ded")
 mPlant.loop=true
 mSunny.loop=true
+mBowl.loop=true
 
 s.musicPlayer=NBS.newMusicPlayer()
 
@@ -224,7 +226,7 @@ s.spawnTimer=0
 s.waveZombies={}
 
 local sunTimer=0
-local lvl={} ---@type Level
+s.lvl={} ---@type Level
 
 function s.dead(z)
 	s.setCamTarget(0)
@@ -253,7 +255,7 @@ function s.dead(z)
 			end)
 			:add(50,m)
 			:add(60,function ()
-				s.loadLevel(lvl.name)
+				s.loadLevel(s.lvl.name)
 			end)
 			:start()
 		end,
@@ -269,7 +271,7 @@ end
 --[────────-< Sun Display >-────────]--
 local uiSun=Sprite.new(s,Frame.new(textures["textures.sun"],0,0,15,15))
 uiSun:setPos(-87,-17)
-local sunText=s.model:newText("sun"):setText("25"):setOutline(true):setPos(-3.5,-17)
+local sunText=s.model:newText("sun"):setText("25"):setOutline(true):setPos(-3.5,-17):light(15,15)
 
 
 s.SUN_CHANGED:register(function ()
@@ -288,19 +290,15 @@ local function spawnWave(wave)
 	s.waveHealth=0
 	s.totalHealth=1
 	local x=0
-	if wave.major then
-	end
-	
-	
 	for count, names in pairs(wave.c) do
 		for _, name in ipairs(names) do
 			for i=1, count, 1 do
 				x=x + 1
 				local z=Object.new(name,s) ---@type Zombie
 				local y
-				if lvl.grass==1 then
+				if s.lvl.grass==1 then
 					y=3
-				elseif lvl.grass==2 then
+				elseif s.lvl.grass==2 then
 					y=math.random(2,4)
 				else
 					y=math.random(1,5)
@@ -330,21 +328,21 @@ function s.loadLevel(level)
 	
 	s.spawnTimer=600 -- 45 seconds
 	sunTimer=200
-	lvl=levels[level] ---@type Level
-	lvl.name=level
-	applyGrass(sGrass1,lvl.grass or 4)
+	s.lvl=levels[level] ---@type Level
+	s.lvl.name=level
+	applyGrass(sGrass1,s.lvl.grass or 4)
 	sunText:setVisible(false)
 	
-	s.suns=lvl.suns or 50
+	s.suns=s.lvl.suns or 50
 	
 	s.SUN_CHANGED:invoke()
 	
 	--print(lvl)
-	s.range=lvl.grid_range or vec(0,0,9,5)
+	s.range=s.lvl.grid_range or vec(0,0,9,5)
 	--[────────-< UI >-────────]--
 	Object.purgeAll()
 	
-	for i, name in ipairs(lvl.inventory or inventory) do
+	for i, name in ipairs(s.lvl.inventory or inventory) do
 		local ui=Object.new("seed",s,Identity.IDENTITIES[name])
 		ui:setPos(-109-i*24,-24)
 		ui.sprite:setVisible(false)
@@ -362,9 +360,8 @@ function s.loadLevel(level)
 	local pZ = {}
 	
 	for i = 1, 10, 1 do
-		
 		local id={}
-		for _, w in pairs(lvl.waves) do
+		for _, w in pairs(s.lvl.waves) do
 			for _, zs in pairs(w.c) do
 				for _, z in pairs(zs) do
 					id[#id+1] = z
@@ -372,7 +369,7 @@ function s.loadLevel(level)
 			end
 		end
 		local z=Object.new(id[math.random(#id)],s,true)
-		:setPos(math.lerp(-360,-430,math.random()),math.lerp(-40,-170,math.random()))
+		:setPos(math.lerp(-360,-430,math.random()),math.lerp(-60,-170,math.random()))
 		z.isWalking = false
 		z.isSilent = true
 		pZ[i]=z
@@ -392,7 +389,13 @@ function s.loadLevel(level)
 		for i,z in ipairs(pZ) do
 			z:free()
 		end
-		rollGrass(lvl.grass or 4)
+		rollGrass(s.lvl.grass or 4)
+		local r = math.min((s.lvl.grass or 4) - 1,2)
+		for y = 4-r, 4+r , 1 do
+			local l = Object.new("lawnmower",s)
+			l:setPos(-80,-y*31+4)
+		end
+		
 		uiSun:setVisible(true)
 		sunText:setVisible(true)
 		for i, name in pairs(uiInv) do
@@ -410,7 +413,7 @@ function s.loadLevel(level)
 			uiInv[i].hitbox:setEnabled(true)
 		end
 	end)
-	aStart:add(9*20,function ()s.musicPlayer:setTrack(mSunny):play(true) end)
+	aStart:add(9*20,function ()s.musicPlayer:setTrack(s.lvl.bowling and mBowl or mSunny):play(true) end)
 	
 	--[────────────────────────-< Tutorial Message >-────────────────────────]--
 	aStart:add(10*20,function ()
@@ -462,11 +465,11 @@ function s.loadLevel(level)
 		end
 	end)
 	aStart:start()
-	if lvl.skip then
+	if s.lvl.skip then
 		aStart.time=9999
 	end
-	if lvl.fun then
-		lvl.fun(s,lvl)
+	if s.lvl.fun then
+		s.lvl.fun(s,s.lvl)
 	end
 end
 
@@ -502,26 +505,39 @@ local game=Macros.new(function (events, ...)
 		
 		if s.win then
 			s.win = false
-			s.loadLevel(lvl.next)
+			s.loadLevel(s.lvl.next)
 		end
 		
 		if not s.stopSunFall then
 		sunTimer=sunTimer - 1
 		if sunTimer < 0 then
-			sunTimer=200 -- 10 seconds
+			sunTimer=s.lvl.sunTimer or 200 -- 10 seconds
 			Object.new("sun",s,25,true)
 		end
 		--print(s.totalHealth / 2, s.waveHealth)
 		s.spawnTimer=s.spawnTimer - 1
 		if s.canSpawnZombies then
 			if s.spawnTimer < 0 then
-				if lvl.waves[s.wave] then
-					if s.totalHealth / 2 > s.waveHealth then -- 50% rule
+				if s.lvl.waves[s.wave] then
+					local wave = s.lvl.waves[s.wave]
+					if not wave.major and (s.totalHealth / 2 > s.waveHealth) or wave.major and (s.waveHealth < 10) then -- 50% rule
 						if s.spawnTimer < -2 then
-							s.spawnTimer = 100
-
+							s.spawnTimer = s.lvl.waveCooldown or 100
+							if wave.major then
+								title("A huge wave of zombies is approaching!",0.3,2)
+								s:sound("minecraft:entity.elder_guardian.curse")
+								Seq.new()
+								:add(3*20,function ()
+									s:sound("minecraft:item.goat_horn.sound.1",0.5)
+									if not s.lvl.waves[s.wave+1] then
+										s:sound("minecraft:entity.elder_guardian.curse",0.8)
+										title("FINAL WAVE!",1,3)
+									end
+								end)
+								:start()
+							end
 						else
-							spawnWave(lvl.waves[s.wave])
+							spawnWave(s.lvl.waves[s.wave])
 							s.wave=s.wave + 1
 						end
 					end
@@ -529,7 +545,7 @@ local game=Macros.new(function (events, ...)
 					if s.waveHealth == 0 then -- WIN
 						s.sunfalls=false
 						s.canSpawnZombies = false
-						Object.new("seedwin",s,lvl.prize):setPos(-256,-128)
+						Object.new("seedwin",s,s.lvl.prize):setPos(-256,-128)
 					end
 				end
 			end

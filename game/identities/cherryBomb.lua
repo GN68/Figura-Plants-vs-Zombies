@@ -14,14 +14,14 @@ local fIdle={
 	Frame.new(tex,35,28,81,65),
 }
 
-local fBoom=Frame.newArray(tex,83,0,177,67,8)
+local fBoom=Frame.newArray(tex,83,0,174,67,3)
 Frame.shiftArray(fBoom,vec(-35,-20))
 local fSeed=Frame.new(tex,0,0,25,25,-1,0)
 
 --[────────────────────────-< STATISTICS >-────────────────────────]--
 local R = 24
 
-Identity.new(fSeed,fIdle[1], "p.cherrybomb",50, 300,{
+Identity.new(fSeed,fIdle[1], "p.cherrybomb",150, 300,{
 	---@param self Peashooter
 	ENTER=function (self, screen)
 		self.range = Hitbox.new(self,-R,-R*1.2,R*2,R*2.4)
@@ -46,7 +46,7 @@ Identity.new(fSeed,fIdle[1], "p.cherrybomb",50, 300,{
 					value.object:damage(99999999)
 				end
 			end
-			self.sprite:setFrame(Frame.clamped(fBoom,(i-20)/2))
+			self.sprite:setFrame(Frame.clamped(fBoom,(i-20)/4))
 			if i > 36 then
 				self:damage(999)
 			end

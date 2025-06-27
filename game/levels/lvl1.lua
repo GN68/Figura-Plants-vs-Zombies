@@ -14,11 +14,12 @@ local z="z.zombie"
 ---@type Level
 local level={
 	suns=150,
-	sunTimer=5,
 	grass=1,
+	skip=true,
+	inventory = {"p.peashooter","lawnmower"},
 	grid_range=vec(0,2,9,3),
 	prize="p.sunflower",
-	next="sandbox",
+	next="lvl2",
 	waves={
 		{c={[1]={z}}},
 		{c={[1]={z}}},

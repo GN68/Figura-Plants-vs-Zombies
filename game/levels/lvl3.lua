@@ -1,24 +1,24 @@
 
 local z="z.zombie"
+local c="z.conehead"
 
 ---@type Level
 local level={
-	grass=2,
-	grid_range=vec(0,1,9,4),
-	inventory = {"p.sunflower","p.peashooter"},
-	prize="p.cherrybomb",
-	next="lvl3",
+	grass=3,
+	inventory = {"p.sunflower","p.peashooter","p.cherrybomb"},
+	prize="p.wallnut",
+	next="lvl4",
 	waves={
 		{c={[1]={z}}},
 		{c={[1]={z}}},
 		{c={[2]={z}}},
 		{c={[2]={z}}},
-		{c={[2]={z}}},
-		{c={[2]={z}}},
-		{c={[3]={z}}},
+		{c={[2]={z},[1]={c}}},
 		{c={[2]={z}}},
 		{c={[3]={z}}},
-		{c={[3]={z}}},
+		{c={[2]={z}}},
+		{c={[3]={z},[1]={c}}},
+		{c={[3]={z},[1]={c}}},
 		{major=true,c={[5]={z}}},
 	}
 }

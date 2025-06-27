@@ -38,7 +38,7 @@ function Sprite.new(screen,frame)
 	
 	screen.CAMERA_MOVED:register(function ()
 		new:updateBounds()
-	end)
+	end,"sprite"..new.id)
 	
 	new:setFrame(frame)
 	new:setPos(0,0)
@@ -50,6 +50,7 @@ end
 function Sprite:free()
 	self.task:remove()
 	self.screen.sprites[self.id]=nil
+	self.screen.CAMERA_MOVED:remove("sprite"..self.id)
 end
 
 

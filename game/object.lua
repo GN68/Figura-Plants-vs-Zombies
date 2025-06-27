@@ -1,6 +1,6 @@
 local params=require("lib.params")
 
-local Debug=require("lib.ui.debug")
+
 local Sprite=require("lib.ui.sprite")
 
 local Event=require("lib.event")

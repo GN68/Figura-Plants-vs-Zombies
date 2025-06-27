@@ -1,11 +1,7 @@
 
 local P = require("./plantUtils") ---@module "game.identities.plantUtils"
-local Sprite=require("lib.ui.sprite")
 local Frame=require("lib.ui.frame")
-
 local Identity=require("game.identity")
-local Object=require("game.object")
-local Hitbox=require("game.hitbox")
 
 
 local tex=textures["textures.wallnut"]
@@ -21,23 +17,22 @@ Identity.new(fSeed,fIdle[1], "p.wallnut",50, 4000,{
 		self.hitbox:setDim(24,24,0,0):setLayer("plants")
 		self.i=0
 		self.d=0
-		self.bowling=true
 	end,
 	
 	---@param self Peashooter
-	TICK=function (self, screen)
+	TICK=function (self, s)
 		self.i=self.i+1
-		if self.bowling then
-			P.unplant(self,screen)
+		if s.lvl.bowling then --[────────────────────────-< BOWLING LOGIC >-────────────────────────]--
+			P.unplant(self,s)
 			self.sprite:setFrame(Frame.scroll(fBowls,self.i*0.5))
 			self.hitbox:setLayer("b"):setDim(24,3,0,0)
 			self:move(-3,self.d)
 			local z=self.hitbox:getCollidingBox("zombies")
 			if z and z~=self.l then
-				z.object:damage(270)
-				screen:sound("minecraft:block.rooted_dirt.break",0.2,1)
-				screen:sound("minecraft:entity.player.attack.sweep",0.5,1)
-				screen.shake=0.001
+				z.object:damage(math.max(270,z.object.health/1.5))
+				s:sound("minecraft:block.rooted_dirt.break",0.2,1)
+				s:sound("minecraft:entity.player.attack.sweep",0.5,1)
+				s.shake=0.001
 				self.l=z
 				if self.d==0 then
 					self.d=(math.random(1)*2-1)*3

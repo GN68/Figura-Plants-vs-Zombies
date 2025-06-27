@@ -33,13 +33,21 @@ local fBurn=Frame.new(texZombie,242,14,268,57)
 
 --[────────────────────────-< FUNCTIONS >-────────────────────────]--
 
-local function mkEnter(fIdle,fWalk,fEat)
+---@param fIdle Frame[]
+---@param fWalk Frame[]
+---@param fEat Frame[]
+---@param dmgSound Minecraft.soundID?
+---@param dmgPitch number?
+---@return function
+local function mkEnter(fIdle,fWalk,fEat,dmgSound,dmgPitch)
 	---@param self Zombie
 	return function (self, s,useless) --[────────-< ENTER >-────────]--
 		if not useless then
 			s.waveHealth=s.waveHealth+self.health
 			s.totalHealth=s.totalHealth+self.health
 		end
+		self.dmgSound=dmgSound
+		self.dmgPitch=dmgPitch
 		self.fIdle=fIdle
 		self.fWalk=fWalk
 		self.fEat=fEat
@@ -57,7 +65,7 @@ end
 ---@param self Zombie
 local function TICK(self, s) --[────────-< TICK >-────────]--
 	self.i=self.i+1
-	local sp=self.speed
+	local sp= self.speed*(s.lvl.bowling and 4 or 1)
 	
 	if self.pos.x > -96 and s.playing then
 		s.dead(self)
@@ -80,8 +88,8 @@ local function TICK(self, s) --[────────-< TICK >-────�
 			end
 		else
 			if self.isWalking then
-				self:move(0.2*self.speed,0)
-				self.sprite:setFrame(Frame.scroll(clth and fZombWalk or self.fWalk,self.i*0.1*sp))
+				self:move(0.2*sp,0)
+				self.sprite:setFrame(Frame.scroll(clth and fZombWalk or self.fWalk,self.i*0.17*sp))
 			else
 				self.sprite:setFrame(Frame.scroll(clth and fZombIdle or self.fIdle,self.i*0.15*sp))
 			end
@@ -89,10 +97,17 @@ local function TICK(self, s) --[────────-< TICK >-────�
 	end
 end
 
-local function DAMAGED(self, s, a) --[────────-< DAMAGED >-────────]--
+---@param s Screen
+---@param amount any
+local function DAMAGED(self, s, amount) --[────────-< DAMAGED >-────────]--
 	if not self.useless then
-		s.waveHealth=s.waveHealth-math.min(a,self.health)
+		s.waveHealth=s.waveHealth-math.min(amount,self.health)
 	end
+	
+	if self.health>270 and self.dmgSound then
+		s:sound(self.dmgSound,self.dmgPitch)
+	end
+	
 	self.sprite:setColor(self.tint*vec(0.6,0.6,0.6))
 	Seq.new()
 	:add(5,function ()self.sprite:setColor(self.tint)end)
@@ -133,12 +148,12 @@ Identity.new(aSeed(texZombie),fZombIdle[1], "z.zombie",50,270,{
 
 local fConeIdle = aIdle(texCone)
 Identity.new(aSeed(texCone),fConeIdle[1], "z.conehead",75,570,{
-	ENTER=mkEnter(fConeIdle,aWalk(texCone),aEat(texCone)),
+	ENTER=mkEnter(fConeIdle,aWalk(texCone),aEat(texCone),"minecraft:entity.item.pickup",0.3),
 	TICK=TICK,DAMAGED=DAMAGED,DEATH=DEATH,
 })
 
 local fBucketIdle = aIdle(texBucket)
 Identity.new(aSeed(texBucket),fBucketIdle[1], "z.bucket",125,1300,{
-	ENTER=mkEnter(fBucketIdle,aWalk(texBucket),aEat(texBucket)),
+	ENTER=mkEnter(fBucketIdle,aWalk(texBucket),aEat(texBucket),"minecraft:entity.zombie.attack_iron_door",1.2),
 	TICK=TICK,DAMAGED=DAMAGED,DEATH=DEATH,
 })

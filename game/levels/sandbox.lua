@@ -5,21 +5,15 @@ local level={
 	suns=99999,
 	sunTimer=10000000,
 	--inventory = {"p.sunflower","p.peashooter","p.cherrybomb","p.chomper","p.potatomine","p.wallnut","p.snowpea","p.repeater","z.zombie","z.conehead"},
-	inventory = {"p.sunflower","p.peashooter","p.cherrybomb","p.chomper","p.snowpea","p.repeater","z.zombie","z.conehead","z.bucket"},
+	inventory = {"lawnmower","p.peashooter","p.cherrybomb","p.chomper","p.snowpea","p.repeater","p.wallnut","z.conehead","z.pole"},
 	skip = true,
 	prize="sunflower",
 	waves={
 		{c={[1]={z}}},
-		{c={[1]={z}}},
-		{c={[3]={z}}},
-		{c={[4]={z}}},
-		{major=true,c={[10]={z}}},
-		{c={[4]={z}}},
-		{c={[3]={z}}},
-		{c={[4]={z}}},
+		{major=true,c={[1]={z}}},
 	},
 	fun=function (s,lvl)
-		s.spawnTimer = 0
+		s.spawnTimer = 200
 	end
 }
 
