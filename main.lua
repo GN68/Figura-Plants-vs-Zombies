@@ -1,6 +1,6 @@
 
 
---[[ <- separate to enable
+--[ [ <- separate to enable
 figuraMetatables.HostAPI.__index.isHost=function () return false end
 --]]
 

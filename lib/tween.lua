@@ -127,12 +127,7 @@ local Tween={
 local queries={}
 local sysTime
 
-local tweenProcessor=models:newPart("TweenProcessor","WORLD") -- set to "WORLD" so it always runs when the player is loaded
-
-local isActive=false
-local setActive ---@type function
-
-local function process()
+function Tween.tick()
 	sysTime=client:getSystemTime() / 1000
 	for id, tween in pairs(queries) do
 		local duration=(sysTime-tween.start) / tween.duration
@@ -142,19 +137,12 @@ local function process()
 		else
 			tween.tick(tween.to, 1)
 			tween.onFinish()
-			setActive(next(queries) and true or false)
 			queries[id]=nil
 		end
 	end
 end
 
 
-setActive=function (toggle)
-	if isActive ~= toggle then
-		tweenProcessor.midRender=toggle and process or nil
-		isActive=toggle
-	end
-end
 
 
 ---@class TweenInstanceCreation
@@ -219,7 +207,7 @@ function Tween.new(cfg)
 	---@type TweenInstance
 	
 	local new={
-		start=isActive and sysTime or (client:getSystemTime()/1000),
+		start= sysTime or (client:getSystemTime()/1000),
 		from=cfg.from or 0,
 		to=cfg.to or 1,
 		period=cfg.period or 1,
@@ -234,7 +222,6 @@ function Tween.new(cfg)
 	new.tick(new.from, 0)
 	queries[id]=new
 	
-	setActive(true)
 	return new
 end
 

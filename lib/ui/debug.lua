@@ -1,5 +1,7 @@
+local Events=require("lib.event")
 local Debug={}
 Debug.__index=Debug
+Debug.ON_CLEAR=Events.new()
 
 function Debug:setParent(parent)end
 function Debug:getParent()end

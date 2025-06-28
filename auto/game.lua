@@ -513,7 +513,6 @@ local lastHeldName=""
 local heldName=""
 
 events.SKULL_RENDER:register(function (delta, block, item, entity, ctx)
-	
 	if ctx:find(client:getViewer():getActiveHand() == "MAIN_HAND" and "LEFT" or "RIGHT".."_HAND") then
 		heldName=item:getName()
 		if heldName ~= lastHeldName then
@@ -531,7 +530,6 @@ local game=Macros.new(function (events, ...)
 		s.shake=s.shake*0.2
 		Object.tick(s)
 		Seq.tick()
-		NBS.tick()
 		s.musicPlayer:setPos(client:getCameraPos()+client:getCameraDir())
 		Hitbox:tick(s)
 		Debug:setOffset(s.camPos)
@@ -590,7 +588,8 @@ local game=Macros.new(function (events, ...)
 	-- SCREEN BOUNDARIES
 	events.WORLD_RENDER:register(function (delta)
 		s:setCamPos(s.camPos)
-		
+		NBS.tick()
+		Tween.tick()
 		s:setDir(client:getCameraDir())
 		local t=client:getSystemTime() / 1000
 		Debug:clear()
@@ -620,7 +619,7 @@ end)
 
 events.SKULL_RENDER:register(function (delta, block, item, entity, ctx)
 	local rightHanded=client:getViewer():getActiveHand()=="MAIN_HAND"
-	if ctx:find((rightHanded and "LEFT" or "RIGHT") .."_HAND$") then
+	if ctx:find((rightHanded and "LEFT" or "RIGHT") .."_HAND$") and ctx:find("FIRST") then
 		isActive=true
 		local rot=client:getCameraRot().xy
 		local diff=(rot-(lrot or rot)+180)%360-180
