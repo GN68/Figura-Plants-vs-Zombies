@@ -16,10 +16,11 @@ local level={
 	suns=150,
 	grass=1,
 	skip=false,
-	inventory = {"p.peashooter","lawnmower"},
+	inventory = {"p.peashooter"},
 	grid_range=vec(0,2,9,3),
 	prize="p.sunflower",
 	next="lvl2",
+	noShovel=true,
 	waves={
 		{c={[1]={z}}},
 		{c={[1]={z}}},

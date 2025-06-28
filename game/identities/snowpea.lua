@@ -30,7 +30,7 @@ Frame.offset2Array(fShoot,{vec(0,0),vec(-2,0),vec(-4,0)})
 local fSeed=Frame.new(tex,321,2,344,23)
 
 
-Identity.new(fSeed,fIdle[1], "p.snowpea",100, 300,{
+Identity.new(fSeed,fIdle[1], "p.snowpea",175, 300,{
 	---@param self Peashooter
 	ENTER=function (self, screen)
 		self.hitbox:setDim(27,16,0,0):setLayer("plants")

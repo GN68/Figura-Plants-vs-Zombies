@@ -8,6 +8,7 @@ local level={
 	inventory = {"p.sunflower","p.peashooter","p.cherrybomb"},
 	prize="p.wallnut",
 	next="lvl4",
+	noShovel=true,
 	waves={
 		{c={[1]={z}}},
 		{c={[1]={z}}},

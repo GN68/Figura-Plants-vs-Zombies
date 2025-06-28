@@ -291,7 +291,7 @@ local function spawnWave(wave)
 	s.totalHealth=1
 	local x=0
 	for count, names in pairs(wave.c) do
-		for _, name in ipairs(names) do
+		for _, name in pairs(names) do
 			for i=1, count, 1 do
 				x=x + 1
 				local z=Object.new(name,s) ---@type Zombie
@@ -304,7 +304,7 @@ local function spawnWave(wave)
 					y=math.random(1,5)
 				end
 				s.waveZombies[z]=1
-				z:setPos(-350-x*8,-(y+1)*31+4)
+				z:setPos(-350-x*2,-(y+1)*31+4)
 				z.isWalking=true
 			end
 		end
@@ -314,6 +314,9 @@ end
 local aStart
 
 function s.loadLevel(level)
+	if s.lvl.init then
+		s.lvl.init(s,s.lvl)
+	end
 	Tween.new{
 		from=1,
 		to=0,
@@ -486,7 +489,7 @@ function s.loadLevel(level)
 	end
 end
 
-s.loadLevel("sandbox")
+s.loadLevel("lvl1")
 --local peashooter=Object.new("peashooter",screen)
 --peashooter:setPos(-100,-108)
 		
@@ -544,9 +547,10 @@ local game=Macros.new(function (events, ...)
 		s.spawnTimer=s.spawnTimer - 1
 		if s.canSpawnZombies then
 			if s.spawnTimer < 0 then
-				if s.lvl.waves[s.wave] then
+				if s.lvl.waves[s.wave] then -- if there even is a wave to spawn
 					local wave = s.lvl.waves[s.wave]
-					if not wave.major and (s.totalHealth / 2 > s.waveHealth) or wave.major and (s.waveHealth < 10) then -- 50% rule
+					if not wave.major and (s.totalHealth / 2 > s.waveHealth) -- 50% rule on minor waves
+						or wave.major and (s.waveHealth < 10) then -- 100% rule on major waves
 						if s.spawnTimer < -2 then
 							s.spawnTimer = s.lvl.waveCooldown or 100
 							if wave.major then
