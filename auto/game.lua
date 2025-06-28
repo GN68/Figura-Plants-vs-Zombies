@@ -59,23 +59,25 @@ local levelTask=modelTitle:newText("levl"):scale(0.05,0.05,1):setText("..."):pos
 
 
 local function title(text,scale,duration)
-	scale=scale or 1
-	local i=1/scale
-	local pos=client:getCameraPos()+client:getCameraDir()
-	--sounds:playSound("minecraft:block.anvil.place",pos, 0.1, 0.3)
-	sounds:playSound("minecraft:block.sand.place",pos, 1, 0.5*i)
-	sounds:playSound("minecraft:block.sand.break",pos, 1, 0.25*i)
-	sounds:playSound("minecraft:block.note_block.snare",pos, 1, 0.25*i)
-	sounds:playSound("minecraft:block.note_block.hat",pos, 1, 0.5*i)
-	local scale=scale*0.2
-	titleTask:scale(scale,scale,scale)
-	titleTask:setText(toJson({text=text,color="#ff0000"}))
-	duration=(duration or 0.5)*20
-	Seq.new()
-	:add(duration,function ()
-		titleTask:setText("")
-	end)
-	:start()
+	if #text > 0 then
+		scale=scale or 1
+		local i=1/scale
+		local pos=client:getCameraPos()+client:getCameraDir()
+		--sounds:playSound("minecraft:block.anvil.place",pos, 0.1, 0.3)
+		sounds:playSound("minecraft:block.sand.place",pos, 1, 0.5*i)
+		sounds:playSound("minecraft:block.sand.break",pos, 1, 0.25*i)
+		sounds:playSound("minecraft:block.note_block.snare",pos, 1, 0.25*i)
+		sounds:playSound("minecraft:block.note_block.hat",pos, 1, 0.5*i)
+		local scale=scale*0.2
+		titleTask:scale(scale,scale,scale)
+		titleTask:setText(toJson({text=text,color="#ff0000"}))
+		duration=(duration or 0.5)*20
+		Seq.new()
+		:add(duration,function ()
+			titleTask:setText("")
+		end)
+		:start()
+	end
 end
 
 local function message(text)
@@ -533,7 +535,6 @@ local game=Macros.new(function (events, ...)
 		s.musicPlayer:setPos(client:getCameraPos()+client:getCameraDir())
 		Hitbox:tick(s)
 		Debug:setOffset(s.camPos)
-		
 		if s.win then
 			s.win=false
 			s.loadLevel(s.lvl.next)
@@ -545,7 +546,7 @@ local game=Macros.new(function (events, ...)
 			sunTimer=s.lvl.sunTimer or 200 -- 10 seconds
 			Object.new("sun",s,25,true)
 		end
-		--print(s.totalHealth / 2, s.waveHealth)
+		
 		s.spawnTimer=s.spawnTimer - 1
 		if s.canSpawnZombies then
 			if s.spawnTimer < 0 then
@@ -634,7 +635,6 @@ events.SKULL_RENDER:register(function (delta, block, item, entity, ctx)
 		mpos.y=math.clamp(mpos.y,0,1)
 		s:setMousePos(mpos)
 		
-		--modelHardware:setPos(9*(rightHanded and -1 or 1),10.5,0):rot(0,0,0)
 		modelHardware:setPos(9*(rightHanded and -1 or 1)+math.lerp(-8,8,mpos.x),4.4+math.lerp(0,12,mpos.y),0):rot(0,0,0)
 	else
 		modelHardware:setPos(0,0,-6):scale():rot(90,0,0)
