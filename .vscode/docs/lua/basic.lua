@@ -6,13 +6,13 @@
 ---
 ---[View documents](command:extension.lua.doc?["en-us/52/manual.html/pdf-_G"])
 ---@class _G
-_G = {}
+_G={}
 
 ---A global variable (not a function) that holds a string containing the running Lua version.
 ---
 ---~~[View documents](command:extension.lua.doc?["en-us/52/manual.html/pdf-_VERSION"])~~  
 ---This variable has been modified by Figura and does not have the same value as in normal Lua 5.2.
-_VERSION = "Lua 5.2-Figura"
+_VERSION="Lua 5.2-Figura"
 
 
 ---==================================================================================================================---

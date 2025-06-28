@@ -7,25 +7,25 @@
 ---==============================================================================================---
 
 ---@type ActionWheelAPI
-action_wheel = {}
+action_wheel={}
 
 ---@type AnimationAPI
-animations = {}
+animations={}
 
 ---@type AvatarAPI
-avatar = {}
+avatar={}
 
 ---@type ClientAPI
-client = {}
+client={}
 
 ---@type ConfigAPI
-config = {}
+config={}
 
 ---@type DataAPI
-data = {}
+data={}
 
 ---@type EventsAPI
-events = {}
+events={}
 
 ---A table containing all metatables used by Figura.
 ---
@@ -57,7 +57,7 @@ events = {}
 ---> An example of a valid `__index` metamethod that causes a table to return the negative of any
 ---> number key put into it.
 ---> ```lua
----> local Object = {}
+---> local Object={}
 ---> setmetatable(Object, {
 --->   __index(self, key)
 --->     if type(key) == "number" then return -key end
@@ -70,13 +70,13 @@ events = {}
 ---> ```
 ---> An example of prototype inheritance with metatables.
 ---> > ```lua
----> > local FirstClass = {SayHi = function() print("Hi!") end}
+---> > local FirstClass={SayHi=function() print("Hi!") end}
 ---> >
----> > local SecondClass = {SayBye = function() print("Bye!") end}
----> > setmetatable(SecondClass, {__index = FirstClass})
+---> > local SecondClass={SayBye=function() print("Bye!") end}
+---> > setmetatable(SecondClass, {__index=FirstClass})
 ---> >
----> > local ThirdClass = {SayFoo = function() print("foo") end}
----> > setmetatable(ThirdClass, {__index = SecondClass})
+---> > local ThirdClass={SayFoo=function() print("foo") end}
+---> > setmetatable(ThirdClass, {__index=SecondClass})
 ---> >
 ---> > ThirdClass.SayHi()  --> Hi!
 ---> > ThirdClass.SayBye() --> Bye!
@@ -101,9 +101,9 @@ events = {}
 ---> An example of a valid `__newindex` metamethod that causes all string keys to be prefixed with a
 ---> `_`.
 ---> > ```lua
----> > local Object = {}
+---> > local Object={}
 ---> > setmetatable(Object, {
----> >   __newindex = function(self, key, value)
+---> >   __newindex=function(self, key, value)
 ---> >     if type(key) == "string" then
 ---> >       rawset(self, "_" .. key, value)
 ---> >     else
@@ -112,7 +112,7 @@ events = {}
 ---> >   end
 ---> > })
 ---> >
----> > Object.foo = 5
+---> > Object.foo=5
 ---> > print(Object.foo)  --> nil
 ---> > print(Object._foo) --> 5
 ---> > ```
@@ -134,10 +134,10 @@ events = {}
 ---> An example of a valid `__call` metamethod that causes a counter object to count up and return
 ---> its new value.
 ---> > ```lua
----> > local Counter = {value = 0}
+---> > local Counter={value=0}
 ---> > setmetatable(Counter, {
----> >   __call = function(self, n)
----> >     self.value = self.value+(n or 1)
+---> >   __call=function(self, n)
+---> >     self.value=self.value+(n or 1)
 ---> >     return self.value
 ---> >   end
 ---> > })
@@ -183,8 +183,8 @@ events = {}
 --->
 ---> An example of hiding the metatable of a table.
 ---> > ```lua
----> > local Object = {}
----> > setmetatable(Object, {__metatable = false})
+---> > local Object={}
+---> > setmetatable(Object, {__metatable=false})
 ---> >
 ---> > print(getmetatable(Object)) --> false
 ---> > setmetatable(Object, {})    --> [error] cannot change a protected metatable
@@ -207,12 +207,12 @@ events = {}
 --->
 ---> An example of a valid `__tostring` metamethod that gives a table a more descriptive name.
 ---> > ```lua
----> > local MyClass = {}
+---> > local MyClass={}
 ---> > setmetatable(MyClass, {
----> >   __tostring = function() return "MyClass" end
+---> >   __tostring=function() return "MyClass" end
 ---> > })
 ---> >
----> > local mytable = {}
+---> > local mytable={}
 ---> >
 ---> > print(tostring(mytable))) --> table: 54bb368a
 ---> > print(tostring(MyClass))) --> MyClass
@@ -231,31 +231,31 @@ events = {}
 ---> This metamethod controls how `pairs()` iterates over a table.
 --->
 ---> The metamethod must return 3 values:
----> * **`iterator`**  
+--->***`iterator`**  
 --->   The function that the `for of` loop will run when it loops.  
 --->   The first parameter is the object to iterate over. The iterator is not required to use it.  
 --->   The second parameter is the key that was previously iterated over.  
 --->   The iterator should return a key and value which are passed into the `for of` loop.  
 --->   The iterator should return nothing if there is no next key or value.
----> * **`tbl`**  
+--->***`tbl`**  
 --->   The object that should be iterated over. This is passed as the first parameter of `iterator`.  
 --->   This object doesn't actually have to be iterated over. The iterator can choose to ignore it.
----> * **`starting_key`**  
+--->***`starting_key`**  
 --->   The first key the iterator should receive. By default this is `nil`.
 --->
 ---> An example iterator that loops over a contained "data" folder instead of itself.
 ---> > ```lua
----> > local DataContainer = {
----> >   data = {
----> >     hello = "world",
----> >     foo = "bar",
----> >     abc = "xyz"
+---> > local DataContainer={
+---> >   data={
+---> >     hello="world",
+---> >     foo="bar",
+---> >     abc="xyz"
 ---> >   }
 ---> > }
 ---> > setmetatable(DataContainer, {
----> >   __pairs = function(self)
+---> >   __pairs=function(self)
 ---> >     local function iter(_, key)
----> >       local k, v = next(self.data, key)
+---> >       local k, v=next(self.data, key)
 ---> >       if k then return k, v end
 ---> >     end
 ---> >
@@ -300,8 +300,8 @@ events = {}
 --->
 ---> An example of a valid `__type` metamethod that adds a custom type to a table.
 ---> > ```lua
----> > local MyClass = {}
----> > setmetatable(MyClass, {__type = "MyClass"})
+---> > local MyClass={}
+---> > setmetatable(MyClass, {__type="MyClass"})
 ---> >
 ---> > print(type(MyClass)) --> MyClass
 ---> > ```
@@ -318,9 +318,9 @@ events = {}
 --->
 ---> An example of a valid `__len` metamethod that gets the size of a range.
 ---> > ```lua
----> > local Range = {min = 5, max = 13}
+---> > local Range={min=5, max=13}
 ---> > setmetatable(Range, {
----> >   __len = function(self)
+---> >   __len=function(self)
 ---> >     return self.max-self.min+1
 ---> >   end
 ---> > })
@@ -340,15 +340,15 @@ events = {}
 --->
 ---> An example of a valid `__unm` metamethod that flips a position coordinate.
 ---> > ```lua
----> > local Position = {x = 25, y = 13, z = -64}
+---> > local Position={x=25, y=13, z=-64}
 ---> > setmetatable(Position, {
----> >   __unm = function(self)
----> >     return setmetatable({x = -self.x, y = -self.y, z = -self.z}, getmetatable(self))
+---> >   __unm=function(self)
+---> >     return setmetatable({x=-self.x, y=-self.y, z=-self.z}, getmetatable(self))
 ---> >   end
 ---> > })
 ---> >
----> > print(Position)  --> {x = 25, y = 13, z = -64}
----> > print(-Position) --> {x = -25, y = -13, z = 64}
+---> > print(Position)  --> {x=25, y=13, z=-64}
+---> > print(-Position) --> {x=-25, y=-13, z=64}
 ---> > ```
 ---***
 ---&nbsp;  
@@ -369,13 +369,13 @@ events = {}
 --->
 ---> An example of a valid `__add` metamethod that combines two complex numbers.
 ---> > ```lua
----> > local ComplexMT = {
----> >   __add = function(l, r)
----> >     return setmetatable({n = l.n+r.n, i = l.i+r.i}, getmetatable(l))
+---> > local ComplexMT={
+---> >   __add=function(l, r)
+---> >     return setmetatable({n=l.n+r.n, i=l.i+r.i}, getmetatable(l))
 ---> >   end
 ---> > }
----> > local Complex1 = setmetatable({n = 2, i = 3}, ComplexMT)
----> > local Complex2 = setmetatable({n = 1, i = 5}, ComplexMT)
+---> > local Complex1=setmetatable({n=2, i=3}, ComplexMT)
+---> > local Complex2=setmetatable({n=1, i=5}, ComplexMT)
 ---> >
 ---> > print(Complex1)            --> (2+3i)
 ---> > print(Complex1+Complex2) --> (3+8i)
@@ -395,10 +395,10 @@ events = {}
 --->
 ---> An example of a valid `__sub` metamethod that subtracts substrings from a bigger string.
 ---> > ```lua
----> > local CustomString = {value = "hello world"}
+---> > local CustomString={value="hello world"}
 ---> > setmetatable(CustomString, {
----> >   __sub = function(l, r)
----> >     return setmetatable({value = l.value:gsub(r, "")}, getmetatable(l))
+---> >   __sub=function(l, r)
+---> >     return setmetatable({value=l.value:gsub(r, "")}, getmetatable(l))
 ---> >   end
 ---> > })
 ---> >
@@ -421,17 +421,17 @@ events = {}
 --->
 ---> An example of a valid `__mul` metamethod that repeats a string.
 ---> > ```lua
----> > local CustomString = {value = "foo"}
+---> > local CustomString={value="foo"}
 ---> > setmetatable(CustomString, {
----> >   __mul = function(l, r)
----> >     if type(l) == "number" then l, r = r, l end
----> >     return setmetatable({value = l.value:rep(r)}, getmetatable(l))
+---> >   __mul=function(l, r)
+---> >     if type(l) == "number" then l, r=r, l end
+---> >     return setmetatable({value=l.value:rep(r)}, getmetatable(l))
 ---> >   end
 ---> > })
 ---> >
 ---> > print(CustomString)     --> {"foo"}
----> > print(CustomString * 5) --> {"foofoofoofoofoo"}
----> > print(2 * CustomString) --> {"foofoo"}
+---> > print(CustomString*5) --> {"foofoofoofoofoo"}
+---> > print(2*CustomString) --> {"foofoo"}
 ---> > ```
 ---***
 ---&nbsp;  
@@ -448,13 +448,13 @@ events = {}
 --->
 ---> An example of a valid `__div` metamethod that concatenates paths together.
 ---> > ```lua
----> > local PathMT = {
----> >   __div = function(l, r)
----> >     return setmetatable({path = l.path .. "/" .. r.path:gsub("^/", "")}, getmetatable(l))
+---> > local PathMT={
+---> >   __div=function(l, r)
+---> >     return setmetatable({path=l.path .. "/" .. r.path:gsub("^/", "")}, getmetatable(l))
 ---> >   end
 ---> > }
----> > local Path1 = setmetatable({path = "/foo/bar"}, PathMT)
----> > local Path2 = setmetatable({path = "/hello/world"}, PathMT)
+---> > local Path1=setmetatable({path="/foo/bar"}, PathMT)
+---> > local Path2=setmetatable({path="/hello/world"}, PathMT)
 ---> >
 ---> > print(Path1)       --> /foo/bar
 ---> > print(Path2)       --> /hello/world
@@ -475,23 +475,23 @@ events = {}
 --->
 ---> An example of a valid `__mod` metamethod that causes an action to have a chance of running.
 ---> > ```lua
----> > local Action = {chance = 1, action = function() print("hi!") end}
+---> > local Action={chance=1, action=function() print("hi!") end}
 ---> > setmetatable(Action, {
----> >   __mod = function(l, r)
----> >     if type(l) == "number" then l, r = r, l end
----> >     return setmetatable({chance = l.chance * (r / 100), action = l.action}, getmetatable(l))
+---> >   __mod=function(l, r)
+---> >     if type(l) == "number" then l, r=r, l end
+---> >     return setmetatable({chance=l.chance*(r / 100), action=l.action}, getmetatable(l))
 ---> >   end,
----> >   __call = function(self, ...)
+---> >   __call=function(self, ...)
 ---> >     if math.random() <= self.chance then self.action(...) end
 ---> >   end
 ---> > })
 ---> >
 ---> > Action()         --> hi!
 ---> >
----> > local RareAction = 20%Action
+---> > local RareAction=20%Action
 ---> > RareAction()     --> [20% chance to print "hi!", 80% chance to print nothing]
 ---> >
----> > local LessRareAction = 200% RareAction
+---> > local LessRareAction=200% RareAction
 ---> > LessRareAction() --> [40% chance to print "hi!", 60% chance to print nothing]
 ---> > ```
 ---***
@@ -509,21 +509,21 @@ events = {}
 --->
 ---> An example of a valid `__pow` metamethod that adds superscript text to a string.
 ---> > ```lua
----> > local CustomString = {value = "e = mc"}
+---> > local CustomString={value="e=mc"}
 ---> >
----> > local supers = {
----> >   ["1"] = "¹", ["2"] = "²", ["3"] = "³", ["4"] = "⁴", ["5"] = "⁵", ["6"] = "⁶", ["7"] = "⁷",
----> >   ["8"] = "⁸", ["9"] = "⁹", ["0"] = "⁰", ["+"] = "⁺", ["n"] = "ⁿ"
+---> > local supers={
+---> >   ["1"]="¹", ["2"]="²", ["3"]="³", ["4"]="⁴", ["5"]="⁵", ["6"]="⁶", ["7"]="⁷",
+---> >   ["8"]="⁸", ["9"]="⁹", ["0"]="⁰", ["+"]="⁺", ["n"]="ⁿ"
 ---> > }
 ---> >
 ---> > setmetatable(CustomString, {
----> >   __pow = function(l, r)
----> >     return setmetatable({value = l.value .. r:gsub(".", supers)}, getmetatable(l))
+---> >   __pow=function(l, r)
+---> >     return setmetatable({value=l.value .. r:gsub(".", supers)}, getmetatable(l))
 ---> >   end
 ---> > })
 ---> >
----> > print(CustomString)       --> {"e = mc"}
----> > print(CustomString ^ "2") --> {"e = mc²"}
+---> > print(CustomString)       --> {"e=mc"}
+---> > print(CustomString ^ "2") --> {"e=mc²"}
 ---> > ```
 ---***
 ---&nbsp;  
@@ -541,16 +541,16 @@ events = {}
 --->
 ---> An example of a valid `__concat` metamethod that creates a range from two other ranges.
 ---> > ```lua
----> > local RangeMT = {
----> >   __concat = function(left, right)
+---> > local RangeMT={
+---> >   __concat=function(left, right)
 ---> >     return setmetatable({
----> >       min = math.min(l.min, r.min),
----> >       max = math.max(l.max, r.max)
+---> >       min=math.min(l.min, r.min),
+---> >       max=math.max(l.max, r.max)
 ---> >     }, getmetatable(l))
 ---> >   end
 ---> > }
----> > local Range1 = setmetatable({min = 2, max = 15}, RangeMT)
----> > local Range2 = setmetatable({min = 12, max = 22}, RangeMT)
+---> > local Range1=setmetatable({min=2, max=15}, RangeMT)
+---> > local Range2=setmetatable({min=12, max=22}, RangeMT)
 ---> >
 ---> > print(Range1)           --> [2 .. 15]
 ---> > print(Range2)           --> [12 .. 22]
@@ -577,17 +577,17 @@ events = {}
 --->
 ---> An example of a valid `__eq` metamethod that checks if two complex objects are equal.
 ---> > ```lua
----> > local ObjectMT = {
----> >   __eq = function(left, right)
+---> > local ObjectMT={
+---> >   __eq=function(left, right)
 ---> >     return left.foo == right.foo and left.bar == right.bar
 ---> >   end
 ---> > }
----> > local Object1 = setmetatable({foo = 1, bar = 2}, ObjectMT)
----> > local Object2 = setmetatable({foo = 1, bar = 5}, ObjectMT)
+---> > local Object1=setmetatable({foo=1, bar=2}, ObjectMT)
+---> > local Object2=setmetatable({foo=1, bar=5}, ObjectMT)
 ---> >
 ---> > print(Object1 == Object2) --> false
 ---> >
----> > Object2.bar = 2
+---> > Object2.bar=2
 ---> > print(Object1 == Object2) --> true
 ---> > ```
 ---***
@@ -609,20 +609,20 @@ events = {}
 ---> An example of a valid `__lt` metamethod that checks if all of the values in the table are
 ---> smaller than the values of the other table.
 ---> > ```lua
----> > local CompareAllMT = {
----> >   __lt = function(l, r)
+---> > local CompareAllMT={
+---> >   __lt=function(l, r)
 ---> >     for k of pairs(l) do
 ---> >       if l[k] >= (r[k] or 0) then return false end
 ---> >     end
 ---> >     return true
 ---> >   end
 ---> > }
----> > local CompareAll1 = setmetatable({hello = 7, world = 1, foo = -5, bar = -0.2}, CompareAllMT)
----> > local CompareAll2 = setmetatable({hello = 1, world = 7, foo = -4}, CompareAllMT)
+---> > local CompareAll1=setmetatable({hello=7, world=1, foo=-5, bar=-0.2}, CompareAllMT)
+---> > local CompareAll2=setmetatable({hello=1, world=7, foo=-4}, CompareAllMT)
 ---> >
 ---> > print(CompareAll1 < CompareAll2) --> false
 ---> >
----> > CompareAll2.hello = 9
+---> > CompareAll2.hello=9
 ---> > print(CompareAll1 < CompareAll2) --> true
 ---> > ```
 ---***
@@ -644,1216 +644,1216 @@ events = {}
 ---> An example of a valid `__le` metamethod that checks if all of the values in the table are
 ---> smaller than or equal to the values of the other table.
 ---> > ```lua
----> > local CompareAllMT = {
----> >   __le = function(l, r)
+---> > local CompareAllMT={
+---> >   __le=function(l, r)
 ---> >     for k of pairs(l) do
 ---> >       if l[k] > (r[k] or 0) then return false end
 ---> >     end
 ---> >     return true
 ---> >   end
 ---> > }
----> > local CompareAll1 = setmetatable({hello = 7, world = 1, foo = -5, bar = 0}, CompareAllMT)
----> > local CompareAll2 = setmetatable({hello = 1, world = 7, foo = -5}, CompareAllMT)
+---> > local CompareAll1=setmetatable({hello=7, world=1, foo=-5, bar=0}, CompareAllMT)
+---> > local CompareAll2=setmetatable({hello=1, world=7, foo=-5}, CompareAllMT)
 ---> >
 ---> > print(CompareAll1 <= CompareAll2) --> false
 ---> >
----> > CompareAll2.hello = 7
+---> > CompareAll2.hello=7
 ---> > print(CompareAll1 <= CompareAll2) --> true
 ---> > ```
-figuraMetatables = {
+figuraMetatables={
   ---The metatable for `Action`.
-  Action = {
+  Action={
     ---@param self Action
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Action
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self Action
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `ActionWheelAPI`.
-  ActionWheelAPI = {
+  ActionWheelAPI={
     ---@param self ActionWheelAPI
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self ActionWheelAPI
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self ActionWheelAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Animation`.
-  Animation = {
+  Animation={
     ---@param self Animation
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Animation
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `AnimationAPI`.
-  AnimationAPI = {
+  AnimationAPI={
     ---@param self AnimationAPI
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self AnimationAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `AvatarAPI`.
-  AvatarAPI = {
+  AvatarAPI={
     ---@type AvatarAPI
-    __index = {},
+    __index={},
 
     ---@param self AvatarAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Biome`.
-  Biome = {
+  Biome={
     ---@param self Biome
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Biome
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param left Biome
     ---@param right Biome
     ---@return boolean result
-    __eq = function(left, right) end
+    __eq=function(left, right) end
   },
 
   ---The metatable for `BlockState`.
-  BlockState = {
+  BlockState={
     ---@param self BlockState
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self BlockState
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param left BlockState
     ---@param right BlockState
     ---@return boolean result
-    __eq = function(left, right) end
+    __eq=function(left, right) end
   },
 
   ---The metatable for `BlockTask`.
-  BlockTask = {
+  BlockTask={
     ---@type BlockTask
-    __index = {},
+    __index={},
 
     ---@param self BlockTask
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Buffer`.
-  Buffer = {
+  Buffer={
     ---@type Buffer
-    __index = {},
+    __index={},
 
     ---@param self Buffer
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `ClientAPI`.
-  ClientAPI = {
+  ClientAPI={
     ---@type ClientAPI
-    __index = {},
+    __index={},
 
     ---@param self ClientAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `ConfigAPI`.
-  ConfigAPI = {
+  ConfigAPI={
     ---@type ConfigAPI
-    __index = {},
+    __index={},
 
     ---@param self ConfigAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `DataAPI`.
-  DataAPI = {
+  DataAPI={
     ---@type DataAPI
-    __index = {},
+    __index={},
 
     ---@param self DataAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Entity`.
-  EntityAPI = {
+  EntityAPI={
     ---@type Entity
-    __index = {},
+    __index={},
 
     ---@param self Entity
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param left Entity
     ---@param right Entity
     ---@return boolean result
-    __eq = function(left, right) end
+    __eq=function(left, right) end
   },
 
   ---The metatable for `EntityNameplate`.
-  EntityNameplateCustomization = {
+  EntityNameplateCustomization={
     ---@type EntityNameplate
-    __index = {},
+    __index={},
 
     ---@param self EntityNameplate
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Event`.
-  Event = {
+  Event={
     ---@type Event
-    __index = {},
+    __index={},
 
     ---@param self Event
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param self Event
     ---@return integer length
-    __len = function(self) end
+    __len=function(self) end
   },
 
   ---The metatable for `EventsAPI`.
-  EventsAPI = {
+  EventsAPI={
     ---@param self EventsAPI
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self EventsAPI
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self EventsAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `FileAPI`.
-  FileAPI = {
+  FileAPI={
     ---@type FileAPI
-    __index = {},
+    __index={},
 
     ---@param self FileAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Future`.
-  Future = {
+  Future={
     ---@type Future
-    __index = {},
+    __index={},
 
     ---@param self Future
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `EventsAPI`.
-  HostAPI = {
+  HostAPI={
     ---@type HostAPI
-    __index = {},
+    __index={},
 
     ---@param self HostAPI
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self HostAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `HttpAPI`.
-  HttpAPI = {
+  HttpAPI={
     ---@type HttpAPI
-    __index = {},
+    __index={},
 
     ---@param self HttpAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `HttpRequestBuilder`.
-  HttpRequestBuilder = {
+  HttpRequestBuilder={
     ---@type HttpRequestBuilder
-    __index = {},
+    __index={},
 
     ---@param self HttpRequestBuilder
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `HttpResponse`.
-  HttpResponse = {
+  HttpResponse={
     ---@type HttpResponse
-    __index = {},
+    __index={},
 
     ---@param self HttpResponse
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `InputStream`.
-  InputStream = {
+  InputStream={
     ---@type InputStream
-    __index = {},
+    __index={},
 
     ---@param self InputStream
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `ItemStack`.
-  ItemStack = {
+  ItemStack={
     ---@param self ItemStack
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self ItemStack
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param left ItemStack
     ---@param right ItemStack
     ---@return boolean result
-    __eq = function(left, right) end
+    __eq=function(left, right) end
   },
 
   ---The metatable for `ItemTask`.
-  ItemTask = {
+  ItemTask={
     ---@type ItemTask
-    __index = {},
+    __index={},
 
     ---@param self ItemTask
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `JsonAPI`.
-  JsonAPI = {
+  JsonAPI={
     ---@type JsonAPI
-    __index = {},
+    __index={},
 
     ---@param self JsonAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `JsonArray`.
-  JsonArray = {
+  JsonArray={
     ---@param self JsonArray
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self JsonArray
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self JsonArray
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param self JsonArray
     ---@return integer length
-    __len = function(self) end,
+    __len=function(self) end,
 
     ---@param self JsonArray
     ---@return fun(t: JsonArray, k: integer): integer, any
     ---@return self
     ---@return integer
-    __pairs = function(self) end,
+    __pairs=function(self) end,
 
     ---@param self JsonArray
     ---@return fun(t: JsonArray, i: integer): integer, any
     ---@return self
     ---@return integer
-    __ipairs = function(self) end,
+    __ipairs=function(self) end,
   },
 
   ---The metatable for `JsonBuilder`.
-  JsonBuilder = {
+  JsonBuilder={
     ---@param self JsonBuilder
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self JsonBuilder
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self JsonBuilder
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `JsonObject`.
-  JsonObject = {
+  JsonObject={
     ---@param self JsonObject
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self JsonObject
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self JsonObject
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param self JsonObject
     ---@return fun(t: JsonObject, k: integer): integer, any
     ---@return self
     ---@return integer
-    __pairs = function(self) end,
+    __pairs=function(self) end,
 
     ---@param self JsonObject
     ---@return fun(): nil
     ---@return self
     ---@return integer
-    __ipairs = function(self) end,
+    __ipairs=function(self) end,
   },
 
   ---The metatable for `JsonSerializer`.
-  JsonSerializer = {
+  JsonSerializer={
     ---@type JsonSerializer
-    __index = {},
+    __index={},
 
     ---@param self JsonSerializer
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Keybind`.
-  Keybind = {
+  Keybind={
     ---@type Keybind
-    __index = {},
+    __index={},
 
     ---@param self Keybind
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self Keybind
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `KeybindAPI`.
-  KeybindAPI = {
+  KeybindAPI={
     ---@type KeybindAPI
-    __index = {},
+    __index={},
 
     ---@param self KeybindAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `LivingEntity`.
-  LivingEntityAPI = {
+  LivingEntityAPI={
     ---@type LivingEntity
-    __index = {},
+    __index={},
 
     ---@param self LivingEntity
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param left LivingEntity
     ---@param right LivingEntity
     ---@return boolean result
-    __eq = function(left, right) end
+    __eq=function(left, right) end
   },
 
   ---The metatable for `MatricesAPI`.
-  MatricesAPI = {
+  MatricesAPI={
     ---@type MatricesAPI
-    __index = {},
+    __index={},
 
     ---@param self MatricesAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Matrix2`.
-  Matrix2 = {
+  Matrix2={
     ---@param self Matrix2
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Matrix2
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self Matrix2
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param self Matrix2
     ---@return integer length
-    __len = function(self) end,
+    __len=function(self) end,
 
     ---@param left any
     ---@param right any
     ---@return Matrix2 sum
-    __add = function(left, right) end,
+    __add=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Matrix2 difference
-    __sub = function(left, right) end,
+    __sub=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Matrix2 | Vector2 product
-    __mul = function(left, right) end,
+    __mul=function(left, right) end,
 
     ---@param left Matrix2
     ---@param right Matrix2
     ---@return boolean result
-    __eq = function(left, right) end
+    __eq=function(left, right) end
   },
 
   ---The metatable for `Matrix3`.
-  Matrix3 = {
+  Matrix3={
     ---@param self Matrix3
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Matrix3
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self Matrix3
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param self Matrix3
     ---@return integer length
-    __len = function(self) end,
+    __len=function(self) end,
 
     ---@param left any
     ---@param right any
     ---@return Matrix3 sum
-    __add = function(left, right) end,
+    __add=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Matrix3 difference
-    __sub = function(left, right) end,
+    __sub=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Matrix3 | Vector3 product
-    __mul = function(left, right) end,
+    __mul=function(left, right) end,
 
     ---@param left Matrix3
     ---@param right Matrix3
     ---@return boolean result
-    __eq = function(left, right) end
+    __eq=function(left, right) end
   },
 
   ---The metatable for `Matrix4`.
-  Matrix4 = {
+  Matrix4={
     ---@param self Matrix4
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Matrix4
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self Matrix4
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param self Matrix4
     ---@return integer length
-    __len = function(self) end,
+    __len=function(self) end,
 
     ---@param left any
     ---@param right any
     ---@return Matrix4 sum
-    __add = function(left, right) end,
+    __add=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Matrix4 difference
-    __sub = function(left, right) end,
+    __sub=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Matrix4 | Vector4 product
-    __mul = function(left, right) end,
+    __mul=function(left, right) end,
 
     ---@param left Matrix4
     ---@param right Matrix4
     ---@return boolean result
-    __eq = function(left, right) end
+    __eq=function(left, right) end
   },
 
   ---The metatable for `ModelPart`.
-  ModelPart = {
+  ModelPart={
     ---@param self ModelPart
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self ModelPart
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self ModelPart
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `NameplateAPI`.
-  NameplateAPI = {
+  NameplateAPI={
     ---@param self NameplateAPI
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self NameplateAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Nameplate`.
-  NameplateCustomization = {
+  NameplateCustomization={
     ---@type Nameplate
-    __index = {},
+    __index={},
 
     ---@param self Nameplate
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `NameplateGroup`.
-  NameplateCustomizationGroup = {
+  NameplateCustomizationGroup={
     ---@type NameplateGroup
-    __index = {},
+    __index={},
 
     ---@param self NameplateGroup
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `NetworkingAPI`.
-  NetworkingAPI = {
+  NetworkingAPI={
     ---@param self NetworkingAPI
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self NetworkingAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for the null `Entity`.
-  NullEntity = {
+  NullEntity={
     ---@param self Entity
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Entity
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `OutputStream`.
-  OutputStream = {
+  OutputStream={
     ---@type OutputStream
-    __index = {},
+    __index={},
 
     ---@param self OutputStream
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Page`.
-  Page = {
+  Page={
     ---@param self Page
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Page
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self Page
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Particle`.
-  Particle = {
+  Particle={
     ---@type Particle
-    __index = {},
+    __index={},
 
     ---@param self Particle
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `ParticleAPI`.
-  ParticleAPI = {
+  ParticleAPI={
     ---@param self ParticleAPI
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self ParticleAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for the `ping` table.
-  PingAPI = {
+  PingAPI={
     ---@param self userdata
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self userdata
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self userdata
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `PingFunction`.
-  PingFunction = {
+  PingFunction={
     ---@type table
-    __index = {},
+    __index={},
 
     ---@param self userdata
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Player`.
-  PlayerAPI = {
+  PlayerAPI={
     ---@type Player
-    __index = {},
+    __index={},
 
     ---@param self Player
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param left Player
     ---@param right Player
     ---@return boolean result
-    __eq = function(left, right) end
+    __eq=function(left, right) end
   },
 
   ---The metatable for `RaycastAPI`.
-  RaycastAPI = {
+  RaycastAPI={
     ---@type RaycastAPI
-    __index = {},
+    __index={},
 
     ---@param self RaycastAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `RenderTask`.
-  RenderTask = {
+  RenderTask={
     ---@type RenderTask
-    __index = {},
+    __index={},
 
     ---@param self RenderTask
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `RendererAPI`.
-  RendererAPI = {
+  RendererAPI={
     ---@param self RendererAPI
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self RendererAPI
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self RendererAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `ResourcesAPI`.
-  ResourcesAPI = {
+  ResourcesAPI={
     ---@param self ResourcesAPI
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self ResourcesAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   --[[ <sck> If you know what this is and have access to it, add a-to the start of this line to re-enable these.
 
   ---The metatable for `Socket`.
-  Socket = {
+  Socket={
     ---@type Socket
-    __index = {},
+    __index={},
 
     ---@param self Socket
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `SocketAPI`.
-  SocketAPI = {
+  SocketAPI={
     ---@type SocketAPI
-    __index = {},
+    __index={},
 
     ---@param self SocketAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
   --]]
 
   ---The metatable for `Sound`.
-  Sound = {
+  Sound={
     ---@type Sound
-    __index = {},
+    __index={},
 
     ---@param self Sound
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `SoundAPI`.
-  SoundAPI = {
+  SoundAPI={
     ---@param self SoundAPI
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self SoundAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `SpriteTask`.
-  SpriteTask = {
+  SpriteTask={
     ---@type SpriteTask
-    __index = {},
+    __index={},
 
     ---@param self SpriteTask
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `TextTask`.
-  TextTask = {
+  TextTask={
     ---@type TextTask
-    __index = {},
+    __index={},
 
     ---@param self TextTask
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Texture`.
-  Texture = {
+  Texture={
     ---@param self Texture
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Texture
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `TextureAPI`.
-  TextureAPI = {
+  TextureAPI={
     ---@param self TextureAPI
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self TextureAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `TextureAtlas`.
-  TextureAtlas = {
+  TextureAtlas={
     ---@type TextureAtlas
-    __index = {},
+    __index={},
 
     ---@param self TextureAtlas
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `VanillaModelAPI`.
-  VanillaModelAPI = {
+  VanillaModelAPI={
     ---@param self VanillaModelAPI
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self VanillaModelAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `VanillaModelGroup`.
-  VanillaModelGroup = {
+  VanillaModelGroup={
     ---@param self VanillaModelGroup
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self VanillaModelGroup
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `VanillaModelPart`.
-  VanillaModelPart = {
+  VanillaModelPart={
     ---@type VanillaModelPart
-    __index = {},
+    __index={},
 
     ---@param self VanillaModelPart
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `VanillaPart`.
-  VanillaPart = {
+  VanillaPart={
     ---@type VanillaPart
-    __index = {},
+    __index={},
 
     ---@param self VanillaPart
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Vector2`.
-  Vector2 = {
+  Vector2={
     ---@param self Vector2
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Vector2
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self Vector2
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param self Vector2
     ---@return integer length
-    __len = function(self) end,
+    __len=function(self) end,
 
     ---@param self Vector2
     ---@return Vector2 inverse
-    __unm = function(self) end,
+    __unm=function(self) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector2 sum
-    __add = function(left, right) end,
+    __add=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector2 difference
-    __sub = function(left, right) end,
+    __sub=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector2 product
-    __mul = function(left, right) end,
+    __mul=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector2 quotient
-    __div = function(left, right) end,
+    __div=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector2 remainder
-    __mod = function(left, right) end,
+    __mod=function(left, right) end,
 
     ---@param left Vector2
     ---@param right Vector2
     ---@return boolean result
-    __eq = function(left, right) end,
+    __eq=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return boolean result
-    __lt = function(left, right) end,
+    __lt=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return boolean result
-    __le = function(left, right) end
+    __le=function(left, right) end
   },
 
   ---The metatable for `Vector3`.
-  Vector3 = {
+  Vector3={
     ---@param self Vector3
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Vector3
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self Vector3
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param self Vector3
     ---@return integer length
-    __len = function(self) end,
+    __len=function(self) end,
 
     ---@param self Vector3
     ---@return Vector3 inverse
-    __unm = function(self) end,
+    __unm=function(self) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector3 sum
-    __add = function(left, right) end,
+    __add=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector3 difference
-    __sub = function(left, right) end,
+    __sub=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector3 product
-    __mul = function(left, right) end,
+    __mul=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector3 quotient
-    __div = function(left, right) end,
+    __div=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector3 remainder
-    __mod = function(left, right) end,
+    __mod=function(left, right) end,
 
     ---@param left Vector3
     ---@param right Vector3
     ---@return boolean result
-    __eq = function(left, right) end,
+    __eq=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return boolean result
-    __lt = function(left, right) end,
+    __lt=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return boolean result
-    __le = function(left, right) end
+    __le=function(left, right) end
   },
 
   ---The metatable for `Vector4`.
-  Vector4 = {
+  Vector4={
     ---@param self Vector4
     ---@param key any
     ---@return any value
-    __index = function(self, key) end,
+    __index=function(self, key) end,
 
     ---@param self Vector4
     ---@param key any
     ---@param value any
-    __newindex = function(self, key, value) end,
+    __newindex=function(self, key, value) end,
 
     ---@param self Vector4
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param self Vector4
     ---@return integer length
-    __len = function(self) end,
+    __len=function(self) end,
 
     ---@param self Vector4
     ---@return Vector4 inverse
-    __unm = function(self) end,
+    __unm=function(self) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector4 sum
-    __add = function(left, right) end,
+    __add=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector4 difference
-    __sub = function(left, right) end,
+    __sub=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector4 product
-    __mul = function(left, right) end,
+    __mul=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector4 quotient
-    __div = function(left, right) end,
+    __div=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return Vector4 remainder
-    __mod = function(left, right) end,
+    __mod=function(left, right) end,
 
     ---@param left Vector4
     ---@param right Vector4
     ---@return boolean result
-    __eq = function(left, right) end,
+    __eq=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return boolean result
-    __lt = function(left, right) end,
+    __lt=function(left, right) end,
 
     ---@param left any
     ---@param right any
     ---@return boolean result
-    __le = function(left, right) end
+    __le=function(left, right) end
   },
 
   ---The metatable for `VectorsAPI`.
-  VectorsAPI = {
+  VectorsAPI={
     ---@type VectorsAPI
-    __index = {},
+    __index={},
 
     ---@param self VectorsAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Vertex`.
-  Vertex = {
+  Vertex={
     ---@type Vertex
-    __index = {},
+    __index={},
 
     ---@param self Vertex
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   },
 
   ---The metatable for `Viewer`.
-  ViewerAPI = {
+  ViewerAPI={
     ---@type Viewer
-    __index = {},
+    __index={},
 
     ---@param self Viewer
     ---@return string string
-    __tostring = function(self) end,
+    __tostring=function(self) end,
 
     ---@param left Viewer
     ---@param right Viewer
     ---@return boolean result
-    __eq = function(left, right) end
+    __eq=function(left, right) end
   },
 
   ---The metatable for `WorldAPI`.
-  WorldAPI = {
+  WorldAPI={
     ---@type WorldAPI
-    __index = {},
+    __index={},
 
     ---@param self WorldAPI
     ---@return string string
-    __tostring = function(self) end
+    __tostring=function(self) end
   }
 }
 
 ---@type FileAPI
-file = {}
+file={}
 
 ---@type HostAPI
-host = {}
+host={}
 
 ---@type JsonAPI
-json = {}
+json={}
 
 ---@type KeybindAPI
-keybinds = {}
+keybinds={}
 
 ---@type MatricesAPI
-matrices = {}
+matrices={}
 
 ---A part of the avatar's model.  
 ---This can be a group, cube, or mesh.
@@ -1892,16 +1892,16 @@ matrices = {}
 ---```
 ---<!--
 ---@type ModelPart
-models = {}
+models={}
 
 ---@type NameplateAPI
-nameplate = {}
+nameplate={}
 
 ---@type NetworkingAPI
-net = {}
+net={}
 
 ---@type ParticleAPI
-particles = {}
+particles={}
 
 ---A table containing an avatar's ping functions.
 ---
@@ -2024,43 +2024,43 @@ particles = {}
 ---├•  end                                   │   end
 ---└•end                                     └•end
 ---```
-pings = {}
+pings={}
 
 ---The Minecraft player the current avatar is attached to.
 ---<!--
 ---@type Player
-player = {}
+player={}
 
 ---@type RaycastAPI
-raycast = {}
+raycast={}
 
 ---@type RendererAPI
-renderer = {}
+renderer={}
 
 ---@type ResourcesAPI
-resources = {}
+resources={}
 
 ---@type SoundAPI
-sounds = {}
+sounds={}
 
 ---@type TextureAPI
-textures = {}
+textures={}
 
 ---The Minecraft entity the current avatar is attached to.
 ---<!--
 ---@type Entity
-user = {}
+user={}
 
 ---@type VanillaModelAPI
-vanilla_model = {}
+vanilla_model={}
 
 ---@type VectorsAPI
-vectors = {}
+vectors={}
 
 ---@type WorldAPI
-world = {}
+world={}
 
-_GS = _G
+_GS=_G
 
 
 ---==============================================================================================---
@@ -2084,12 +2084,12 @@ function listFiles(dir, recursive) end
 --->
 ---> If a non-string value is given, the value will be formatted in a readable manner and given a
 ---> special color depending on the type.
----> * `nil`: Red,
----> * `boolean`: Purple,
----> * `number`: Cyan,
----> * `function`: Green,
----> * `table`: Blue,
----> * `userdata`: Yellow.
+--->*`nil`: Red,
+--->*`boolean`: Purple,
+--->*`number`: Cyan,
+--->*`function`: Green,
+--->*`table`: Blue,
+--->*`userdata`: Yellow.
 ---> ***
 ---@param ... any
 ---@return string

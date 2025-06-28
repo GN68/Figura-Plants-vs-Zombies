@@ -1,5 +1,5 @@
 
-local P = require("./plantUtils") ---@module "game.identities.plantUtils"
+local P=require("./plantUtils") ---@module "game.identities.plantUtils"
 local Sprite=require("lib.ui.sprite")
 local Frame=require("lib.ui.frame")
 
@@ -25,7 +25,7 @@ Identity.new(fSeed,fIdle[1], "p.chomper",150, 300,{
 		self.hitbox:setDim(24,24,0,0):setLayer("plants")
 		self.i=math.random(255)
 		self.sight=Hitbox.new(self,-26,0,12,16,"sight")
-		self.isEating = false
+		self.isEating=false
 	end,
 	
 	---@param self Peashooter
@@ -34,7 +34,7 @@ Identity.new(fSeed,fIdle[1], "p.chomper",150, 300,{
 		self.sprite:setFrame(Frame.scroll(fIdle,self.i*0.25))
 		
 		if self.isEating then
-			local i = self.i
+			local i=self.i
 			if i*0.25 <= 3 then
 				self.sprite:setFrame(Frame.clamped(fChomp,self.i*0.25))
 				if i*0.25 == 3 then
@@ -43,21 +43,21 @@ Identity.new(fSeed,fIdle[1], "p.chomper",150, 300,{
 						self.target:damage(69420) -- has to be this or it will break fr fr
 						self.target:free()
 					else
-						self.i = 840
+						self.i=840
 					end
 				end
 			else
 				self.sprite:setFrame(Frame.scroll(fMunch,self.i*0.25))
 				if i > 840 then --42 seconds
-					self.isEating = false
+					self.isEating=false
 				end
 			end
 		else
-			local z = self.sight:getCollidingBox("zombies")
+			local z=self.sight:getCollidingBox("zombies")
 			if z then -- allow vaulting zombies to jump over chomper
-				self.isEating = true
-				self.i = z.object.isVaulting and -100 or 0
-				self.target = z.object
+				self.isEating=true
+				self.i=z.object.isVaulting and -100 or 0
+				self.target=z.object
 			end
 		end
 	end,

@@ -14,13 +14,13 @@
 ---
 ---Create a new page with:
 ---```lua
----local page_var = <ActionWheelAPI>:newPage()
+---local page_var=<ActionWheelAPI>:newPage()
 ---```
 ---&emsp;  
 ---There are two ways to create a new action.  
 ---Either create the action and set its values later:
 ---```lua
----local action = page_var:newAction()
+---local action=page_var:newAction()
 ---
 ---action:setTitle("Cool title")
 ---action:setItem("minecraft:stick")

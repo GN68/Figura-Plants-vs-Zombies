@@ -13,7 +13,7 @@ Identity.new(nil,nil, "shovel",999,1,{
 		self:setPos(-320,-192)
 		self.sprite:setFrame(fBowl)
 		self.hitbox:setDim(0,0,34,13)
-		self.back = function ()
+		self.back=function ()
 		self.sprite:setFrame(fBowl)
 		end
 	end,
@@ -30,7 +30,7 @@ Identity.new(nil,nil, "shovel",999,1,{
 		else
 			self.sprite:setFrame(fBowlEmpty)
 			screen:sound("minecraft:item.shovel.flatten")
-			screen.planter = Object.new("unplanter",screen,self)
+			screen.planter=Object.new("unplanter",screen,self)
 		end
 	end
 })

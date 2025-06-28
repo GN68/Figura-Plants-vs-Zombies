@@ -38,7 +38,7 @@ local s=Screen.new(modelScreen)
 Debug:setParent(s.model)
 --client.getViewer():getNbt().SelectedSlot
 
-local w = textures:newTexture("1x1w",1,1):setPixel(0,0,vec(1,1,1))
+local w=textures:newTexture("1x1w",1,1):setPixel(0,0,vec(1,1,1))
 
 --[────────────────────────────────────────-< GAME LOGIC >-────────────────────────────────────────]--
 local overlay=models.hardware.base.screen.over:setPrimaryTexture("CUSTOM",w)
@@ -46,7 +46,7 @@ local modelTitle=models.hardware.base.screen.title
 local modelMEssageOverlay=models.hardware.base.screen.messageOver:setVisible(false)
 
 function s.setOverlay(r,g,b,a)
-	local vec4 = params.vec4(r,g,b,a)
+	local vec4=params.vec4(r,g,b,a)
 	overlay:setColor(vec4.x,vec4.y,vec4.z):setOpacity(vec4.w)
 end
 
@@ -54,6 +54,7 @@ end
 
 local titleTask=modelTitle:newText("Title"):setAlignment("CENTER"):setOutline(true):light(15,15)
 local messageTask=modelTitle:newText("Message"):scale(0.05,0.05,1):pos(0,-3.3,0):setAlignment("CENTER"):setOutline(true):light(15,15)
+local levelTask=modelTitle:newText("levl"):scale(0.05,0.05,1):setText("..."):pos(7.5,-5.5,0):setOutline(true):setOutlineColor(0.4,0.4,0.4):light(15,15)
 
 
 
@@ -66,10 +67,10 @@ local function title(text,scale,duration)
 	sounds:playSound("minecraft:block.sand.break",pos, 1, 0.25*i)
 	sounds:playSound("minecraft:block.note_block.snare",pos, 1, 0.25*i)
 	sounds:playSound("minecraft:block.note_block.hat",pos, 1, 0.5*i)
-	local scale=scale * 0.2
+	local scale=scale*0.2
 	titleTask:scale(scale,scale,scale)
 	titleTask:setText(toJson({text=text,color="#ff0000"}))
-	duration=(duration or 0.5) * 20
+	duration=(duration or 0.5)*20
 	Seq.new()
 	:add(duration,function ()
 		titleTask:setText("")
@@ -230,7 +231,7 @@ s.lvl={} ---@type Level
 
 function s.dead(z)
 	s.setCamTarget(0)
-	s.playing = false
+	s.playing=false
 	
 	local m=function ()s:sound("minecraft:entity.generic.eat",1,1)end
 	
@@ -285,7 +286,7 @@ local function spawnWave(wave)
 		z.useless=true
 	end
 	s:sound("minecraft:entity.zombie.ambient")
-	s.waveZombies = {}
+	s.waveZombies={}
 	s.spawnTimer=100
 	s.waveHealth=0
 	s.totalHealth=1
@@ -293,7 +294,7 @@ local function spawnWave(wave)
 	for count, names in pairs(wave.c) do
 		for _, name in pairs(names) do
 			for i=1, count, 1 do
-				x=x + 1
+				x=x+1
 				local z=Object.new(name,s) ---@type Zombie
 				local y
 				if s.lvl.grass==1 then
@@ -314,6 +315,7 @@ end
 local aStart
 
 function s.loadLevel(level)
+	levelTask:setText(level)
 	if s.lvl.init then
 		s.lvl.init(s,s.lvl)
 	end
@@ -369,21 +371,21 @@ function s.loadLevel(level)
 	end
 	aStart=Seq.new()
 	
-	local pZ = {}
+	local pZ={}
 	
-	for i = 1, 10, 1 do
+	for i=1, 10, 1 do
 		local id={}
 		for _, w in pairs(s.lvl.waves) do
 			for _, zs in pairs(w.c) do
 				for _, z in pairs(zs) do
-					id[#id+1] = z
+					id[#id+1]=z
 				end
 			end
 		end
 		local z=Object.new(id[math.random(#id)],s,true)
 		:setPos(math.lerp(-360,-430,math.random()),math.lerp(-60,-170,math.random()))
-		z.isWalking = false
-		z.isSilent = true
+		z.isWalking=false
+		z.isSilent=true
 		pZ[i]=z
 	end
 	
@@ -402,9 +404,9 @@ function s.loadLevel(level)
 			z:free()
 		end
 		rollGrass(s.lvl.grass or 4)
-		local r = math.min((s.lvl.grass or 4) - 1,2)
-		for y = 4-r, 4+r , 1 do
-			local l = Object.new("lawnmower",s)
+		local r=math.min((s.lvl.grass or 4) - 1,2)
+		for y=4-r, 4+r , 1 do
+			local l=Object.new("lawnmower",s)
 			l:setPos(-80,-y*31+4)
 		end
 		
@@ -423,7 +425,7 @@ function s.loadLevel(level)
 	aStart:add(7.6*20,function ()title("set")end)
 	aStart:add(8.2*20,function ()
 		title("PLANT!",1.2,1)
-		s.playing = true
+		s.playing=true
 		s.canSpawnZombies=true
 		for i, name in pairs(uiInv) do
 			uiInv[i].hitbox:setEnabled(true)
@@ -511,9 +513,9 @@ local heldName=""
 events.SKULL_RENDER:register(function (delta, block, item, entity, ctx)
 	
 	if ctx:find(client:getViewer():getActiveHand() == "MAIN_HAND" and "LEFT" or "RIGHT".."_HAND") then
-		heldName = item:getName()
+		heldName=item:getName()
 		if heldName ~= lastHeldName then
-			lastHeldName = heldName
+			lastHeldName=heldName
 			if levels[heldName] then
 				s.loadLevel(heldName)
 			end
@@ -524,7 +526,7 @@ end)
 
 local game=Macros.new(function (events, ...)
 	events.WORLD_TICK:register(function ()
-		s.shake=s.shake * 0.2
+		s.shake=s.shake*0.2
 		Object.tick(s)
 		Seq.tick()
 		NBS.tick()
@@ -533,7 +535,7 @@ local game=Macros.new(function (events, ...)
 		Debug:setOffset(s.camPos)
 		
 		if s.win then
-			s.win = false
+			s.win=false
 			s.loadLevel(s.lvl.next)
 		end
 		
@@ -548,11 +550,11 @@ local game=Macros.new(function (events, ...)
 		if s.canSpawnZombies then
 			if s.spawnTimer < 0 then
 				if s.lvl.waves[s.wave] then -- if there even is a wave to spawn
-					local wave = s.lvl.waves[s.wave]
+					local wave=s.lvl.waves[s.wave]
 					if not wave.major and (s.totalHealth / 2 > s.waveHealth) -- 50% rule on minor waves
 						or wave.major and (s.waveHealth < 10) then -- 100% rule on major waves
 						if s.spawnTimer < -2 then
-							s.spawnTimer = s.lvl.waveCooldown or 100
+							s.spawnTimer=s.lvl.waveCooldown or 100
 							if wave.major then
 								title("A huge wave of zombies is approaching!",0.3,2)
 								s:sound("minecraft:entity.elder_guardian.curse")
@@ -568,13 +570,13 @@ local game=Macros.new(function (events, ...)
 							end
 						else
 							spawnWave(s.lvl.waves[s.wave])
-							s.wave=s.wave + 1
+							s.wave=s.wave+1
 						end
 					end
 				else
 					if s.waveHealth == 0 then -- WIN
 						s.sunfalls=false
-						s.canSpawnZombies = false
+						s.canSpawnZombies=false
 						Object.new("seedwin",s,s.lvl.prize):setPos(-256,-128)
 					end
 				end
@@ -624,7 +626,7 @@ events.SKULL_RENDER:register(function (delta, block, item, entity, ctx)
 		
 		lrot=rot
 		if rot.x < 89 and rot.x > -89 then -- stops the cursor from freaking out
-			mpos=mpos+diff.yx * SENSITIVITY
+			mpos=mpos+diff.yx*SENSITIVITY
 		end
 		
 		---@cast mpos Vector2
@@ -632,8 +634,8 @@ events.SKULL_RENDER:register(function (delta, block, item, entity, ctx)
 		mpos.y=math.clamp(mpos.y,0,1)
 		s:setMousePos(mpos)
 		
-		--modelHardware:setPos(9 * (rightHanded and -1 or 1),10.5,0):rot(0,0,0)
-		modelHardware:setPos(9 * (rightHanded and -1 or 1)+math.lerp(-8,8,mpos.x),4.4+math.lerp(0,12,mpos.y),0):rot(0,0,0)
+		--modelHardware:setPos(9*(rightHanded and -1 or 1),10.5,0):rot(0,0,0)
+		modelHardware:setPos(9*(rightHanded and -1 or 1)+math.lerp(-8,8,mpos.x),4.4+math.lerp(0,12,mpos.y),0):rot(0,0,0)
 	else
 		modelHardware:setPos(0,0,-6):scale():rot(90,0,0)
 	end

@@ -5,7 +5,7 @@ local c="z.conehead"
 ---@type Level
 local level={
 	grass=3,
-	inventory = {"p.sunflower","p.peashooter","p.cherrybomb"},
+	inventory={"p.sunflower","p.peashooter","p.cherrybomb"},
 	prize="p.wallnut",
 	next="lvl4",
 	noShovel=true,

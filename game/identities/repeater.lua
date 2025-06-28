@@ -1,8 +1,8 @@
 
 
-local P = require("./plantUtils") ---@module "game.identities.plantUtils"
+local P=require("./plantUtils") ---@module "game.identities.plantUtils"
 local Frame=require("lib.ui.frame")
-local Seq = require("lib.sequence")
+local Seq=require("lib.sequence")
 
 local Identity=require("game.identity")
 local Object=require("game.object")

@@ -7,7 +7,7 @@ local Debug=require("lib.ui.debug")
 
 local SUN_COOLDOWN=480
 
-local P = require("./plantUtils") ---@module "game.identities.plantUtils"
+local P=require("./plantUtils") ---@module "game.identities.plantUtils"
 local Sprite=require("lib.ui.sprite")
 local Frame=require("lib.ui.frame")
 
@@ -28,13 +28,13 @@ Identity.new(fSeed,fIdle[1], "p.sunflower",50, 300,{
 	ENTER=function (self, screen)
 		self.hitbox:setDim(27,16,0,0):setLayer("plants")
 		self.sunCooldown=math.random(80,160) -- She will produce the first sunlight in 4 to 8 seconds, and then every 24 seconds normally.
-		self.i = math.random(1,256)
+		self.i=math.random(1,256)
 	end,
 	
 	---@param self Peashooter
 	TICK=function (self, screen)
 		self.i=self.i+1
-		self.sunCooldown = self.sunCooldown - 1
+		self.sunCooldown=self.sunCooldown - 1
 		self.sprite:setFrame(Frame.pingPong(fIdle,self.i*0.5))
 		if self.sunCooldown <= 0 then
 			self.sunCooldown=SUN_COOLDOWN

@@ -1,5 +1,5 @@
 --[[ NOTES
-first spawn=sunflower cooldown * 3
+first spawn=sunflower cooldown*3
 -- Health: 270, 1300 - 270
 -- Cost: 50
 ]]
@@ -71,12 +71,12 @@ local function TICK(self, s) --[────────-< TICK >-────�
 		s.dead(self)
 	end
 	
-	local clth = self.health<270 -- normal zombie health
+	local clth=self.health<270 -- normal zombie health
 	if self.health > 0 then
 		
 		local plant=self.hitbox:getCollidingBox("plants")
 		if plant then
-			local fEat = clth and fZombEat or self.fEat
+			local fEat=clth and fZombEat or self.fEat
 			self.sprite:setFrame(Frame.scroll(fEat,self.i*0.3))
 			local shouldMunch=self.sprite.frame == fEat[2] or self.sprite.frame == fEat[5]
 			if shouldMunch ~= self.isMunch then
@@ -146,13 +146,13 @@ Identity.new(aSeed(texZombie),fZombIdle[1], "z.zombie",50,270,{
 	DEATH=DEATH,
 })
 
-local fConeIdle = aIdle(texCone)
+local fConeIdle=aIdle(texCone)
 Identity.new(aSeed(texCone),fConeIdle[1], "z.conehead",75,570,{
 	ENTER=mkEnter(fConeIdle,aWalk(texCone),aEat(texCone),"minecraft:entity.item.pickup",0.3),
 	TICK=TICK,DAMAGED=DAMAGED,DEATH=DEATH,
 })
 
-local fBucketIdle = aIdle(texBucket)
+local fBucketIdle=aIdle(texBucket)
 Identity.new(aSeed(texBucket),fBucketIdle[1], "z.bucket",125,1300,{
 	ENTER=mkEnter(fBucketIdle,aWalk(texBucket),aEat(texBucket),"minecraft:entity.zombie.attack_iron_door",1.2),
 	TICK=TICK,DAMAGED=DAMAGED,DEATH=DEATH,

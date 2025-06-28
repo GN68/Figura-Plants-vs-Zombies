@@ -57,4 +57,7 @@ Identity.new(nil,nil, "snow.proj",100,1,{
 		end
 		self.shadow:setPos(self.pos)
 	end,
+	EXIT=function (self, screen)
+		self.shadow:free()
+	end
 })

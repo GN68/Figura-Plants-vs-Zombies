@@ -1,7 +1,7 @@
 local params=require("lib.params")
 local Event=require("lib.event")
 
-local OUTLINE_COLOR=vec(1,1,1) * 0.1
+local OUTLINE_COLOR=vec(1,1,1)*0.1
 local CIRCLE_DETAIL=10
 local COLOR=vec(1,1,1)
 
@@ -100,14 +100,14 @@ function Debug:drawCircle(x,y,r)
 	local pos=vec3.xy
 	local r=vec3.z
 	
-	local detail=math.ceil(math.max(r,4) * CIRCLE_DETAIL)
+	local detail=math.ceil(math.max(r,4)*CIRCLE_DETAIL)
 	
 	local points={}
 	for i=1, detail, 1 do
 		local w=i / detail
 		points[i]=vec(
-			math.cos(w * math.pi * 2) * r+pos.x,
-			math.sin(w * math.pi * 2) * r+pos.y
+			math.cos(w*math.pi*2)*r+pos.x,
+			math.sin(w*math.pi*2)*r+pos.y
 		)
 	end
 	points[detail+1]=points[1]

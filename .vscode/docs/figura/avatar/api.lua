@@ -36,9 +36,9 @@ local AvatarAPI
 ---This function is not magic.  
 ---Doing the following:
 ---```lua
----local var = "uno"
+---local var="uno"
 ---
----if host:isHost() then var = "dos" end
+---if host:isHost() then var="dos" end
 ---
 ---avatar:store("es_num", var)
 ---```

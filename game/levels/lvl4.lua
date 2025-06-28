@@ -4,7 +4,7 @@ local c="z.conehead"
 
 ---@type Level
 local level={
-	inventory = {"p.sunflower","p.peashooter","p.cherrybomb","p.wallnut"},
+	inventory={"p.sunflower","p.peashooter","p.cherrybomb","p.wallnut"},
 	prize="p.sunflower",
 	next="bowling",
 	waves={

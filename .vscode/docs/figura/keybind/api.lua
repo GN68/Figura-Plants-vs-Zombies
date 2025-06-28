@@ -12,7 +12,7 @@
 ---
 ---Create a new keybind with:
 ---```lua
----local kb_var = <KeybindAPI>:newKeybind("Keybind Name", "key.keyboard.keycode")
+---local kb_var=<KeybindAPI>:newKeybind("Keybind Name", "key.keyboard.keycode")
 ---```
 ---Keybinds can be bound to run lua code with:
 ---```

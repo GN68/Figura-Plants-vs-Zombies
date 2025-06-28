@@ -224,14 +224,14 @@ AnimationProcessor.postRender	= function ()
 		end)
 		
 		applyTrack(track.data.rot, time, cache.rot, function(k1,k2)
-			model:setRot(lerp(k1,k2,time) * ROT_MUL)
+			model:setRot(lerp(k1,k2,time)*ROT_MUL)
 		end)
 		
 		applyTrack(track.data.pos, time, cache.pos, function(k1,k2)
-			model:setPos(lerp(k1,k2,time) * POS_MUL)
+			model:setPos(lerp(k1,k2,time)*POS_MUL)
 		end)
 		
-		state.time=state.time+delta * state.speed
+		state.time=state.time+delta*state.speed
 		
 		if state.time >= track.len then
 			if track.loop == "loop" then

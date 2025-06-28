@@ -13,7 +13,7 @@ local Debug=require("lib.ui.debug")
 
 local SHOOT_COOLDOWN=28.5
 
-local P = require("./plantUtils") ---@module "game.identities.plantUtils"
+local P=require("./plantUtils") ---@module "game.identities.plantUtils"
 local Sprite=require("lib.ui.sprite")
 local Frame=require("lib.ui.frame")
 
@@ -30,14 +30,14 @@ Identity.new(nil,fStill[1], "lawnmower",100, 300,{
 	ENTER=function (self, screen)
 		self.hitbox:setDim(27,16,0,0)
 		self.sprite:setFrame(fStill)
-		self.isActive = false
+		self.isActive=false
 	end,
 	
 	---@param self Peashooter
 	TICK=function (self, screen)
-		local zs = self.hitbox:getCollidingBoxes("zombies")
+		local zs=self.hitbox:getCollidingBoxes("zombies")
 		if screen.playing and #zs > 0 and not self.isActive then
-			self.isActive = true
+			self.isActive=true
 			screen:sound("minecraft:block.note_block.hat",0.5,1)
 		end
 		

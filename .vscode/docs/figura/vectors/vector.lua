@@ -15,7 +15,7 @@
 ---If this vector is confirmed to be valid, its type can be cast by adding `--[[@as Vector#]]` after
 ---indexing.
 ---```lua
----local v4 = <Vector>.xy_z --[[@as Vector4]]
+---local v4=<Vector>.xy_z --[[@as Vector4]]
 ---      ┌┴──────────────────┐
 ---      │local v4: Vector4 {│
 ---      │    ...            │

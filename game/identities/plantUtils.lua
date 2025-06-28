@@ -1,5 +1,5 @@
 
-local u = {}
+local u={}
 
 function u.plant(plant,screen)
 	screen.plants[plant.pos:toString()]=plant

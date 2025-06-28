@@ -20,91 +20,91 @@ local ActionWheelAPI
 ---
 ---See `:newPage()` for more info.
 ---@deprecated [[Complex, hover for more info]]
-ActionWheelAPI.SLOT_1 = nil
+ActionWheelAPI.SLOT_1=nil
 
 ---@type «deprecated»
 ---The action wheel no longer uses slots. It now uses pages.
 ---
 ---See `:newPage()` for more info.
 ---@deprecated [[Complex, hover for more info]]
-ActionWheelAPI.SLOT_2 = nil
+ActionWheelAPI.SLOT_2=nil
 
 ---@type «deprecated»
 ---The action wheel no longer uses slots. It now uses pages.
 ---
 ---See `:newPage()` for more info.
 ---@deprecated [[Complex, hover for more info]]
-ActionWheelAPI.SLOT_3 = nil
+ActionWheelAPI.SLOT_3=nil
 
 ---@type «deprecated»
 ---The action wheel no longer uses slots. It now uses pages.
 ---
 ---See `:newPage()` for more info.
 ---@deprecated [[Complex, hover for more info]]
-ActionWheelAPI.SLOT_4 = nil
+ActionWheelAPI.SLOT_4=nil
 
 ---@type «deprecated»
 ---The action wheel no longer uses slots. It now uses pages.
 ---
 ---See `:newPage()` for more info.
 ---@deprecated [[Complex, hover for more info]]
-ActionWheelAPI.SLOT_5 = nil
+ActionWheelAPI.SLOT_5=nil
 
 ---@type «deprecated»
 ---The action wheel no longer uses slots. It now uses pages.
 ---
 ---See `:newPage()` for more info.
 ---@deprecated [[Complex, hover for more info]]
-ActionWheelAPI.SLOT_6 = nil
+ActionWheelAPI.SLOT_6=nil
 
 ---@type «deprecated»
 ---The action wheel no longer uses slots. It now uses pages.
 ---
 ---See `:newPage()` for more info.
 ---@deprecated [[Complex, hover for more info]]
-ActionWheelAPI.SLOT_7 = nil
+ActionWheelAPI.SLOT_7=nil
 
 ---@type «deprecated»
 ---The action wheel no longer uses slots. It now uses pages.
 ---
 ---See `:newPage()` for more info.
 ---@deprecated [[Complex, hover for more info]]
-ActionWheelAPI.SLOT_8 = nil
+ActionWheelAPI.SLOT_8=nil
 
 ---@type «deprecated»
 ---`.getLeftSize()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ActionWheelAPI.getLeftSize = nil
+ActionWheelAPI.getLeftSize=nil
 
 ---@type «deprecated»
 ---`.getRightSize()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ActionWheelAPI.getRightSize = nil
+ActionWheelAPI.getRightSize=nil
 
 ---@type «deprecated»
 ---`.getSelectedSlot()` is deprecated. To get highlighted slot, use `:getSelected()`.
 ---@deprecated [[Replace with ":getSelected()"]]
-ActionWheelAPI.getSelectedSlot = nil
+ActionWheelAPI.getSelectedSlot=nil
 
 ---@type «deprecated»
 ---`.runAction()` is deprecated. To run an action, use `:execute()`.
 ---@deprecated [[Replace with ":execute()"]]
-ActionWheelAPI.runAction = nil
+ActionWheelAPI.runAction=nil
 
 ---@type «deprecated»
 ---`.setLeftSize()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ActionWheelAPI.setLeftSize = nil
+ActionWheelAPI.setLeftSize=nil
 
 ---@type «deprecated»
 ---`.setRightSize()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ActionWheelAPI.setRightSize = nil
+ActionWheelAPI.setRightSize=nil
 
 ---@type «deprecated»
 ---`.isOpen()` is deprecated. To get if the action wheel is visible, use `:isEnabled()`.
 ---@deprecated [[Replace with ":isEnabled()"]]
-ActionWheelAPI.isOpen = nil
+ActionWheelAPI.isOpen=nil
 
 
 ---==================================================================================================================---
@@ -117,7 +117,7 @@ local Animation
 ---@type «deprecated»
 ---`.cease()` is deprecated. To stop animations, use `:stop()`.
 ---@deprecated [[Replace with ":stop()"]]
-Animation.cease = nil
+Animation.cease=nil
 
 ---@type «deprecated»
 ---`.getBlendTime()` is deprecated. It has no built-in replacement.
@@ -125,17 +125,17 @@ Animation.cease = nil
 ---Library replacements:
 ---* ### [`❰GSAnimBlend❱` Animation Blending](https://discord.com/channels/1129805506354085959/1135537784543776829)
 ---@deprecated [[Has library replacement]]
-Animation.getBlendTime = nil
+Animation.getBlendTime=nil
 
 ---@type «deprecated»
 ---`.getBlendWeight()` is deprecated. To get the blend weight, use `:getBlend()`.
 ---@deprecated [[Replace with ":getBlend()"]]
-Animation.getBlendWeight = nil
+Animation.getBlendWeight=nil
 
 ---@type «deprecated»
 ---`.getLoopMode()` is deprecated. To get the loop mode, use `:getLoop()`.
 ---@deprecated [[Replace with ":getLoop()"]]
-Animation.getLoopMode = nil
+Animation.getLoopMode=nil
 
 ---@type «deprecated»
 ---`.getOverride()` is deprecated. It now has three forms.
@@ -143,7 +143,7 @@ Animation.getLoopMode = nil
 ---* `:getOverrideRot()` for getting the override of the rotation channel,
 ---* `:getOverrideScale()` for getting the override of the scale channel.
 ---@deprecated [[Complex, hover for more info]]
-Animation.getOverride = nil
+Animation.getOverride=nil
 
 ---@type «deprecated»
 ---`.getReplace()` is deprecated. To get vanilla override, use one of the following:
@@ -151,12 +151,12 @@ Animation.getOverride = nil
 ---* `:getOverrideRot()` for getting the override of the rotation channel,
 ---* `:getOverrideScale()` for getting the override of the scale channel.
 ---@deprecated [[Complex, hover for more info]]
-Animation.getReplace = nil
+Animation.getReplace=nil
 
 ---@type «deprecated»
 ---`.getStartOffset()` is deprecated. To get start offset, use `:getOffset()`.
 ---@deprecated [[Replace with ":getOffset()"]]
-Animation.getStartOffset = nil
+Animation.getStartOffset=nil
 
 ---@type «deprecated»
 ---`.setBlendTime()` is deprecated. It has no built-in replacement.
@@ -164,37 +164,37 @@ Animation.getStartOffset = nil
 ---Library replacements:
 ---* ### [`❰GSAnimBlend❱` Animation Blending](https://discord.com/channels/1129805506354085959/1135537784543776829)
 ---@deprecated [[Has library replacement]]
-Animation.setBlendTime = nil
+Animation.setBlendTime=nil
 
 ---@type «deprecated»
 ---`.setBlendWeight()` is deprecated. To set blend weight, use `:setBlend()`.
 ---@deprecated [[Replace with ":setBlend()"]]
-Animation.setBlendWeight = nil
+Animation.setBlendWeight=nil
 
 ---@type «deprecated»
 ---`.setLoopMode()` is deprecated. To set loop mode, use `:setLoop()`.
 ---@deprecated [[Replace with ":setLoop()"]]
-Animation.setLoopMode = nil
+Animation.setLoopMode=nil
 
 ---@type «deprecated»
 ---`.setReplace()` is deprecated. To set vanilla override, use `:setOverride()`.
 ---@deprecated [[Replace with ":setOverride()"]]
-Animation.setReplace = nil
+Animation.setReplace=nil
 
 ---@type «deprecated»
 ---`.setPlayState()` is deprecated. To set if an animation is playing, use `:setPlaying()`.
 ---@deprecated [[Replace with ":setPlaying()"]]
-Animation.setPlayState = nil
+Animation.setPlayState=nil
 
 ---@type «deprecated»
 ---`.setStartOffset()` is deprecated. To set start offset, use `:setOffset()`.
 ---@deprecated [[Replace with ":setOffset()"]]
-Animation.setStartOffset = nil
+Animation.setStartOffset=nil
 
 ---@type «deprecated»
 ---`.start()` is deprecated. To play an animation, use `:play()`.
 ---@deprecated [[Replace with ":play()"]]
-Animation.start = nil
+Animation.start=nil
 
 
 ---@class AnimationAPI
@@ -203,12 +203,12 @@ local AnimationTable
 ---@type «deprecated»
 ---`.ceaseAll()` is deprecated. To stop all animations, use `:stopAll()`.
 ---@deprecated [[Replace with ":stopAll()"]]
-AnimationTable.ceaseAll = nil
+AnimationTable.ceaseAll=nil
 
 ---@type «deprecated»
 ---`.listAnimations()` is deprecated. To get a list of all animations, use `:getAnimations()`.
 ---@deprecated [[Replace with ":getAnimations()"]]
-AnimationTable.listAnimations = nil
+AnimationTable.listAnimations=nil
 
 
 ---@type «deprecated»
@@ -217,7 +217,7 @@ AnimationTable.listAnimations = nil
 ---Animations are now accessed per-model by indexing `animations` with the name of the bbmodel file.  
 ---(To get animations from `mycoolmodel.bbmodel`, do `animations.mycoolmodel`.)
 ---@deprecated [[Replace with "animations.<bbmodel_name>"]]
-animation = nil
+animation=nil
 
 
 ---==================================================================================================================---
@@ -230,19 +230,19 @@ local Biome
 ---@type «deprecated»
 ---`.getCategory()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-Biome.getCategory = nil
+Biome.getCategory=nil
 
 ---@type «deprecated»
 ---`.getID()` is deprecated. To get this biome's id, use `.id`.
 ---@deprecated [[Replace with ".id"]]
-Biome.getID = nil
+Biome.getID=nil
 
 
 ---@type «deprecated»
 ---`biome` is deprecated. Replace the following:
 ---* `biome.getBiome()` with `world.getBiome()`
 ---@deprecated [[Complex, hover for more info]]
-biome = nil
+biome=nil
 
 
 ---==================================================================================================================---
@@ -255,44 +255,44 @@ local BlockState
 ---@type «deprecated»
 ---`["figura$block_state"]` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-BlockState["figura$block_state"] = nil
+BlockState["figura$block_state"]=nil
 
 ---@type «deprecated»
 ---`.name` is deprecated. To get this block's id, read `.id`.
 ---@deprecated [[Replace with ".id"]]
-BlockState.name = nil
+BlockState.name=nil
 
 ---@type «deprecated»
 ---`.getBlockTags()` is deprecated. To get this block's block tags, use `:getTags()`.
 ---@deprecated [[Replace with ":getTags()"]]
-BlockState.getBlockTags = nil
+BlockState.getBlockTags=nil
 
 ---@type «deprecated»
 ---`.getMaterial()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-BlockState.getMaterial = nil
+BlockState.getMaterial=nil
 
 ---@type «deprecated»
 ---`.getSlipperiness()` is deprecated. To get this block's friction, use `:getFriction()`.
 ---@deprecated [[Replace with ":getFriction()"]]
-BlockState.getSlipperiness = nil
+BlockState.getSlipperiness=nil
 
 ---@type «deprecated»
 ---`.getSoundGroup()` is deprecated. To get the basic sounds this block makes, use `:getSounds()`.
 ---@deprecated [[Replace with ":getSounds()"]]
-BlockState.getSoundGroup = nil
+BlockState.getSoundGroup=nil
 
 ---@type «deprecated»
 ---`.isCollidable()` is deprecated. To get if this block can be collided with, use `:hasCollision()`.
 ---@deprecated [[Replace with ":hasCollision()"]]
-BlockState.isCollidable = nil
+BlockState.isCollidable=nil
 
 
 ---@type «deprecated»
 ---`block_state` is deprecated. Replace the following:
 ---* `block_state.createBlock()` with `world.newBlock()`.
 ---@deprecated [[Complex, hover for more info]]
-block_state = nil
+block_state=nil
 
 
 ---==================================================================================================================---
@@ -314,7 +314,7 @@ block_state = nil
 ---* <code>camera.‹<small><sup>FIRST_PERSON</sup></small>⁄<small><small>THIRD_PERSON</small></small>›.setPos()</code>
 ---  with `renderer:setCameraPos()`
 ---@deprecated [[Complex, hover for more info]]
-camera = nil
+camera=nil
 
 
 ---==================================================================================================================---
@@ -331,7 +331,7 @@ camera = nil
 ---`chat.setFiguraCommandPrefix()` does not have a direct counterpart, however its functionality can be emulated with
 ---the `CHAT_SEND_MESSAGE` event.
 ---@deprecated [[Complex, hover for more info]]
-chat = nil
+chat=nil
 
 
 ---==================================================================================================================---
@@ -344,102 +344,102 @@ local ClientAPI
 ---@type «deprecated»
 ---`.checkVersion()` is deprecated. To compare versions, use `.compareVersions()`.
 ---@deprecated [[Replace with ".compareVersions()"]]
-ClientAPI.checkVersion = nil
+ClientAPI.checkVersion=nil
 
 ---@type «deprecated»
 ---`.clearTitle()` is deprecated. To clear the title, see `host:clearTitle()`.
 ---@deprecated [[Replace with "host:clearTitle()"]]
-ClientAPI.clearTitle = nil
+ClientAPI.clearTitle=nil
 
 ---@type «deprecated»
 ---`.getActiveShader()` is deprecated. To get the current shader, use `.getCurrentEffect()`.
 ---@deprecated [[Replace with ".getCurrentEffect()"]]
-ClientAPI.getActiveShader = nil
+ClientAPI.getActiveShader=nil
 
 ---@type «deprecated»
 ---`.getChunksCount()` is deprecated. To get the chunk info line, use `.getChunkStatistics()`.
 ---@deprecated [[Replace with ".getChunkStatistics()"]]
-ClientAPI.getChunksCount = nil
+ClientAPI.getChunksCount=nil
 
 ---@type «deprecated»
 ---`.getCrosshairEnabled()` is deprecated. To get the crosshair state, use `renderer:shouldRenderCrosshair()`.
 ---@deprecated [[Replace with "renderer:shouldRenderCrosshair()"]]
-ClientAPI.getCrosshairEnabled = nil
+ClientAPI.getCrosshairEnabled=nil
 
 ---@type «deprecated»
 ---`.getCrosshairPos()` is deprecated. To get the crosshair offset, use `renderer:getCrosshairOffset()`.
 ---@deprecated [[replace with "renderer:getCrosshairOffset()"]]
-ClientAPI.getCrosshairPos = nil
+ClientAPI.getCrosshairPos=nil
 
 ---@type «deprecated»
 ---`.getIrisShadersEnabled()` is deprecated. To get Iris shader state, use `.hasIrisShader()`.
 ---@deprecated [[Replace with ".hasIrisShader()"]]
-ClientAPI.getIrisShadersEnabled = nil
+ClientAPI.getIrisShadersEnabled=nil
 
 ---@type «deprecated»
 ---`.getMemoryInUse()` is deprecated. To get used memory, use `.getUsedMemory()`.
 ---@deprecated [[Replace with ".getUsedMemory()"]]
-ClientAPI.getMemoryInUse = nil
+ClientAPI.getMemoryInUse=nil
 
 ---@type «deprecated»
 ---`.getMouseScroll()` is deprecated. To get mouse scroll, use the `MOUSE_SCROLL` event.
 ---@deprecated [[Replace with "MOUSE_SCROLL" event]]
-ClientAPI.getMouseScroll = nil
+ClientAPI.getMouseScroll=nil
 
 ---@type «deprecated»
 ---`.getOpenScreen()` is deprecated. To get the current screen, use `host:getScreen()`.
 ---@deprecated [[Replace with "host:getScreen()"]]
-ClientAPI.getOpenScreen = nil
+ClientAPI.getOpenScreen=nil
 
 ---@type «deprecated»
 ---`.getScaleFactor()` is deprecated. To get GUI Scale factor, use `.getGuiScale()`.
 ---@deprecated [[Replace with ".getGuiScale()"]]
-ClientAPI.getScaleFactor = nil
+ClientAPI.getScaleFactor=nil
 
 ---@type «deprecated»
 ---`.getSoundCount()` is deprecated. To get sound count, use `.getSoundStatistics()`.
 ---@deprecated [[Replace with ".getSoundStatistics()"]]
-ClientAPI.getSoundCount = nil
+ClientAPI.getSoundCount=nil
 
 ---@type «deprecated»
 ---`.isHost()` is deprecated. To get the host state, use `host:isHost()`.
 ---@deprecated [[Replace with "host:isHost()"]]
-ClientAPI.isHost = nil
+ClientAPI.isHost=nil
 
 ---@type «deprecated»
 ---`.setActionbar()` is deprecated. To set the action bar, use `host:setActionbar()`.
 ---@deprecated [[Replace with "host:setActionbar()"]]
-ClientAPI.setActionbar = nil
+ClientAPI.setActionbar=nil
 
 ---@type «deprecated»
 ---`.setCrosshairEnabled()` is deprecated. To set crosshair state, use `renderer:setRenderCrosshair()`.
 ---@deprecated [[Replace with "renderer:setRenderCrosshair()"]]
-ClientAPI.setCrosshairEnabled = nil
+ClientAPI.setCrosshairEnabled=nil
 
 ---@type «deprecated»
 ---`.setCrosshairPos()` is deprecated. To move the crosshair, use `renderer:setCrosshairOffset()`.
 ---@deprecated [[Replace with "renderer:setCrosshairOffset()"]]
-ClientAPI.setCrosshairPos = nil
+ClientAPI.setCrosshairPos=nil
 
 ---@type «deprecated»
 ---`.setMouseUnlocked()` is deprecated. To unlock the mouse, use `host:setUnlockCursor()`.
 ---@deprecated [[Replace with "host:setUnlockCursor()"]]
-ClientAPI.setMouseUnlocked = nil
+ClientAPI.setMouseUnlocked=nil
 
 ---@type «deprecated»
 ---`.setSubtitle()` is deprecated. To set the subtitle, use `host:setSubtitle()`.
 ---@deprecated [[Replace with "host:setSubtitle()"]]
-ClientAPI.setSubtitle = nil
+ClientAPI.setSubtitle=nil
 
 ---@type «deprecated»
 ---`.setTitle()` is deprecated. To set the title, use `host:setTitle()`.
 ---@deprecated [[Replace with "host:setTitle()"]]
-ClientAPI.setTitle = nil
+ClientAPI.setTitle=nil
 
 ---@type «deprecated»
 ---`.setTitleTimes()` is deprecated. To set the title times, use `host:setTitleTimes()`.
 ---@deprecated [[Replace with "host:setTitleTimes()"]]
-ClientAPI.setTitleTimes = nil
+ClientAPI.setTitleTimes=nil
 
 
 ---==================================================================================================================---
@@ -452,47 +452,47 @@ local DataAPI
 ---@type «deprecated»
 ---`.getName()` is deprecated, to get the name of the current config file, use `config:getName()`.
 ---@deprecated [[Replace with "config:getName()"]]
-DataAPI.getName = nil
+DataAPI.getName=nil
 
 ---@type «deprecated»
 ---`.setName()` is deprecated, to set the name of the current config file, use `config:setName()`.
 ---@deprecated [[Replace with "config:setName()"]]
-DataAPI.setName = nil
+DataAPI.setName=nil
 
 ---@type «deprecated»
 ---`.load()` is deprecated, to get a value from the current config file, use `config:load()`.
 ---@deprecated [[Replace with "config:load()"]]
-DataAPI.load = nil
+DataAPI.load=nil
 
 ---@type «deprecated»
 ---`.loadAll()` is deprecated, to get all values from the current config file, use `config:load()` with no parameters.
 ---@deprecated [[Replace with "config:load()"]]
-DataAPI.loadAll = nil
+DataAPI.loadAll=nil
 
 ---@type «deprecated»
 ---`.save()` is deprecated, to save a value to the current config file, use `config:save()`.
 ---@deprecated [[Replace with "config:save()"]]
-DataAPI.save = nil
+DataAPI.save=nil
 
 ---@type «deprecated»
 ---`.remove()` is deprecated, to remove a value from the current config file, use `config:save()` with a `nil` value.
 ---@deprecated [[Replace with "config:save()"]]
-DataAPI.remove = nil
+DataAPI.remove=nil
 
 ---@type «deprecated»
 ---`.allowTracking()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-DataAPI.allowTracking = nil
+DataAPI.allowTracking=nil
 
 ---@type «deprecated»
 ---`.deleteFile()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-DataAPI.deleteFile = nil
+DataAPI.deleteFile=nil
 
 ---@type «deprecated»
 ---`.hasTracking()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-DataAPI.hasTracking = nil
+DataAPI.hasTracking=nil
 
 
 ---==================================================================================================================---
@@ -508,52 +508,52 @@ local Entity
 ---To get the air percentage of the host, use `host:getAir() / player:getMaxAir()`.  
 ---To get the air percentage of the player viewing the avatar, use `<Viewer>:getAir() / <Viewer>:getMaxAir()`.
 ---@deprecated [[Complex, hover for more info]]
-Entity.getAirPercentage = nil
+Entity.getAirPercentage=nil
 
 ---@type «deprecated»
 ---`.getAnimation()` is deprecated. To get this entity's current pose, use `:getPose()`.
 ---@deprecated [[Replace with ":getPose()"]]
-Entity.getAnimation = nil
+Entity.getAnimation=nil
 
 ---@type «deprecated»
 ---`.getEquipmentItem()` is deprecated. To get an item this entity has equipped, use `:getItem()`.
 ---@deprecated [[Replace with ":getItem()"]]
-Entity.getEquipmentItem = nil
+Entity.getEquipmentItem=nil
 
 ---@type «deprecated»
 ---`.getFireTicks()` is deprecated. To get if an entity is on fire, use `:isOnFire()`.
 ---@deprecated [[Replace with ":isOnFire()"]]
-Entity.getFireTicks = nil
+Entity.getFireTicks=nil
 
 ---@type «deprecated»
 ---`.getNbtValue()` is deprecated. To get this entity's NBT table, use `:getNbt()`.
 ---@deprecated [[Replace with ":getNbt()"]]
-Entity.getNbtValue = nil
+Entity.getNbtValue=nil
 
 ---@type «deprecated»
 ---`.getTargetedBlockPos()` is deprecated. To get the block this entity is looking at, use `:getTargetedBlock()`.
 ---@deprecated [[Replace with ":getTargetedBlock()"]]
-Entity.getTargetedBlockPos = nil
+Entity.getTargetedBlockPos=nil
 
 ---@type «deprecated»
 ---`.getWorldName()` is deprecated. To get the dimension this entity is in, use `:getDimensionName()`.
 ---@deprecated [[Replace with ":getDimensionName()"]]
-Entity.getWorldName = nil
+Entity.getWorldName=nil
 
 ---@type «deprecated»
 ---`.isHamburger()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-Entity.isHamburger = nil
+Entity.isHamburger=nil
 
 ---@type «deprecated»
 ---`.isSneaky()` is deprecated. To get if this entity is sneaking, use `:isSneaking()`.
 ---@deprecated [[Replace with ":isSneaking()"]]
-Entity.isSneaky = nil
+Entity.isSneaky=nil
 
 ---@type «deprecated»
 ---`.isTouchingWater()` is deprecated. To get if this entity is touching water, use `:isInWater()`.
 ---@deprecated [[Replace with ":isInWater()"]]
-Entity.isTouchingWater = nil
+Entity.isTouchingWater=nil
 
 
 ---@class LivingEntity
@@ -563,7 +563,7 @@ local LivingEntity
 ---`.getHealthPercentage()` is deprecated. To get this entity's health as a percentage, use
 ---`:getHealth() / :getMaxHealth()`.
 ---@deprecated [[Replace with ":getHealth() / :getMaxHealth()"]]
-LivingEntity.getHealthPercentage = nil
+LivingEntity.getHealthPercentage=nil
 
 ---@type «deprecated»
 ---`.getStatusEffect()` is deprecated. It has no simple replacement.
@@ -571,7 +571,7 @@ LivingEntity.getHealthPercentage = nil
 ---To get the status effects of the host, use `host:getStatusEffects()`.  
 ---To get the status effects of the player viewing the avatar, use `<Viewer>:getStatusEffects()`.
 ---@deprecated [[Complex, hover for more info]]
-LivingEntity.getStatusEffect = nil
+LivingEntity.getStatusEffect=nil
 
 ---@type «deprecated»
 ---`.getStatusEffectTypes()` is deprecated. It has no simple replacement.
@@ -579,12 +579,12 @@ LivingEntity.getStatusEffect = nil
 ---To get the status effects of the host, use `host:getStatusEffects()`.  
 ---To get the status effects of the player viewing the avatar, use `<Viewer>:getStatusEffects()`.
 ---@deprecated [[Complex, hover for more info]]
-LivingEntity.getStatusEffectTypes = nil
+LivingEntity.getStatusEffectTypes=nil
 
 ---@type «deprecated»
 ---`.getStuckArrowCount()` is deprecated. To get the amount of arrows stuck in this entity, use `:getArrowCount()`.
 ---@deprecated [[Replace with ":getArrowCount()"]]
-LivingEntity.getStuckArrowCount = nil
+LivingEntity.getStuckArrowCount=nil
 
 
 ---@class Player
@@ -593,7 +593,7 @@ local Player
 ---@type «deprecated»
 ---`.getStoredValue()` is deprecated. To get a stored avatar variable, use `:getVariable()`.
 ---@deprecated [[Replace with ":getVariable()"]]
-Player.getStoredValue = nil
+Player.getStoredValue=nil
 
 ---@type «deprecated»
 ---`.isFlying()` is deprecated. It has no simple replacement.
@@ -601,18 +601,18 @@ Player.getStoredValue = nil
 ---To get the flight status of the host, use `host:isFlying()`.  
 ---To get the flight status of the player viewing the avatar, use `<Viewer>:isFlying()`.
 ---@deprecated [[Complex, hover for more info]]
-Player.isFlying = nil
+Player.isFlying=nil
 
 ---@type «deprecated»
 ---`.lastDamageSource()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-Player.lastDamageSource = nil
+Player.lastDamageSource=nil
 
 
 ---@type «deprecated»
 ---`storeValue()` is deprecated. To store a value on the avatar, use `avatar:store()`.
 ---@deprecated [[Replace with "avatar:store()"]]
-storeValue = nil
+storeValue=nil
 
 
 ---==================================================================================================================---
@@ -625,50 +625,50 @@ local ItemStack
 ---@type «deprecated»
 ---`["figura$item_stack"]` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ItemStack["figura$item_stack"] = nil
+ItemStack["figura$item_stack"]=nil
 
 ---@type «deprecated»
 ---`.getCooldown()` is deprecated. To get the cooldown of an item on a specific player, use
 ---`<Player>:getCooldownPercent()`
 ---@deprecated [[Replace with "<Player>:getCooldownPercent()"]]
-ItemStack.getCooldown = nil
+ItemStack.getCooldown=nil
 
 ---@type «deprecated»
 ---`.getItemTags()` is deprecated. To get this item's item tags, use `:getTags()`.
 ---@deprecated [[Replace with ":getTags()"]]
-ItemStack.getItemTags = nil
+ItemStack.getItemTags=nil
 
 ---@type «deprecated»
 ---`.getMaxUseTime()` is deprecated. To get this item's use duration, use `:getUseDuration()`.
 ---@deprecated [[Replace with ":getUseDuration()"]]
-ItemStack.getMaxUseTime = nil
+ItemStack.getMaxUseTime=nil
 
 ---@type «deprecated»
 ---`.getType()` is deprecated. To get this item's id, use `:getID()`.
 ---@deprecated [[Replace with ":getID()"]]
-ItemStack.getType = nil
+ItemStack.getType=nil
 
 ---@type «deprecated»
 ---`.setCount()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ItemStack.setCount = nil
+ItemStack.setCount=nil
 
 ---@type «deprecated»
 ---`.setDamage()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ItemStack.setDamage = nil
+ItemStack.setDamage=nil
 
 ---@type «deprecated»
 ---`.setTag` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ItemStack.setTag = nil
+ItemStack.setTag=nil
 
 
 ---@type «deprecated»
 ---`item_stack` is deprecated. Replace the following:
 ---* `item_stack.createItem()` with `world.newItem()`
 ---@deprecated [[Complex, hover for more info]]
-item_stack = nil
+item_stack=nil
 
 
 ---==================================================================================================================---
@@ -682,12 +682,12 @@ local Keybind
 ---`.wasPressed` is deprecated. It has no direct counterpart, however `.press` can be used to simulate the most common
 ---use for this function.
 ---@deprecated [[Complex, hover for more info]]
-Keybind.wasPressed = nil
+Keybind.wasPressed=nil
 
 ---@type «deprecated»
 ---`.reset` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-Keybind.reset = nil
+Keybind.reset=nil
 
 ---@class KeybindAPI
 local KeybindAPI
@@ -695,28 +695,28 @@ local KeybindAPI
 ---@type «deprecated»
 ---`.getKeyList` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-KeybindAPI.getKeyList = nil
+KeybindAPI.getKeyList=nil
 
 ---@type «deprecated»
 ---`.getRegisteredKeyList` is deprecated. To get a list of all of the avatar's keybinds, use `:getKeybinds()`.
 ---@deprecated [[Replace with ":getKeybinds()"]]
-KeybindAPI.getRegisteredKeyList = nil
+KeybindAPI.getRegisteredKeyList=nil
 
 ---@type «deprecated»
 ---`.getRegisteredKeybind` is deprecated. To create a keybind that is bound to a vanilla keybind, use `:fromVanilla()`.
 ---@deprecated [[Replace with ":fromVanilla()"]]
-KeybindAPI.getRegisteredKeybind = nil
+KeybindAPI.getRegisteredKeybind=nil
 
 ---@type «deprecated»
 ---`.newKey` is deprecated. To create a new keybind, use `:newKeybind()`.
 ---@deprecated [[Replace with ":newKeybind()"]]
-KeybindAPI.newKey = nil
+KeybindAPI.newKey=nil
 
 
 ---@type «deprecated»
 ---`keybind` is deprecated. To get the keybind API, use `keybinds`.
 ---@deprecated [[Replace with "keybinds"]]
-keybind = nil
+keybind=nil
 
 
 ---==================================================================================================================---
@@ -750,7 +750,7 @@ keybind = nil
 ---* `meta.getCanHaveCustomRenderLayer()`
 ---* `meta.getModelStatus()`
 ---@deprecated [[Complex, hover for more info]]
-meta = nil
+meta=nil
 
 
 ---==============================================================================================---
@@ -763,7 +763,7 @@ local VanillaPart
 ---@type «deprecated»
 ---`.getEnabled()` is deprecated. To get the visibility of this vanilla part, use `:getVisible()`.
 ---@deprecated [[Replace with ":getVisible()"]]
-VanillaPart.getEnabled = nil
+VanillaPart.getEnabled=nil
 
 ---@type «deprecated»
 ---`.setEnabled()` is deprecated. To set the visibility of this vanilla part, use `:setVisible()`.  
@@ -779,19 +779,19 @@ VanillaPart.getEnabled = nil
 ---vanilla_model.PLAYER:setVisible(<state>)
 ---```
 ---@deprecated [[Complex, hover for more info]]
-VanillaPart.setEnabled = nil
+VanillaPart.setEnabled=nil
 
 ---@type «deprecated»
 ---`.getOriginEnabled()` is deprecated. To get if Minecraft is making this vanilla part visible, use
 ---`:setOriginVisible()`.
 ---@deprecated [[Replace with ":setOriginVisible()"]]
-VanillaPart.getOriginEnabled = nil
+VanillaPart.getOriginEnabled=nil
 
 ---@type «deprecated»
 ---`.isOptionEnabled()` is deprecated. To get if a vanilla part is enabled in skin customizations, use
 ---`player:isSkinLayerVisible()`.
 ---@deprecated [[Replace with "player:isSkinLayerVisible()"]]
-VanillaPart.isOptionEnabled = nil
+VanillaPart.isOptionEnabled=nil
 
 
 ---@class ModelPart
@@ -800,12 +800,12 @@ local ModelPart
 ---@type «deprecated»
 ---`.getEnabled()` is deprecated. To get the visibility of this part, use `:getVisible()`.
 ---@deprecated [[Replace with ":getVisible()"]]
-ModelPart.getEnabled = nil
+ModelPart.getEnabled=nil
 
 ---@type «deprecated»
 ---`.setEnabled()` is deprecated. To set the visibility of this part, use `:setVisible()`.
 ---@deprecated [[Replace with ":setVisible()"]]
-ModelPart.setEnabled = nil
+ModelPart.setEnabled=nil
 
 
 ---@type «deprecated»
@@ -817,19 +817,19 @@ ModelPart.setEnabled = nil
 ---* `:newSprite()` to make a plane
 ---* `:newText()` to make text
 ---@deprecated [[Complex, hover for more info]]
-ModelPart.addRenderTask = nil
+ModelPart.addRenderTask=nil
 
 ---@type «deprecated»
 ---`.clearAllRenderTasks()` is deprecated. To remove all render tasks, use `:removeTask()` with no `name` parameter.
 ---@deprecated [[Replace with ":removeTask()"]]
-ModelPart.clearAllRenderTasks = nil
+ModelPart.clearAllRenderTasks=nil
 
 ---@type «deprecated»
 ---`.getCullEnabled()` is deprecated. To get the rendering mode of this part, use `:getPrimaryRenderType()`.
 ---
 ---To get if culling is enabled on this part, use `:getPrimaryRenderType():match("_CULL$").
 ---@deprecated [[Replace with ":getPrimaryRenderType()"]]
-ModelPart.getCullEnabled = nil
+ModelPart.getCullEnabled=nil
 
 ---@type «deprecated»
 ---`.getExtraTexEnabled()` is deprecated. To get the secondary rendering mode of this part, use
@@ -837,17 +837,17 @@ ModelPart.getCullEnabled = nil
 ---
 ---To get if the secondary texture is disabled, use `:getSecondaryRenderType() == "NONE"`.
 ---@deprecated [[Replace with ":getSecondaryRenderType()"]]
-ModelPart.getExtraTexEnabled = nil
+ModelPart.getExtraTexEnabled=nil
 
 ---@type «deprecated»
 ---`.getMimicMode()` is deprecated. It has no replacement as MIMIC parts are no longer needed.
 ---@deprecated [[No replacement]]
-ModelPart.getMimicMode = nil
+ModelPart.getMimicMode=nil
 
 ---@type «deprecated»
 ---`.getRenderTask()` is deprecated. To get a render task attached to this part, use `:getTask()`.
 ---@deprecated [[Replace with ":getTask()"]]
-ModelPart.getRenderTask = nil
+ModelPart.getRenderTask=nil
 
 ---@type «deprecated»
 ---`.getShader()` is deprecated.
@@ -855,29 +855,29 @@ ModelPart.getRenderTask = nil
 ---To get if the end portal effect is applied to this part, use `:getPrimaryRenderType() == "END_PORTAL"`.  
 ---To get if the glint effect is applied to this part, use `:getSecondaryRenderType() == "GLINT"`.
 ---@deprecated [[Complex, hover for more info]]
-ModelPart.getShader = nil
+ModelPart.getShader=nil
 
 ---@type «deprecated»
 ---`.getTexture()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ModelPart.getTexture = nil
+ModelPart.getTexture=nil
 
 ---@type «deprecated»
 ---`.getUVData()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ModelPart.getUVData = nil
+ModelPart.getUVData=nil
 
 ---@type «deprecated»
 ---`.partToWorldDir()` is deprecated. To convert a part direction to a world direction, use
 ---`:partToWorldMatrix():applyDir(x, y, z)`.
 ---@deprecated [[Replace with ":partToWorldMatrix():applyDir(x, y, z)"]]
-ModelPart.partToWorldDir = nil
+ModelPart.partToWorldDir=nil
 
 ---@type «deprecated»
 ---`.partToWorldPos()` is deprecated. To convert a part position to a world position, use
 ---`:partToWorldMatrix():apply(x, y, z)`.
 ---@deprecated [[Replace with ":partToWorldMatrix():apply(x, y, z)"]]
-ModelPart.partToWorldPos = nil
+ModelPart.partToWorldPos=nil
 
 ---@type «deprecated»
 ---`.setCullEnabled()` is deprecated. To set the rendering mode of this part, use `:setPrimaryRenderType()`.
@@ -885,7 +885,7 @@ ModelPart.partToWorldPos = nil
 ---To enable culling for this part, use a rendering mode that supports culling such as `"TRANSLUCENT_CULL"` or
 ---`"CUTOUT_CULL"`.
 ---@deprecated [[Replace with ":setPrimaryRenderType()"]]
-ModelPart.setCullEnabled = nil
+ModelPart.setCullEnabled=nil
 
 ---@type «deprecated»
 ---`.setExtraTexEnabled()` is deprecated. To set the secondary rendering mode of this part, use
@@ -894,17 +894,17 @@ ModelPart.setCullEnabled = nil
 ---To disable the secondary texture, use `:setSecondaryRenderType("NONE")`.  
 ---To re-enable it, use `:setSecondaryRenderType("EMISSIVE")`.
 ---@deprecated [[Replace with ":setSecondaryRenderType()"]]
-ModelPart.setExtraTexEnabled = nil
+ModelPart.setExtraTexEnabled=nil
 
 ---@type «deprecated»
 ---`.setMimicMode()` is deprecated. It has no replacement as MIMIC parts are no longer needed.
 ---@deprecated [[No replacement]]
-ModelPart.setMimicMode = nil
+ModelPart.setMimicMode=nil
 
 ---@type «deprecated»
 ---`.setRenderLayer()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ModelPart.setRenderLayer = nil
+ModelPart.setRenderLayer=nil
 
 ---@type «deprecated»
 ---`.setShader()` is deprecated.
@@ -912,7 +912,7 @@ ModelPart.setRenderLayer = nil
 ---To apply the end portal effect to this part, use `:setPrimaryRenderType("END_PORTAL")`.  
 ---To apply the glint effect, use `:setSecondaryRenderType("GLINT")`.
 ---@deprecated [[Complex, hover for more info]]
-ModelPart.setShader = nil
+ModelPart.setShader=nil
 
 ---@type «deprecated»
 ---`.setTexture()` is deprecated.
@@ -920,31 +920,31 @@ ModelPart.setShader = nil
 ---To set the primary texture of this part, use `:setPrimaryTexture()`.  
 ---To set the secondary texture, use `:setSecondaryTexture()`.
 ---@deprecated [[Complex, hover for more info]]
-ModelPart.setTexture = nil
+ModelPart.setTexture=nil
 
 ---@type «deprecated»
 ---`.setTextureSize()` is deprecated. It has no direct replacement.
 ---
 ---`:setUVMatrix()` can be used for a similar effect though it requires matrix math.
 ---@deprecated [[Complex, hover for more info]]
-ModelPart.setTextureSize = nil
+ModelPart.setTextureSize=nil
 
 ---@type «deprecated»
 ---`.setUVData()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ModelPart.setUVData = nil
+ModelPart.setUVData=nil
 
 ---@type «deprecated»
 ---`.worldToPartDir()` is deprecated. To convert a world direction to a part direction, use
 ---`:partToWorldMatrix():invert():applyDir(x, y, z)`.
 ---@deprecated [[Replace with ":partToWorldMatrix():invert():applyDir(x, y, z)"]]
-ModelPart.worldToPartDir = nil
+ModelPart.worldToPartDir=nil
 
 ---@type «deprecated»
 ---`.worldToPartPos()` is deprecated. To convert a world position to a part position, use
 ---`:partToWorldMatrix():invert():apply(x, y, z)`.
 ---@deprecated [[Replace with ":partToWorldMatrix():invert():apply(x, y, z)"]]
-ModelPart.worldToPartPos = nil
+ModelPart.worldToPartPos=nil
 
 
 ---@class VanillaModelAPI
@@ -953,27 +953,27 @@ local VanillaModelAPI
 ---@type «deprecated»
 ---`.TORSO` is deprecated. To get the vanilla body, use `.BODY`.
 ---@deprecated [[Replace with ".BODY"]]
-VanillaModelAPI.TORSO = nil
+VanillaModelAPI.TORSO=nil
 
 ---@type «deprecated»
 ---`.LEFT_PANTS_LEG` is deprecated. To get the vanilla body, use `.LEFT_PANTS`.
 ---@deprecated [[Replace with ".LEFT_PANTS"]]
-VanillaModelAPI.LEFT_PANTS_LEG = nil
+VanillaModelAPI.LEFT_PANTS_LEG=nil
 
 ---@type «deprecated»
 ---`.RIGHT_PANTS_LEG` is deprecated. To get the vanilla body, use `.RIGHT_PANTS`.
 ---@deprecated [[Replace with ".RIGHT_PANTS"]]
-VanillaModelAPI.RIGHT_PANTS_LEG = nil
+VanillaModelAPI.RIGHT_PANTS_LEG=nil
 
 ---@type «deprecated»
 ---`.LEFT_EAR` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-VanillaModelAPI.LEFT_EAR = nil
+VanillaModelAPI.LEFT_EAR=nil
 
 ---@type «deprecated»
 ---`.RIGHT_EAR` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-VanillaModelAPI.RIGHT_EAR = nil
+VanillaModelAPI.RIGHT_EAR=nil
 
 
 ---@type «deprecated»
@@ -983,7 +983,7 @@ VanillaModelAPI.RIGHT_EAR = nil
 ---bbmodel file.  
 ---(To get the model parts from `mycoolmodel.bbmodel`, do `models.mycoolmodel`.)
 ---@deprecated [[Replace with "models.<bbmodel_name>"]]
-model = nil
+model=nil
 
 
 ---@type «deprecated»
@@ -1006,7 +1006,7 @@ model = nil
 ---vanilla_model.ARMOR:setVisible(<state>)
 ---```
 ---@deprecated [[Complex, hover for more info]]
-armor_model = nil
+armor_model=nil
 
 
 ---@type «deprecated»
@@ -1026,7 +1026,7 @@ armor_model = nil
 ---vanilla_model.ELYTRA:setVisible(<state>)
 ---```
 ---@deprecated [[Complex, hover for more info]]
-elytra_model = nil
+elytra_model=nil
 
 
 ---@type «deprecated»
@@ -1046,7 +1046,7 @@ elytra_model = nil
 ---vanilla_model.HELD_ITEMS:setVisible(<state>)
 ---```
 ---@deprecated [[Complex, hover for more info]]
-held_item_model = nil
+held_item_model=nil
 
 
 ---@type «deprecated»
@@ -1066,19 +1066,19 @@ held_item_model = nil
 ---vanilla_model.PARROTS:setVisible(<state>)
 ---```
 ---@deprecated [[Complex, hover for more info]]
-parrot_model = nil
+parrot_model=nil
 
 
 ---@type «deprecated»
 ---`first_person_model` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-first_person_model = nil
+first_person_model=nil
 
 
 ---@type «deprecated»
 ---`spyglass_model` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-spyglass_model = nil
+spyglass_model=nil
 
 
 ---==================================================================================================================---
@@ -1091,32 +1091,32 @@ local Nameplate
 ---@type «deprecated»
 ---`.getEnabled()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-Nameplate.getEnabled = nil
+Nameplate.getEnabled=nil
 
 ---@type «deprecated»
 ---`.getPos()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-Nameplate.getPos = nil
+Nameplate.getPos=nil
 
 ---@type «deprecated»
 ---`.getScale()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-Nameplate.getScale = nil
+Nameplate.getScale=nil
 
 ---@type «deprecated»
 ---`.setEnabled()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-Nameplate.setEnabled = nil
+Nameplate.setEnabled=nil
 
 ---@type «deprecated»
 ---`.setPos()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-Nameplate.setPos = nil
+Nameplate.setPos=nil
 
 ---@type «deprecated»
 ---`.setScale()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-Nameplate.setScale = nil
+Nameplate.setScale=nil
 
 
 ---@class EntityNameplate
@@ -1125,12 +1125,12 @@ local EntityNameplate
 ---@type «deprecated»
 ---`.getEnabled()` is deprecated. To get if this nameplate is visible, use `:isVisible()`.
 ---@deprecated [[Replace with ":isVisible()"]]
-EntityNameplate.getEnabled = nil
+EntityNameplate.getEnabled=nil
 
 ---@type «deprecated»
 ---`.setEnabled()` is deprecated. To set if this nameplate is visible, use `:setVisible()`.
 ---@deprecated [[Replace with ":setVisible()"]]
-EntityNameplate.setEnabled = nil
+EntityNameplate.setEnabled=nil
 
 
 ---==================================================================================================================---
@@ -1151,13 +1151,13 @@ EntityNameplate.setEnabled = nil
 ---pings.pingNameHere(arg1, arg2, ...)
 ---```
 ---@deprecated [[Complex, hover for more info]]
-network = nil
+network=nil
 
 
 ---@type «deprecated»
 ---`ping` is deprecated. To get or modify the pings this avatar has, use `pings`.
 ---@deprecated [[Replace with "pings"]]
-ping = nil
+ping=nil
 
 
 ---==================================================================================================================---
@@ -1168,7 +1168,7 @@ ping = nil
 ---`particle` is deprecated. Replace the following:
 ---* `particle.addParticle()` with `particles:newParticle()`
 ---@deprecated [[Complex, hover for more info]]
-particle = nil
+particle=nil
 
 
 ---==================================================================================================================---
@@ -1181,74 +1181,74 @@ local RendererAPI
 ---@type «deprecated»
 ---`.getRenderFire()` is deprecated. To get if fire will render on the avatar host, use `:shouldRenderFire()`.
 ---@deprecated [[Replace with ":shouldRenderFire()"]]
-RendererAPI.getRenderFire = nil
+RendererAPI.getRenderFire=nil
 
 ---@type «deprecated»
 ---`.getRenderPlayerHead()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-RendererAPI.getRenderPlayerHead = nil
+RendererAPI.getRenderPlayerHead=nil
 
 ---@type «deprecated»
 ---`.getShadowSize` is deprecated. To get the radius of the avatar host's shadow, use `:getShadowRadius()`.
 ---@deprecated [[Replace with ":getShadowRadius()"]]
-RendererAPI.getShadowSize = nil
+RendererAPI.getShadowSize=nil
 
 ---@type «deprecated»
 ---`.getTextWidth()` is deprecated. To get the width of text, use `client.getTextWidth()`.
 ---@deprecated [[Replace with "client.getTextWidth()"]]
-RendererAPI.getTextWidth = nil
+RendererAPI.getTextWidth=nil
 
 ---@type «deprecated»
 ---`.isMountEnabled` is deprecated. To get if the avatar host's vehicle is visible, use `:shouldRenderVehicle()`.
 ---@deprecated [[Replace with ":shouldRenderVehicle()"]]
-RendererAPI.isMountEnabled = nil
+RendererAPI.isMountEnabled=nil
 
 ---@type «deprecated»
 ---`.isMountShadowEnabled` is deprecated. To get if the avatar host's vehicle (and by extension, its shadow) is visible,
 ---use `:shouldRenderVehicle()`.
 ---@deprecated [[Replace with ":shouldRenderVehicle()"]]
-RendererAPI.isMountShadowEnabled = nil
+RendererAPI.isMountShadowEnabled=nil
 
 ---@type «deprecated»
 ---`.raycastBlocks()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-RendererAPI.raycastBlocks = nil
+RendererAPI.raycastBlocks=nil
 
 ---@type «deprecated»
 ---`.raycastEntities()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-RendererAPI.raycastEntities = nil
+RendererAPI.raycastEntities=nil
 
 ---@type «deprecated»
 ---`.setMountEnabled()` is deprecated. To set if the avatar host's vehicle is visible, use `:setRenderVehicle()`.
 ---@deprecated [[Replace with ":setRenderVehicle()"]]
-RendererAPI.setMountEnabled = nil
+RendererAPI.setMountEnabled=nil
 
 ---@type «deprecated»
 ---`.setMountShadowEnabled()` is deprecated. To set if the avatar host's vehicle (and by extension, its shadow) is
 ---visible, use `:setRenderVehicle()`.
 ---@deprecated [[Replace with ":setRenderVehicle()"]]
-RendererAPI.setMountShadowEnabled = nil
+RendererAPI.setMountShadowEnabled=nil
 
 ---@type «deprecated»
 ---`.getRenderFire()` is deprecated. To set if fire will render on the avatar host, set `:setRenderFire()`.
 ---@deprecated [[Replace with ":setRenderFire()"]]
-RendererAPI.setRenderFire = nil
+RendererAPI.setRenderFire=nil
 
 ---@type «deprecated»
 ---`.setRenderPlayerHead()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-RendererAPI.setRenderPlayerHead = nil
+RendererAPI.setRenderPlayerHead=nil
 
 ---@type «deprecated»
 ---`.setShadowSize()` is deprecated. To set the radius of the avatar host's shadow, use `:setShadowRadius()`.
 ---@deprecated [[Replace with ":setShadowRadius()"]]
-RendererAPI.setShadowSize = nil
+RendererAPI.setShadowSize=nil
 
 ---@type «deprecated»
 ---`.swingArm()` is deprecated. To swing the avatar host's arm, use `host:swingArm()`.
 ---@deprecated [[Replace with "host:swingArm()"]]
-RendererAPI.swingArm = nil
+RendererAPI.swingArm=nil
 
 
 ---==================================================================================================================---
@@ -1258,7 +1258,7 @@ RendererAPI.swingArm = nil
 ---@type «deprecated»
 ---`renderlayers` is deprecated. It has no replacements.
 ---@deprecated [[No replacement]]
-renderlayers = nil
+renderlayers=nil
 
 
 ---==================================================================================================================---
@@ -1271,17 +1271,17 @@ local RenderTask
 ---@type «deprecated»
 ---`.getEmissive()` is deprecated. To get the light levels of a render task, use `:getLight()`.
 ---@deprecated [[Replace with ":getLight()"]]
-RenderTask.getEmissive = nil
+RenderTask.getEmissive=nil
 
 ---@type «deprecated»
 ---`.getEnabled()` is deprecated. To get if this task is visible, use `:isVisible()`.
 ---@deprecated [[Replace with ":isVisible()"]]
-RenderTask.getEnabled = nil
+RenderTask.getEnabled=nil
 
 ---@type «deprecated»
 ---`.setEmissive()` is deprecated. To set the light levels of a render task, use `:setLight()`.
 ---@deprecated [[Replace with ":setLight()"]]
-RenderTask.setEmissive = nil
+RenderTask.setEmissive=nil
 
 
 ---@class BlockTask
@@ -1290,7 +1290,7 @@ local BlockTask
 ---@type «deprecated»
 ---`.setRenderLayer()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-BlockTask.setRenderLayer = nil
+BlockTask.setRenderLayer=nil
 
 
 ---@class ItemTask
@@ -1299,12 +1299,12 @@ local ItemTask
 ---@type «deprecated»
 ---`.setRenderLayer()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-ItemTask.setRenderLayer = nil
+ItemTask.setRenderLayer=nil
 
 ---@type «deprecated»
 ---`.setItemMode()` is deprecated. To set the rendering mode for the item this task renders, use `:setDisplayMode()`.
 ---@deprecated [[Replace with ":setDisplayMode()"]]
-ItemTask.setItemMode = nil
+ItemTask.setItemMode=nil
 
 
 ---@class TextTask
@@ -1313,7 +1313,7 @@ local TextTask
 ---@type «deprecated»
 ---`.setLineSpacing()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-TextTask.setLineSpacing = nil
+TextTask.setLineSpacing=nil
 
 
 ---==================================================================================================================---
@@ -1335,7 +1335,7 @@ TextTask.setLineSpacing = nil
 ---`sound.getSounds()` does not have a direct counterpart, however its functionality can be emulated with the
 ---`ON_PLAY_SOUND` event.
 ---@deprecated [[Complex, hover for more info]]
-sound = nil
+sound=nil
 
 
 ---==================================================================================================================---
@@ -1348,31 +1348,31 @@ local Vector
 ---@type «deprecated»
 ---`.angleTo` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-Vector.angleTo = nil
+Vector.angleTo=nil
 
 ---@type «deprecated»
 ---`.asTable` is deprecated. It has no direct replacement.
 ---
 ---A table can be made out of a vector with the following: `{<Vector>:unpack()}`.
 ---@deprecated [[Has code replacement]]
-Vector.asTable = nil
+Vector.asTable=nil
 
 ---@type «deprecated»
 ---`.cross` is deprecated. It only exists on Vector3s.
 ---@deprecated [[Only exists on Vector3]]
-Vector.cross = nil
+Vector.cross=nil
 
 ---@type «deprecated»
 ---`.distanceTo` is deprecated. It has no direct replacement.
 ---
 ---The distance between two vectors can be calculated with the following: `(<VectorA>-<VectorB>):length()`.
 ---@deprecated [[Has code replacement]]
-Vector.distanceTo = nil
+Vector.distanceTo=nil
 
 ---@type «deprecated»
 ---`.getLength()` is deprecated. To get the length of this vector, use `:length()`.
 ---@deprecated [[Replace with ":length()"]]
-Vector.getLength = nil
+Vector.getLength=nil
 
 
 ---@class VectorsAPI
@@ -1381,55 +1381,55 @@ local VectorsAPI
 ---@type «deprecated»
 ---`.axisAngleToEuler()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-VectorsAPI.axisAngleToEuler = nil
+VectorsAPI.axisAngleToEuler=nil
 
 ---@type «deprecated»
 ---`.fromQuaternion()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-VectorsAPI.fromQuaternion = nil
+VectorsAPI.fromQuaternion=nil
 
 ---@type «deprecated»
 ---`.getVector` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-VectorsAPI.getVector = nil
+VectorsAPI.getVector=nil
 
 ---@type «deprecated»
 ---`.lerp()` is deprecated. To lerp vectors, use `math.lerp()`.
 ---@deprecated [[Replace with "math.lerp()"]]
-VectorsAPI.lerp = nil
+VectorsAPI.lerp=nil
 
 ---@type «deprecated»
 ---`.of()` is deprecated. To create vectors, use `.vec()`.
 ---@deprecated [[Replace with ".vec()"]]
-VectorsAPI.of = nil
+VectorsAPI.of=nil
 
 ---@type «deprecated»
 ---`.rgbToINT()` is deprecated. To convert color vectors to integers, use `.rgbToInt()`.
 ---@deprecated [[Replace with ".rgbToInt()"]]
-VectorsAPI.rgbToINT = nil
+VectorsAPI.rgbToINT=nil
 
 ---@type «deprecated»
 ---`.rotateWithQuaternion()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-VectorsAPI.rotateWithQuaternion = nil
+VectorsAPI.rotateWithQuaternion=nil
 
 ---@type «deprecated»
 ---`.toQuaternion()` is deprecated. It has no replacement.
 ---@deprecated [[No replacement]]
-VectorsAPI.toQuaternion = nil
+VectorsAPI.toQuaternion=nil
 
 ---@type «deprecated»
 ---`.worldToPart` is deprecated. It has no direct replacement.
 ---
 ---To convert a world coordinate to a World part coordinate, multiply the vector by `16`.
 ---@deprecated [[Has code replacement]]
-VectorsAPI.worldToPart = nil
+VectorsAPI.worldToPart=nil
 
 ---@type «deprecated»
 ---`.worldToCameraPos()` is deprecated. To convert a world position to a position relative to the viewing client's
 ---camera, use `.toCameraSpace()`.
 ---@deprecated [[Replace with ".toCameraSpace"]]
-VectorsAPI.worldToCameraPos = nil
+VectorsAPI.worldToCameraPos=nil
 
 
 ---==================================================================================================================---
@@ -1442,14 +1442,14 @@ local WorldAPI
 ---@type «deprecated»
 ---`.getLunarTime()` is *very* deprecated. To get the time of day, use `.getTimeOfDay()`.
 ---@deprecated [[Replace with ".getTimeOfDay()"]]
-WorldAPI.getLunarTime = nil
+WorldAPI.getLunarTime=nil
 
 ---@type «deprecated»
 ---`.hasWorld()` is deprecated. To get if the world exists, use `.exists()`.
 ---@deprecated [[Replace with ".exists()"]]
-WorldAPI.hasWorld = nil
+WorldAPI.hasWorld=nil
 
 ---@type «deprecated»
 ---`.isLightning()` is deprecated. To get if the current weather is thunder, use `.isThundering()`.
 ---@deprecated [[Replace with ".isThundering()"]]
-WorldAPI.isLightning = nil
+WorldAPI.isLightning=nil

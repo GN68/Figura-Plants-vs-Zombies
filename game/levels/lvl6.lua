@@ -5,7 +5,7 @@ local p="z.pole"
 
 ---@type Level
 local level={
-	inventory = {"p.sunflower","p.peashooter","p.cherrybomb","p.wallnut","p.potatomine"},
+	inventory={"p.sunflower","p.peashooter","p.cherrybomb","p.wallnut","p.potatomine"},
 	prize="p.snowpea",
 	next="lvl7",
 	waves={

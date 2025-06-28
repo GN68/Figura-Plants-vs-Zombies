@@ -340,7 +340,7 @@ function ModelPart:getTask() end
 ---If the task is confirmed to be of a certain type, add `--[[@as ???Task]]` after the function call to allow the Lua
 ---Server to know which task type it should expect.
 ---```lua
----local task = <ModelPart>:getTask("Block") --[[@as BlockTask]]
+---local task=<ModelPart>:getTask("Block") --[[@as BlockTask]]
 ---      ┌┴──────────────────────┐
 ---      │local task: BlockTask {│
 ---      │    ...                │

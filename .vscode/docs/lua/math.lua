@@ -6,12 +6,12 @@
 ---==================================================================================================================---
 
 ---The factor by which the player is scaled down before being rendered into the world.
-math.playerScale = 0.9375
+math.playerScale=0.9375
 
 ---A number that will reverse the `.playerScale` factor.
 ---
 ---This number is *extremely close* to the exact value. To get the exact value, use `1 / math.playerScale`.
-math.worldScale = 1.0666666667
+math.worldScale=1.0666666667
 
 ---Restricts the value given to be between the other two numbers.
 ---@param x number
@@ -30,13 +30,13 @@ function math.clamp(x, min, max) end
 ---If any matrix type is used, the return will be the type of that matrix.
 ---```html
 ---<a>(3)
---- ╤     0 = 3
+--- ╤     0=3
 --- ┼
 --- ┼
---- ╪ <t> 0.5 = 5.5
+--- ╪ <t> 0.5=5.5
 --- ┼
 --- ┼
---- ╧     1 = 8
+--- ╧     1=8
 ---<b>(8)
 ---```
 ---@generic A: number | Vector | Matrix
@@ -62,13 +62,13 @@ function math.lerp(a, b, t) end
 ---If any matrix type is used, the return will be the type of that matrix.
 ---```html
 ---             ,--- <a>(60°)
----    ,-"""""-/      ╤     0 = 60°
+---    ,-"""""-/      ╤     0=60°
 ---  ,'       / `.    ┼
 --- /        /    \   ┼
----|        /      |  ╪ <t> 0.5 = 7.5°
+---|        /      |  ╪ <t> 0.5=7.5°
 ---|        `.     |  ┼
 --- \         `.  /   ┼
----  `.         `.    ╧     1 = 315°
+---  `.         `.    ╧     1=315°
 ---    `-_____-'  `- <b>(315°)
 ---
 ---

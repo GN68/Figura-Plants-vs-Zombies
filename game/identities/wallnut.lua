@@ -1,5 +1,5 @@
 
-local P = require("./plantUtils") ---@module "game.identities.plantUtils"
+local P=require("./plantUtils") ---@module "game.identities.plantUtils"
 local Frame=require("lib.ui.frame")
 local Identity=require("game.identity")
 

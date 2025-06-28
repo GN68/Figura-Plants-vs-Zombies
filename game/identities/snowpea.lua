@@ -13,7 +13,7 @@ local Debug=require("lib.ui.debug")
 
 local SHOOT_COOLDOWN=28.5
 
-local P = require("./plantUtils") ---@module "game.identities.plantUtils"
+local P=require("./plantUtils") ---@module "game.identities.plantUtils"
 local Sprite=require("lib.ui.sprite")
 local Frame=require("lib.ui.frame")
 
@@ -35,7 +35,7 @@ Identity.new(fSeed,fIdle[1], "p.snowpea",175, 300,{
 	ENTER=function (self, screen)
 		self.hitbox:setDim(27,16,0,0):setLayer("plants")
 		self.isShooting=true
-		self.shootC=SHOOT_COOLDOWN + math.random()*3
+		self.shootC=SHOOT_COOLDOWN+math.random()*3
 		self.sight=Hitbox.new(nil,"sight")
 		local function a()
 			self.sight:setDim(-320,self.pos.y,self.pos.x	,self.pos.y+16)

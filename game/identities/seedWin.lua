@@ -20,7 +20,7 @@ Identity.new(nil,nil, "seedwin",999,1,{
 			easing="linear",
 			duration=0.75,
 			tick=function (v, t)
-				self:setPos(self.pos + vec(0,math.cos(v*3.14)*1))
+				self:setPos(self.pos+vec(0,math.cos(v*3.14)*1))
 			end,
 		}
 	end,
@@ -48,7 +48,7 @@ Identity.new(nil,nil, "seedwin",999,1,{
 				s.setOverlay(1,1,1,v)
 			end,
 			onFinish=function ()
-				s.win = true
+				s.win=true
 				self:free()
 			end
 		}

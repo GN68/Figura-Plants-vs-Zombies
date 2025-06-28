@@ -1,7 +1,7 @@
 ---@diagnostic disable: lowercase-global
 
 ---@class GoofyAPI
-goofy = {}
+goofy={}
 
 ---@alias GoofyAPI.GUIElement string
 ---| "HOTBAR"

@@ -65,7 +65,7 @@ local function TICK(self, s)
 						self.sprite:setFrame(Frame.clamped(fZombieVault,t*7+1))
 					end,
 					onFinish=function ()
-						self.finishedVaulting = true
+						self.finishedVaulting=true
 					end
 				}
 			else

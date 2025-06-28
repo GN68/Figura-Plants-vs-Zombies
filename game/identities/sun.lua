@@ -35,7 +35,7 @@ Identity.new(nil,nil, "sun",25,1,{
 				easing="linear",
 				duration=0.5,
 				tick=function (v, t)
-					self:setPos(self.pos + vec(0,math.cos(v*3.14)*0.2))
+					self:setPos(self.pos+vec(0,math.cos(v*3.14)*0.2))
 				end
 			}
 		end

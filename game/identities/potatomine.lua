@@ -1,5 +1,5 @@
 
-local P = require("./plantUtils") ---@module "game.identities.plantUtils"
+local P=require("./plantUtils") ---@module "game.identities.plantUtils"
 local Sprite=require("lib.ui.sprite")
 local Frame=require("lib.ui.frame")
 
@@ -31,16 +31,16 @@ Identity.new(fSeed,fIdle[1], "p.potatomine",25, 300,{
 				self.sprite:setFrame(fNew)
 			else
 				self.sprite:setFrame(Frame.scroll(fIdle,self.i*0.25))
-				local z = self.hitbox:getCollidingBoxes("zombies")
+				local z=self.hitbox:getCollidingBoxes("zombies")
 				if #z > 0 and not self.bombed then
 					for _,z in pairs(z) do
-						z.object.burnt = true
+						z.object.burnt=true
 						z.object:damage(1800)
 					end
 					self.sprite:setFrame(mfDoom)
-					self.i = 0
-					self.bombed = true
-					screen.shake = 1
+					self.i=0
+					self.bombed=true
+					screen.shake=1
 					screen:sound("minecraft:entity.generic.explode",0.5,1)
 					screen:sound("minecraft:entity.generic.explode",0.75,1)
 				end

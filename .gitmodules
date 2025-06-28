@@ -1,4 +1,4 @@
 [submodule "modules/GNUI"]
-	path = modules/GNUI
-	url = https://github.com/lua-gods/GNUI.git
-	branch = ultra-refactor
+	path=modules/GNUI
+	url=https://github.com/lua-gods/GNUI.git
+	branch=ultra-refactor

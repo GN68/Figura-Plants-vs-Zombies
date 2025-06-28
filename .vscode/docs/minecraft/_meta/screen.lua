@@ -7,9 +7,9 @@
 ---==================================================================================================================---
 
 -- This enum follows a *very* specific order.
--- * The order that Minecraft sub-screens are listed at the fabric maven page,
--- * All Figura screens sorted by screen name alphabetically,
--- * All other modded screens, sorted by mod name then screen name alphabetically.
+--*The order that Minecraft sub-screens are listed at the fabric maven page,
+--*All Figura screens sorted by screen name alphabetically,
+--*All other modded screens, sorted by mod name then screen name alphabetically.
 --
 -- If this enum is ever out of this order, *please* fix it.
 

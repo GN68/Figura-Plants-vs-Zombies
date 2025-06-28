@@ -1,6 +1,6 @@
 ---Documentation for ChloeSpaceOut's Imortalized Piano Avatar
 ---@class ChloePianoAPI
-local ChloePianoAPI = {}
+local ChloePianoAPI={}
 
 --- Piano UUID "943218fd-5bbc-4015-bf7f-9da4f37bac59"
 

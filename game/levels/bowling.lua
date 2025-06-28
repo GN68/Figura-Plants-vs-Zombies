@@ -6,7 +6,7 @@ local level={
 	bowling=true,
 	sunTimer=17,
 	waveCooldown=0,
-	inventory = {"p.wallnut","p.wallnut","p.wallnut","p.wallnut","p.cherrybomb"},
+	inventory={"p.wallnut","p.wallnut","p.wallnut","p.wallnut","p.cherrybomb"},
 	prize="p.potatomine",
 	next="lvl6",
 	waves={
@@ -25,7 +25,7 @@ local level={
 		{c={[18]={z},[3]={c}}},
 	},
 	fun=function (s,lvl)
-		s.spawnTimer = 0
+		s.spawnTimer=0
 	end
 }
 

@@ -5,7 +5,7 @@ local b="z.bucket"
 
 ---@type Level
 local level={
-	inventory = {"p.sunflower","p.peashooter","p.cherrybomb","p.wallnut","p.potatomine","p.snowpea","p.chomper","p.repeater"},
+	inventory={"p.sunflower","p.peashooter","p.cherrybomb","p.wallnut","p.potatomine","p.snowpea","p.chomper","p.repeater"},
 	prize="p.sunflower",
 	next="endless",
 	waves={

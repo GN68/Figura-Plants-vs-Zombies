@@ -12,18 +12,18 @@
 ---
 ---Create a new matrix with:
 ---```lua
----local mat2 = <MatricesAPI>.mat2(
+---local mat2=<MatricesAPI>.mat2(
 ---  vec(x1, x2),
 ---  vec(y1, y2)
 ---)
 ---
----local mat3 = <MatricesAPI>.mat3(
+---local mat3=<MatricesAPI>.mat3(
 ---  vec(x1, x2, x3),
 ---  vec(y1, y2, y3),
 ---  vec(z1, z2, z3)
 ---)
 ---
----local mat4 = <MatricesAPI>.mat4(
+---local mat4=<MatricesAPI>.mat4(
 ---  vec(x1, x2, x3, x4),
 ---  vec(y1, y2, y3, y4),
 ---  vec(z1, z2, z3, z4),
@@ -35,7 +35,7 @@
 ---
 ---To get a transformed position from a Matrix4, use:
 ---```lua
----local newPos = <Matrix4>:apply(x, y, z)
+---local newPos=<Matrix4>:apply(x, y, z)
 ---```
 ---@class MatricesAPI
 local MatricesAPI

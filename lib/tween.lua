@@ -53,14 +53,14 @@ local function inQuad(t)
 end
 
 local function outQuad(t)
-	return -t * (t-2)
+	return -t*(t-2)
 end
 
 local function inOutQuad(t)
-	t=t * 2
-	if t < 1 then return 0.5 * t^2 end
+	t=t*2
+	if t < 1 then return 0.5*t^2 end
 	t=t-1
-	return -0.5 * (t * (t-2)-1)
+	return -0.5*(t*(t-2)-1)
 end
 
 ---@alias EaseTypes string
