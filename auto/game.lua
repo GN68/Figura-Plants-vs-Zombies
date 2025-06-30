@@ -618,7 +618,7 @@ events.WORLD_RENDER:register(function (delta)
 end)
 
 events.SKULL_RENDER:register(function (delta, block, item, entity, ctx)
-	local rightHanded=client:getViewer():getActiveHand()=="MAIN_HAND"
+	local rightHanded=not client:getViewer():isLeftHanded()
 	if ctx:find((rightHanded and "LEFT" or "RIGHT") .."_HAND$") and ctx:find("FIRST") then
 		isActive=true
 		local rot=client:getCameraRot().xy
