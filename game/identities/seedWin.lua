@@ -27,6 +27,7 @@ Identity.new(nil,nil, "seedwin",999,1,{
 	
 	---@param self Seed
 	CLICK=function (self, s)
+		self.hitbox:setEnabled(false)
 		s:sound("minecraft:block.grass.break",1,1)
 		s.musicPlayer:setTrack(victory):play(true)
 		self.fall:stop()

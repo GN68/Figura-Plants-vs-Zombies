@@ -1,5 +1,5 @@
 {
-	"author":"GNamimates",
+	"authors":["Check the Credits.md File"],
 	"color":"#4dd966",
 	"autoScripts": ["main"],
 	"resources": ["*.nbs"]
