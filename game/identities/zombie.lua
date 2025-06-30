@@ -39,7 +39,7 @@ local fBurn=Frame.new(texZombie,242,14,268,57)
 ---@param dmgSound Minecraft.soundID?
 ---@param dmgPitch number?
 ---@return function
-local function mkEnter(fIdle,fWalk,fEat,dmgSound,dmgPitch)
+local function mkEnter(fIdle,fWalk,fEat,dmgSound,dmgPitch,dmgVolume)
 	---@param self Zombie
 	return function (self, s,useless) --[────────-< ENTER >-────────]--
 		if not useless then
@@ -48,6 +48,7 @@ local function mkEnter(fIdle,fWalk,fEat,dmgSound,dmgPitch)
 		end
 		self.dmgSound=dmgSound
 		self.dmgPitch=dmgPitch
+		self.dmgVolume=dmgVolume
 		self.fIdle=fIdle
 		self.fWalk=fWalk
 		self.fEat=fEat
@@ -105,7 +106,7 @@ local function DAMAGED(self, s, amount) --[────────-< DAMAGED >-
 	end
 	
 	if self.health>270 and self.dmgSound then
-		s:sound(self.dmgSound,self.dmgPitch)
+		s:sound(self.dmgSound,self.dmgPitch,self.dmgVolume)
 	end
 	
 	self.sprite:setColor(self.tint*vec(0.6,0.6,0.6))
@@ -154,6 +155,6 @@ Identity.new(aSeed(texCone),fConeIdle[1], "z.conehead",75,570,{
 
 local fBucketIdle=aIdle(texBucket)
 Identity.new(aSeed(texBucket),fBucketIdle[1], "z.bucket",125,1300,{
-	ENTER=mkEnter(fBucketIdle,aWalk(texBucket),aEat(texBucket),"minecraft:entity.zombie.attack_iron_door",1.2),
+	ENTER=mkEnter(fBucketIdle,aWalk(texBucket),aEat(texBucket),"minecraft:entity.zombie.attack_iron_door",1.2,0.5),
 	TICK=TICK,DAMAGED=DAMAGED,DEATH=DEATH,
 })

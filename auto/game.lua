@@ -513,7 +513,7 @@ local lastHeldName=""
 local heldName=""
 
 events.SKULL_RENDER:register(function (delta, block, item, entity, ctx)
-	if ctx:find(client:getViewer():getActiveHand() == "MAIN_HAND" and "LEFT" or "RIGHT".."_HAND") then
+	if ctx:find("FIRST_PERSON") then
 		heldName=item:getName()
 		if heldName ~= lastHeldName then
 			lastHeldName=heldName
